@@ -1,3 +1,10 @@
+---
+layout: post
+title:  "EC2 + Ansible Setup"
+date:   2015-12-27 02:23:00
+categories: aws
+tags: aws,ansible,ssh
+---
 ## Overview
 
 As the name of this website states, this is just my pastedump. By no means is this an all-round best-practice guide. If your use case is to have a light touch on an ansible-master in EC2 wihtout the need to implement 'ansible-pull', then I'd consider this an OK guide.
