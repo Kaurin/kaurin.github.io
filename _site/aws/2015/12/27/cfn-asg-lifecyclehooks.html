@@ -89,11 +89,11 @@
 
 <h2 id="cfn-command-to-create-stack">CFN command to create stack</h2>
 
-<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">cloudformation</span> <span class="n">update</span><span class="o">-</span><span class="n">stack</span> <span class="p">\</span>
-    <span class="o">--</span><span class="n">template</span><span class="o">-</span><span class="n">body</span> <span class="ss">file</span><span class="p">:</span><span class="sr">//</span><span class="no">ASG</span><span class="o">-</span><span class="no">LifeCycle</span><span class="o">-</span><span class="no">DelayFirstInstance</span><span class="o">.</span><span class="n">cform</span>  <span class="p">\</span>
-    <span class="o">--</span><span class="n">capabilities</span> <span class="no">CAPABILITY_IAM</span> <span class="p">\</span>
-    <span class="o">--</span><span class="n">parameters</span> <span class="ss">file</span><span class="p">:</span><span class="sr">//</span><span class="no">ASG</span><span class="o">-</span><span class="no">LifeCycle</span><span class="o">-</span><span class="no">DelayFirstInstance</span><span class="o">.</span><span class="n">params</span>  <span class="p">\</span>
-    <span class="o">--</span><span class="n">stack</span><span class="o">-</span><span class="nb">name</span> <span class="no">MyStackName123</span></code></pre></div>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash">aws cloudformation update-stack <span class="se">\</span>
+    --template-body file://ASG-LifeCycle-DelayFirstInstance.cform  <span class="se">\</span>
+    --capabilities CAPABILITY_IAM <span class="se">\</span>
+    --parameters file://ASG-LifeCycle-DelayFirstInstance.params  <span class="se">\</span>
+    --stack-name MyStackName123</code></pre></div>
 
 <p>You can just change “create-stack” -&gt; “update-stack” if you want to update the stack instead of create a new one.</p>
 

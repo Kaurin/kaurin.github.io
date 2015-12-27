@@ -25,8 +25,8 @@ Region which supports Lambda
 
 ## CFN command to create stack
 
-{% highlight ruby %}
-cloudformation update-stack \
+{% highlight bash %}
+aws cloudformation update-stack \
     --template-body file://ASG-LifeCycle-DelayFirstInstance.cform  \
     --capabilities CAPABILITY_IAM \
     --parameters file://ASG-LifeCycle-DelayFirstInstance.params  \
