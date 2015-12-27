@@ -1,17 +1,29 @@
 <!DOCTYPE html>
 <html>
+<head>
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-71762050-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+</head>
 
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width initial-scale=1" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-    <title>Welcome to Jekyll!</title>
+    <title>CFN + ASG + LifeCycle Hooks</title>
     <meta name="description" content="Welcome to my paste dump!
 ">
 
     <link rel="stylesheet" href="/css/main.css">
-    <link rel="canonical" href="https://kaurin.github.io/jekyll/update/2015/12/27/welcome-to-jekyll.html">
+    <link rel="canonical" href="https://kaurin.github.io/aws/2015/12/27/test.html">
 </head>
 
 
@@ -57,25 +69,47 @@
         <div class="post">
 
   <header class="post-header">
-    <h1 class="post-title">Welcome to Jekyll!</h1>
+    <h1 class="post-title">CFN + ASG + LifeCycle Hooks</h1>
     <p class="post-meta">Dec 27, 2015</p>
   </header>
 
   <article class="post-content">
-    <p>You’ll find this post in your <code>_posts</code> directory. Go ahead and edit it and re-build the site to see your changes. You can rebuild the site in many different ways, but the most common way is to run <code>jekyll serve --watch</code>, which launches a web server and auto-regenerates your site when a file is updated.</p>
+    <h2 id="problem">Problem</h2>
 
-<p>To add new posts, simply add a file in the <code>_posts</code> directory that follows the convention <code>YYYY-MM-DD-name-of-post.ext</code> and includes the necessary front matter. Take a look at the source for this post to get an idea about how it works.</p>
+<p>When you use CFN to provision an ASG with LifeCycle events which trigger on instance launches, the issue is that CFN first creates an ASG. ASG immediately starts spinning up instances based on ASG settings. LifeCycle hooks get created usually with some delay.</p>
 
-<p>Jekyll also offers powerful support for code snippets:</p>
+<p>This causes some instances to get launched without being “monitored” by the “launch” lifecylce hooks.</p>
 
-<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="k">def</span> <span class="nf">print_hi</span><span class="p">(</span><span class="nb">name</span><span class="p">)</span>
-  <span class="nb">puts</span> <span class="s2">&quot;Hi, </span><span class="si">#{</span><span class="nb">name</span><span class="si">}</span><span class="s2">&quot;</span>
-<span class="k">end</span>
-<span class="n">print_hi</span><span class="p">(</span><span class="s1">&#39;Tom&#39;</span><span class="p">)</span>
-<span class="c1">#=&gt; prints &#39;Hi, Tom&#39; to STDOUT.</span></code></pre></div>
+<h2 id="solution">Solution</h2>
 
-<p>Check out the <a href="http://jekyllrb.com">Jekyll docs</a> for more info on how to get the most out of Jekyll. File all bugs/feature requests at <a href="https://github.com/jekyll/jekyll">Jekyll’s GitHub repo</a>. If you have questions, you can ask them on <a href="https://github.com/jekyll/jekyll-help">Jekyll’s dedicated Help repository</a>.</p>
+<ul>
+  <li>ASG set to 0/0/0 in CFN</li>
+  <li>Custom resource which has “DependsOn” lifecycle resource for instance launches</li>
+  <li>Lambda function which can perform “updateAutoScalingGroup”(called by custom resource)</li>
+  <li>IAM execution role for lambda (as/updateAutoScalingGroup)</li>
+</ul>
 
+<h2 id="requirements">Requirements</h2>
+
+<p>Region which supports Lambda</p>
+
+<h2 id="cfn-command-to-create-stack">CFN command to create stack</h2>
+
+<p>aws cloudformation update-stack \
+–template-body file://ASG-LifeCycle-DelayFirstInstance.cform  \
+–capabilities CAPABILITY_IAM \
+–parameters file://ASG-LifeCycle-DelayFirstInstance.params  \
+–stack-name MyStackName123</p>
+
+<p>You can just change “create-stack” -&gt; “update-stack” if you want to update the stack instead of create a new one.</p>
+
+<h2 id="files">Files</h2>
+
+<p><a href="https://kaurin.github.io/assets/2015-12-27-cfn-asg-post/ASG-LifeCycle-DelayFirstInstance.cform">Template</a> | <a href="https://kaurin.github.io/assets/2015-12-27-cfn-asg-post/ASG-LifeCycle-DelayFirstInstance.param">Parameters</a> | <a href="https://kaurin.github.io/assets/2015-12-27-cfn-asg-post/AsgIncrease.zip">Lambda function</a></p>
+
+<h2 id="note">Note</h2>
+
+<p>You need to upload the lambda function zip to an S3 bucket, and then provide bucket name / object name in parameters</p>
 
   </article>
 
