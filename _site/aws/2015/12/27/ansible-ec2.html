@@ -87,23 +87,22 @@
 
 <p>Create an “ansible-master” user which has permissions to Describe* on RDS, EC2 and ElastiCache. Download the credentials. You will use them later in <strong>~/.bashrc</strong></p>
 
-<pre>{
-    "Version": "2012-10-17",
-    "Statement": [
-        {
-            "Effect": "Allow",
-            "Action": [
-                "ec2:Describe*",
-                "elasticache:Describe*",
-                "rds:Describe*"
-            ],
-            "Resource": [
-                "*"
-            ]
-        }
-    ]
-}
-</pre>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
+    <span class="nt">&quot;Version&quot;</span><span class="p">:</span> <span class="s2">&quot;2012-10-17&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;Statement&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">{</span>
+            <span class="nt">&quot;Effect&quot;</span><span class="p">:</span> <span class="s2">&quot;Allow&quot;</span><span class="p">,</span>
+            <span class="nt">&quot;Action&quot;</span><span class="p">:</span> <span class="p">[</span>
+                <span class="s2">&quot;ec2:Describe*&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;elasticache:Describe*&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;rds:Describe*&quot;</span>
+            <span class="p">],</span>
+            <span class="nt">&quot;Resource&quot;</span><span class="p">:</span> <span class="p">[</span>
+                <span class="s2">&quot;*&quot;</span>
+            <span class="p">]</span>
+        <span class="p">}</span>
+    <span class="p">]</span>
+<span class="p">}</span></code></pre></div>
 
 <h3 id="ssh-keys">SSH Keys</h3>
 
@@ -136,18 +135,17 @@
 
 <h3 id="sshconfig">~/.ssh/config</h3>
 
-<pre>Host ansible
+<div class="highlight"><pre><code class="language-text" data-lang="text">Host ansible
     HostName xx.xx.xx.xx
     User ec2-user
     SendEnv AWS_ACCESS_KEY_ID
     SendEnv AWS_SECRET_ACCESS_KEY 
     IdentityFile ~/.ssh/ansible-controller
-    ForwardAgent yes 
-</pre>
+    ForwardAgent yes</code></pre></div>
 
 <h3 id="bashrc">~/.bashrc</h3>
 
-<pre>alias ansconn='AWS_ACCESS_KEY_ID="SECRET" AWS_SECRET_ACCESS_KEY="ACCESS" ssh ansible'</pre>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nb">alias </span><span class="nv">ansconn</span><span class="o">=</span><span class="s1">&#39;AWS_ACCESS_KEY_ID=&quot;SECRET&quot; AWS_SECRET_ACCESS_KEY=&quot;ACCESS&quot; ssh ansible&#39;</span></code></pre></div>
 
 <h2 id="ansible-master-instance">Ansible master instance</h2>
 
@@ -157,38 +155,34 @@
 
 <p>/etc/ssh/sshd_config</p>
 
-<pre>AcceptEnv AWS_ACCESS_KEY_ID
-AcceptEnv AWS_SECRET_ACCESS_KEY
-</pre>
+<div class="highlight"><pre><code class="language-text" data-lang="text">AcceptEnv AWS_ACCESS_KEY_ID
+AcceptEnv AWS_SECRET_ACCESS_KEY</code></pre></div>
 
 <h3 id="ansible-installation">Ansible installation</h3>
 
-<pre>sudo pip install ansible
-sudo pip install ansible --upgrade
-</pre>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash">sudo pip install ansible
+sudo pip install ansible --upgrade</code></pre></div>
 
 <p>The default ansible hosts file is plain-text and consists of your hosts and host groups. In EC2, it makes more sense to use the EC2 inventory hosts script which replaces the hosts file. This hosts file also requires the ec2.ini file on which we’ll touch on in a short bit.</p>
 
-<pre>sudo wget 'https://raw.github.com/ansible/ansible/devel/contrib/inventory/ec2.py' -O /etc/ansible/hosts
+<div class="highlight"><pre><code class="language-bash" data-lang="bash">sudo wget <span class="s1">&#39;https://raw.github.com/ansible/ansible/devel/contrib/inventory/ec2.py&#39;</span> -O /etc/ansible/hosts
 chmod +x /etc/ansible/hosts
-sudo wget 'https://raw.githubusercontent.com/ansible/ansible/devel/contrib/inventory/ec2.ini' -O /etc/ansible/ec2.ini
-</pre>
+sudo wget <span class="s1">&#39;https://raw.githubusercontent.com/ansible/ansible/devel/contrib/inventory/ec2.ini&#39;</span> -O /etc/ansible/ec2.ini</code></pre></div>
 
 <h3 id="ec2ini">ec2.ini</h3>
 
 <p>It’s time to change ec2.ini settings.
 Note: Adjust this on your own accord. The file is nicely commented. I’ll note some of the settings I adjusted</p>
 
-<pre>[ec2]
-regions = eu-central-1
-regions_exclude = us-gov-west-1,cn-north-1
-destination_variable = private_dns_name
-vpc_destination_variable = private_ip_address
-rds = False
-elasticache = False
-cache_max_age = 0
-instance_filters = tag:AnsibleSlave=True
-</pre>
+<div class="highlight"><pre><code class="language-ini" data-lang="ini"><span class="k">[ec2]</span>
+<span class="na">regions</span> <span class="o">=</span> <span class="s">eu-central-1</span>
+<span class="na">regions_exclude</span> <span class="o">=</span> <span class="s">us-gov-west-1,cn-north-1</span>
+<span class="na">destination_variable</span> <span class="o">=</span> <span class="s">private_dns_name</span>
+<span class="na">vpc_destination_variable</span> <span class="o">=</span> <span class="s">private_ip_address</span>
+<span class="na">rds</span> <span class="o">=</span> <span class="s">False</span>
+<span class="na">elasticache</span> <span class="o">=</span> <span class="s">False</span>
+<span class="na">cache_max_age</span> <span class="o">=</span> <span class="s">0</span>
+<span class="na">instance_filters</span> <span class="o">=</span> <span class="s">tag:AnsibleSlave=True</span></code></pre></div>
 
 <p>The last option might be the most significant one. Only instances with this tag will be considered as Ansible-controllable</p>
 
@@ -196,17 +190,16 @@ instance_filters = tag:AnsibleSlave=True
 
 <ul>
   <li>SSH into the instance by running <strong>ansconn</strong>, which is based on the alias we created in <strong>~/.bashrc</strong></li>
-  <li>
-    <p>Run:</p>
-
-    <pre>ansible all -m ping</pre>
-  </li>
-  <li>
-    <p>Run:</p>
-
-    <pre>ansible tag_Role_Web -m ping</pre>
-  </li>
+  <li>Run:</li>
 </ul>
+
+<div class="highlight"><pre><code class="language-bash" data-lang="bash">ansible all -m ping</code></pre></div>
+
+<ul>
+  <li>Run:</li>
+</ul>
+
+<div class="highlight"><pre><code class="language-bash" data-lang="bash">ansible tag_Role_Web -m ping</code></pre></div>
 
 <p>If you implement playbooks, you can fine-grain your prod/stage stacks with a layered approach, but this is exaplined in Ansible docs.</p>
 

@@ -6,8 +6,8 @@
 </description>
     <link>https://kaurin.github.io/</link>
     <atom:link href="https://kaurin.github.io/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Sun, 27 Dec 2015 02:23:57 +0000</pubDate>
-    <lastBuildDate>Sun, 27 Dec 2015 02:23:57 +0000</lastBuildDate>
+    <pubDate>Sun, 27 Dec 2015 02:35:02 +0000</pubDate>
+    <lastBuildDate>Sun, 27 Dec 2015 02:35:02 +0000</lastBuildDate>
     <generator>Jekyll v2.4.0</generator>
     
       <item>
@@ -31,23 +31,22 @@
 
 &lt;p&gt;Create an “ansible-master” user which has permissions to Describe* on RDS, EC2 and ElastiCache. Download the credentials. You will use them later in &lt;strong&gt;~/.bashrc&lt;/strong&gt;&lt;/p&gt;
 
-&lt;pre&gt;{
-    &quot;Version&quot;: &quot;2012-10-17&quot;,
-    &quot;Statement&quot;: [
-        {
-            &quot;Effect&quot;: &quot;Allow&quot;,
-            &quot;Action&quot;: [
-                &quot;ec2:Describe*&quot;,
-                &quot;elasticache:Describe*&quot;,
-                &quot;rds:Describe*&quot;
-            ],
-            &quot;Resource&quot;: [
-                &quot;*&quot;
-            ]
-        }
-    ]
-}
-&lt;/pre&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-json&quot; data-lang=&quot;json&quot;&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;&amp;quot;Version&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;2012-10-17&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;&amp;quot;Statement&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;
+        &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+            &lt;span class=&quot;nt&quot;&gt;&amp;quot;Effect&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;Allow&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+            &lt;span class=&quot;nt&quot;&gt;&amp;quot;Action&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;
+                &lt;span class=&quot;s2&quot;&gt;&amp;quot;ec2:Describe*&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+                &lt;span class=&quot;s2&quot;&gt;&amp;quot;elasticache:Describe*&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+                &lt;span class=&quot;s2&quot;&gt;&amp;quot;rds:Describe*&amp;quot;&lt;/span&gt;
+            &lt;span class=&quot;p&quot;&gt;],&lt;/span&gt;
+            &lt;span class=&quot;nt&quot;&gt;&amp;quot;Resource&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;
+                &lt;span class=&quot;s2&quot;&gt;&amp;quot;*&amp;quot;&lt;/span&gt;
+            &lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+        &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;h3 id=&quot;ssh-keys&quot;&gt;SSH Keys&lt;/h3&gt;
 
@@ -80,18 +79,17 @@
 
 &lt;h3 id=&quot;sshconfig&quot;&gt;~/.ssh/config&lt;/h3&gt;
 
-&lt;pre&gt;Host ansible
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;Host ansible
     HostName xx.xx.xx.xx
     User ec2-user
     SendEnv AWS_ACCESS_KEY_ID
     SendEnv AWS_SECRET_ACCESS_KEY 
     IdentityFile ~/.ssh/ansible-controller
-    ForwardAgent yes 
-&lt;/pre&gt;
+    ForwardAgent yes&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;h3 id=&quot;bashrc&quot;&gt;~/.bashrc&lt;/h3&gt;
 
-&lt;pre&gt;alias ansconn=&#39;AWS_ACCESS_KEY_ID=&quot;SECRET&quot; AWS_SECRET_ACCESS_KEY=&quot;ACCESS&quot; ssh ansible&#39;&lt;/pre&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span class=&quot;nb&quot;&gt;alias &lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;ansconn&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&amp;#39;AWS_ACCESS_KEY_ID=&amp;quot;SECRET&amp;quot; AWS_SECRET_ACCESS_KEY=&amp;quot;ACCESS&amp;quot; ssh ansible&amp;#39;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;h2 id=&quot;ansible-master-instance&quot;&gt;Ansible master instance&lt;/h2&gt;
 
@@ -101,38 +99,34 @@
 
 &lt;p&gt;/etc/ssh/sshd_config&lt;/p&gt;
 
-&lt;pre&gt;AcceptEnv AWS_ACCESS_KEY_ID
-AcceptEnv AWS_SECRET_ACCESS_KEY
-&lt;/pre&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;AcceptEnv AWS_ACCESS_KEY_ID
+AcceptEnv AWS_SECRET_ACCESS_KEY&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;h3 id=&quot;ansible-installation&quot;&gt;Ansible installation&lt;/h3&gt;
 
-&lt;pre&gt;sudo pip install ansible
-sudo pip install ansible --upgrade
-&lt;/pre&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;sudo pip install ansible
+sudo pip install ansible --upgrade&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;The default ansible hosts file is plain-text and consists of your hosts and host groups. In EC2, it makes more sense to use the EC2 inventory hosts script which replaces the hosts file. This hosts file also requires the ec2.ini file on which we’ll touch on in a short bit.&lt;/p&gt;
 
-&lt;pre&gt;sudo wget &#39;https://raw.github.com/ansible/ansible/devel/contrib/inventory/ec2.py&#39; -O /etc/ansible/hosts
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;sudo wget &lt;span class=&quot;s1&quot;&gt;&amp;#39;https://raw.github.com/ansible/ansible/devel/contrib/inventory/ec2.py&amp;#39;&lt;/span&gt; -O /etc/ansible/hosts
 chmod +x /etc/ansible/hosts
-sudo wget &#39;https://raw.githubusercontent.com/ansible/ansible/devel/contrib/inventory/ec2.ini&#39; -O /etc/ansible/ec2.ini
-&lt;/pre&gt;
+sudo wget &lt;span class=&quot;s1&quot;&gt;&amp;#39;https://raw.githubusercontent.com/ansible/ansible/devel/contrib/inventory/ec2.ini&amp;#39;&lt;/span&gt; -O /etc/ansible/ec2.ini&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;h3 id=&quot;ec2ini&quot;&gt;ec2.ini&lt;/h3&gt;
 
 &lt;p&gt;It’s time to change ec2.ini settings.
 Note: Adjust this on your own accord. The file is nicely commented. I’ll note some of the settings I adjusted&lt;/p&gt;
 
-&lt;pre&gt;[ec2]
-regions = eu-central-1
-regions_exclude = us-gov-west-1,cn-north-1
-destination_variable = private_dns_name
-vpc_destination_variable = private_ip_address
-rds = False
-elasticache = False
-cache_max_age = 0
-instance_filters = tag:AnsibleSlave=True
-&lt;/pre&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-ini&quot; data-lang=&quot;ini&quot;&gt;&lt;span class=&quot;k&quot;&gt;[ec2]&lt;/span&gt;
+&lt;span class=&quot;na&quot;&gt;regions&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;eu-central-1&lt;/span&gt;
+&lt;span class=&quot;na&quot;&gt;regions_exclude&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;us-gov-west-1,cn-north-1&lt;/span&gt;
+&lt;span class=&quot;na&quot;&gt;destination_variable&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;private_dns_name&lt;/span&gt;
+&lt;span class=&quot;na&quot;&gt;vpc_destination_variable&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;private_ip_address&lt;/span&gt;
+&lt;span class=&quot;na&quot;&gt;rds&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;False&lt;/span&gt;
+&lt;span class=&quot;na&quot;&gt;elasticache&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;False&lt;/span&gt;
+&lt;span class=&quot;na&quot;&gt;cache_max_age&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;0&lt;/span&gt;
+&lt;span class=&quot;na&quot;&gt;instance_filters&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;tag:AnsibleSlave=True&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;The last option might be the most significant one. Only instances with this tag will be considered as Ansible-controllable&lt;/p&gt;
 
@@ -140,17 +134,16 @@ instance_filters = tag:AnsibleSlave=True
 
 &lt;ul&gt;
   &lt;li&gt;SSH into the instance by running &lt;strong&gt;ansconn&lt;/strong&gt;, which is based on the alias we created in &lt;strong&gt;~/.bashrc&lt;/strong&gt;&lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;Run:&lt;/p&gt;
-
-    &lt;pre&gt;ansible all -m ping&lt;/pre&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;Run:&lt;/p&gt;
-
-    &lt;pre&gt;ansible tag_Role_Web -m ping&lt;/pre&gt;
-  &lt;/li&gt;
+  &lt;li&gt;Run:&lt;/li&gt;
 &lt;/ul&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;ansible all -m ping&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Run:&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;ansible tag_Role_Web -m ping&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;If you implement playbooks, you can fine-grain your prod/stage stacks with a layered approach, but this is exaplined in Ansible docs.&lt;/p&gt;
 </description>
