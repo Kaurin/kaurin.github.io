@@ -91,7 +91,7 @@ alias ansconn='AWS_ACCESS_KEY_ID="SECRET" AWS_SECRET_ACCESS_KEY="ACCESS" ssh ans
 
 We want to be able to accept the environment variables from the SSH client from our workstation. In order to make this happen, we need to change the sshd_config
 
-/etc/ssh/sshd_config
+#### /etc/ssh/sshd_config
 
 {% highlight text %}
 AcceptEnv AWS_ACCESS_KEY_ID
@@ -135,15 +135,7 @@ The last option might be the most significant one. Only instances with this tag 
 ## Time to test
 
 *   SSH into the instance by running **ansconn**, which is based on the alias we created in **~/.bashrc**
-*   Run:
-
-    {% highlight bash %}
-    ansible all -m ping
-    {% endhighlight %}
-
-
-*   Run:
-
-    {% highlight bash %}ansible tag_Role_Web -m ping{% endhighlight %}
+*   Run: `ansible all -m ping`
+*   Run: `ansible tag_Role_Web -m ping`
 
 If you implement playbooks, you can fine-grain your prod/stage stacks with a layered approach, but this is exaplined in Ansible docs.

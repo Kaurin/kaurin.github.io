@@ -6,8 +6,8 @@
 </description>
     <link>https://kaurin.github.io/</link>
     <atom:link href="https://kaurin.github.io/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Sun, 27 Dec 2015 13:49:16 +0000</pubDate>
-    <lastBuildDate>Sun, 27 Dec 2015 13:49:16 +0000</lastBuildDate>
+    <pubDate>Sun, 27 Dec 2015 13:56:30 +0000</pubDate>
+    <lastBuildDate>Sun, 27 Dec 2015 13:56:30 +0000</lastBuildDate>
     <generator>Jekyll v2.4.0</generator>
     
       <item>
@@ -97,7 +97,7 @@
 
 &lt;p&gt;We want to be able to accept the environment variables from the SSH client from our workstation. In order to make this happen, we need to change the sshd_config&lt;/p&gt;
 
-&lt;p&gt;/etc/ssh/sshd_config&lt;/p&gt;
+&lt;h4 id=&quot;etcsshsshdconfig&quot;&gt;/etc/ssh/sshd_config&lt;/h4&gt;
 
 &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;AcceptEnv AWS_ACCESS_KEY_ID
 AcceptEnv AWS_SECRET_ACCESS_KEY&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
@@ -134,16 +134,9 @@ Note: Adjust this on your own accord. The file is nicely commented. I’ll note 
 
 &lt;ul&gt;
   &lt;li&gt;SSH into the instance by running &lt;strong&gt;ansconn&lt;/strong&gt;, which is based on the alias we created in &lt;strong&gt;~/.bashrc&lt;/strong&gt;&lt;/li&gt;
-  &lt;li&gt;Run:&lt;/li&gt;
+  &lt;li&gt;Run: &lt;code&gt;ansible all -m ping&lt;/code&gt;&lt;/li&gt;
+  &lt;li&gt;Run: &lt;code&gt;ansible tag_Role_Web -m ping&lt;/code&gt;&lt;/li&gt;
 &lt;/ul&gt;
-
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;ansible all -m ping&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;Run:&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;ansible tag_Role_Web -m ping&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;If you implement playbooks, you can fine-grain your prod/stage stacks with a layered approach, but this is exaplined in Ansible docs.&lt;/p&gt;
 </description>
