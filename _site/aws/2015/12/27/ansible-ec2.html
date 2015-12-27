@@ -145,6 +145,8 @@
 
 <h3 id="bashrc">~/.bashrc</h3>
 
+<p>The idea here is to set the AWS env. variables specifically for our connection towards the ansible-master. Unfortunately, we can’t do this in one go in our ssh config.</p>
+
 <div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nb">alias </span><span class="nv">ansconn</span><span class="o">=</span><span class="s1">&#39;AWS_ACCESS_KEY_ID=&quot;SECRET&quot; AWS_SECRET_ACCESS_KEY=&quot;ACCESS&quot; ssh ansible&#39;</span></code></pre></div>
 
 <h2 id="ansible-master-instance">Ansible master instance</h2>

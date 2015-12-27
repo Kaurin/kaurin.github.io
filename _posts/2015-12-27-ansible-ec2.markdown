@@ -80,6 +80,8 @@ Host ansible
 
 ### ~/.bashrc
 
+The idea here is to set the AWS env. variables specifically for our connection towards the ansible-master. Unfortunately, we can't do this in one go in our ssh config. 
+
 {% highlight bash %}
 alias ansconn='AWS_ACCESS_KEY_ID="SECRET" AWS_SECRET_ACCESS_KEY="ACCESS" ssh ansible'
 {% endhighlight %}

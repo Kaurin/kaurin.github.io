@@ -6,8 +6,8 @@
 </description>
     <link>https://kaurin.github.io/</link>
     <atom:link href="https://kaurin.github.io/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Sun, 27 Dec 2015 13:56:30 +0000</pubDate>
-    <lastBuildDate>Sun, 27 Dec 2015 13:56:30 +0000</lastBuildDate>
+    <pubDate>Sun, 27 Dec 2015 14:03:58 +0000</pubDate>
+    <lastBuildDate>Sun, 27 Dec 2015 14:03:58 +0000</lastBuildDate>
     <generator>Jekyll v2.4.0</generator>
     
       <item>
@@ -88,6 +88,8 @@
     ForwardAgent yes&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;h3 id=&quot;bashrc&quot;&gt;~/.bashrc&lt;/h3&gt;
+
+&lt;p&gt;The idea here is to set the AWS env. variables specifically for our connection towards the ansible-master. Unfortunately, we can’t do this in one go in our ssh config.&lt;/p&gt;
 
 &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span class=&quot;nb&quot;&gt;alias &lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;ansconn&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&amp;#39;AWS_ACCESS_KEY_ID=&amp;quot;SECRET&amp;quot; AWS_SECRET_ACCESS_KEY=&amp;quot;ACCESS&amp;quot; ssh ansible&amp;#39;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
