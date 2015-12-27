@@ -25,11 +25,13 @@ Region which supports Lambda
 
 ## CFN command to create stack
 
-aws cloudformation update-stack \
---template-body file://ASG-LifeCycle-DelayFirstInstance.cform  \
---capabilities CAPABILITY_IAM \
---parameters file://ASG-LifeCycle-DelayFirstInstance.params  \
---stack-name MyStackName123
+{% highlight ruby %}
+cloudformation update-stack \
+    --template-body file://ASG-LifeCycle-DelayFirstInstance.cform  \
+    --capabilities CAPABILITY_IAM \
+    --parameters file://ASG-LifeCycle-DelayFirstInstance.params  \
+    --stack-name MyStackName123
+{% endhighlight %}
 
 You can just change "create-stack" -> "update-stack" if you want to update the stack instead of create a new one.  
 
