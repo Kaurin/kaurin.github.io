@@ -1,0 +1,130 @@
+## Overview
+
+As the name of this website states, this is just my pastedump. By no means is this an all-round best-practice guide. If your use case is to have a light touch on an ansible-master in EC2 wihtout the need to implement 'ansible-pull', then I'd consider this an OK guide.
+
+This is what the setup will look like:
+
+*   1 control instance in EC2 called ansible-master (public subnet)
+*   Multiple target instances in EC2 (private subnet/s)
+*   Target instances will belong to different stacks/roles. This will be controlled via EC2 tags
+*   No credentials wil be stored on the master instance. We'll use SSH SendEnv and AgentForward capabilities.
+
+## AWS
+
+### IAM
+
+Create an "ansible-master" user which has permissions to Describe* on RDS, EC2 and ElastiCache. Download the credentials. You will use them later in **~/.bashrc**
+
+<pre>{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Action": [
+                "ec2:Describe*",
+                "elasticache:Describe*",
+                "rds:Describe*"
+            ],
+            "Resource": [
+                "*"
+            ]
+        }
+    ]
+}
+</pre>
+
+### SSH Keys
+
+Create or import "ansible-master" and "ansible-controller" SSH keys in the EC2 console.
+
+*   ansible-controller = Workstation -> Ansible master instance
+*   ansible-target = Workstation -(ForwardAgent)-> Ansible master -> Ansible targets
+
+This setup allows us to keep all credentials (EC2/SSH) on our local workstation, and just forward those credentials to the "ansible-master" instance when we SSH into it. This suits only my specific use case where I have very little automation on the Ansible side.
+
+### Launch target instances
+
+We will test them later, for now, launch them:
+
+*   Into private subnets
+*   SSH key: ansible-target
+*   Tag: AnsibleSlave=True
+*   Tag: Role=Web
+*   Tag: Stack=Prod
+
+The Role/Stack are optional, but useful if you want to play around with how you can limit execution based on EC2 tags. If you decide to go with these optional tags, spin up multiple instances and change up the Role and Stack tags among them.
+
+You never need to know any other EC2 instance details except for the tags. Ansible will figure out the private IPs and other info based on said tags.
+
+## Workstation
+
+### ~/.ssh/config
+
+<pre>Host ansible
+    HostName xx.xx.xx.xx
+    User ec2-user
+    SendEnv AWS_ACCESS_KEY_ID
+    SendEnv AWS_SECRET_ACCESS_KEY 
+    IdentityFile ~/.ssh/ansible-controller
+    ForwardAgent yes 
+</pre>
+
+### ~/.bashrc
+
+<pre>alias ansconn='AWS_ACCESS_KEY_ID="SECRET" AWS_SECRET_ACCESS_KEY="ACCESS" ssh ansible'</pre>
+
+## Ansible master instance
+
+### SSH Daemon
+
+We want to be able to accept the environment variables from the SSH client from our workstation. In order to make this happen, we need to change the sshd_config
+
+/etc/ssh/sshd_config
+
+<pre>AcceptEnv AWS_ACCESS_KEY_ID
+AcceptEnv AWS_SECRET_ACCESS_KEY
+</pre>
+
+### Ansible installation
+
+<pre>sudo pip install ansible
+sudo pip install ansible --upgrade
+</pre>
+
+The default ansible hosts file is plain-text and consists of your hosts and host groups. In EC2, it makes more sense to use the EC2 inventory hosts script which replaces the hosts file. This hosts file also requires the ec2.ini file on which we'll touch on in a short bit.
+
+<pre>sudo wget 'https://raw.github.com/ansible/ansible/devel/contrib/inventory/ec2.py' -O /etc/ansible/hosts
+chmod +x /etc/ansible/hosts
+sudo wget 'https://raw.githubusercontent.com/ansible/ansible/devel/contrib/inventory/ec2.ini' -O /etc/ansible/ec2.ini
+</pre>
+
+### ec2.ini
+
+It's time to change ec2.ini settings.
+Note: Adjust this on your own accord. The file is nicely commented. I'll note some of the settings I adjusted
+
+<pre>[ec2]
+regions = eu-central-1
+regions_exclude = us-gov-west-1,cn-north-1
+destination_variable = private_dns_name
+vpc_destination_variable = private_ip_address
+rds = False
+elasticache = False
+cache_max_age = 0
+instance_filters = tag:AnsibleSlave=True
+</pre>
+
+The last option might be the most significant one. Only instances with this tag will be considered as Ansible-controllable
+
+## Time to test
+
+*   SSH into the instance by running **ansconn**, which is based on the alias we created in **~/.bashrc**
+*   Run:
+
+    <pre>ansible all -m ping</pre>
+
+*   Run:
+
+    <pre>ansible tag_Role_Web -m ping</pre>
+
+If you implement playbooks, you can fine-grain your prod/stage stacks with a layered approach, but this is exaplined in Ansible docs.
