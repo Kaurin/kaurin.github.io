@@ -35,7 +35,7 @@ You can just change "create-stack" -> "update-stack" if you want to update the s
 
 ## Files
 
-[Template]({{ site.url }}/assets/2015-12-27-cfn-asg-post/ASG-LifeCycle-DelayFirstInstance.cform) \| [Parameters]({{ site.url }}/assets/2015-12-27-cfn-asg-post/ASG-LifeCycle-DelayFirstInstance.param) \| [Lambda function]({{ site.url }}/assets/2015-12-27-cfn-asg-post/AsgIncrease.zip)
+[Template]({{ site.url }}/assets/2015-12-27-cfn-asg-post/ASG-LifeCycle-DelayFirstInstance.cform) \| [Parameters]({{ site.url }}/assets/2015-12-27-cfn-asg-post/ASG-LifeCycle-DelayFirstInstance.params) \| [Lambda function]({{ site.url }}/assets/2015-12-27-cfn-asg-post/AsgIncrease.zip)
 
 ## Note
 
