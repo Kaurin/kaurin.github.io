@@ -68,14 +68,14 @@
   </header>
 
   <article class="post-content">
-    <h1 id="why-are-you-writing-this-article">Why are you writing this article?</h1>
+    <h2 id="why-are-you-writing-this-article">Why are you writing this article?</h2>
 
 <ul>
   <li>I have a small VPS box that didn’t have the memory to compile znc with python/perl/tcp support even withouth the ‘-pipe’ CFLAG.</li>
   <li>As a reminder to myself on cross compiling</li>
 </ul>
 
-<h1 id="overview">Overview</h1>
+<h2 id="overview">Overview</h2>
 
 <ul>
   <li>We’ll have a “Compile” and “Destination” machines (or virts, depending on your capabilities)</li>
@@ -85,7 +85,7 @@
   <li>After compiling, we’ll create a separate user for ZNC and an upstart file to have znc run as a service via non-privileged user.</li>
 </ul>
 
-<h1 id="compile-box">Compile box</h1>
+<h2 id="compile-box">Compile box</h2>
 
 <p>Assuming that  this is a fresh install of Ubuntu 14.04 (server), run the following commands.</p>
 
@@ -148,11 +148,11 @@ sudo make install
 <span class="c"># Let&#39;s create a tarball!</span>
 tar -czf ~/znc.tar.gz /opt/znc</code></pre></div>
 
-<h1 id="intermezzo">Intermezzo</h1>
+<h2 id="intermezzo">Intermezzo</h2>
 
 <p>Copy the tar “znc.tar.gz” from the Compile box to the Destination box</p>
 
-<h1 id="destination-box">Destination box</h1>
+<h2 id="destination-box">Destination box</h2>
 
 <div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="c"># Prepare the box for installation of znc</span>
 sudo apt-get update
@@ -173,9 +173,9 @@ sudo useradd -c <span class="s2">&quot;ZNC bouncer user&quot;</span> -ms /bin/fa
 <span class="c"># We&#39;ll do it via upstart in a second</span>
 <span class="nv">HOME</span><span class="o">=</span>/home/zncuser sudo -u zncuser /opt/znc/bin/znc --makeconf</code></pre></div>
 
-<h1 id="set-up-the-upstart-script">Set up the upstart script</h1>
+<h2 id="set-up-the-upstart-script">Set up the upstart script</h2>
 
-<h2 id="etcinitzncbncconf">/etc/init/zncbnc.conf</h2>
+<h3 id="etcinitzncbncconf">/etc/init/zncbnc.conf</h3>
 
 <div class="highlight"><pre><code class="language-text" data-lang="text"># znc
 
@@ -193,7 +193,7 @@ script
   exec /opt/znc/bin/znc -fn
 end script</code></pre></div>
 
-<h1 id="final-words">Final words</h1>
+<h2 id="final-words">Final words</h2>
 
 <p>You can now start your bouncer via:</p>
 
@@ -201,7 +201,7 @@ end script</code></pre></div>
 
 <p>It will also get started automatically with system reboot which you can test.</p>
 
-<p>ZNC documentation is quite extensive, so I won’t dive deep into configuring it. Have fun!</p>
+<p><a href="http://wiki.znc.in/ZNC">ZNC documentation</a> is quite extensive, so I won’t dive deep into configuring it. Have fun!</p>
 
   </article>
 

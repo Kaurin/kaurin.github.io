@@ -6,20 +6,20 @@
 </description>
     <link>https://kaurin.github.io/</link>
     <atom:link href="https://kaurin.github.io/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Mon, 28 Dec 2015 15:25:45 +0000</pubDate>
-    <lastBuildDate>Mon, 28 Dec 2015 15:25:45 +0000</lastBuildDate>
+    <pubDate>Mon, 28 Dec 2015 15:32:09 +0000</pubDate>
+    <lastBuildDate>Mon, 28 Dec 2015 15:32:09 +0000</lastBuildDate>
     <generator>Jekyll v2.4.0</generator>
     
       <item>
         <title>Cross-compile and setup ZNC for Ubuntu 14.04</title>
-        <description>&lt;h1 id=&quot;why-are-you-writing-this-article&quot;&gt;Why are you writing this article?&lt;/h1&gt;
+        <description>&lt;h2 id=&quot;why-are-you-writing-this-article&quot;&gt;Why are you writing this article?&lt;/h2&gt;
 
 &lt;ul&gt;
   &lt;li&gt;I have a small VPS box that didn’t have the memory to compile znc with python/perl/tcp support even withouth the ‘-pipe’ CFLAG.&lt;/li&gt;
   &lt;li&gt;As a reminder to myself on cross compiling&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h1 id=&quot;overview&quot;&gt;Overview&lt;/h1&gt;
+&lt;h2 id=&quot;overview&quot;&gt;Overview&lt;/h2&gt;
 
 &lt;ul&gt;
   &lt;li&gt;We’ll have a “Compile” and “Destination” machines (or virts, depending on your capabilities)&lt;/li&gt;
@@ -29,7 +29,7 @@
   &lt;li&gt;After compiling, we’ll create a separate user for ZNC and an upstart file to have znc run as a service via non-privileged user.&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h1 id=&quot;compile-box&quot;&gt;Compile box&lt;/h1&gt;
+&lt;h2 id=&quot;compile-box&quot;&gt;Compile box&lt;/h2&gt;
 
 &lt;p&gt;Assuming that  this is a fresh install of Ubuntu 14.04 (server), run the following commands.&lt;/p&gt;
 
@@ -92,11 +92,11 @@ sudo make install
 &lt;span class=&quot;c&quot;&gt;# Let&amp;#39;s create a tarball!&lt;/span&gt;
 tar -czf ~/znc.tar.gz /opt/znc&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;h1 id=&quot;intermezzo&quot;&gt;Intermezzo&lt;/h1&gt;
+&lt;h2 id=&quot;intermezzo&quot;&gt;Intermezzo&lt;/h2&gt;
 
 &lt;p&gt;Copy the tar “znc.tar.gz” from the Compile box to the Destination box&lt;/p&gt;
 
-&lt;h1 id=&quot;destination-box&quot;&gt;Destination box&lt;/h1&gt;
+&lt;h2 id=&quot;destination-box&quot;&gt;Destination box&lt;/h2&gt;
 
 &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span class=&quot;c&quot;&gt;# Prepare the box for installation of znc&lt;/span&gt;
 sudo apt-get update
@@ -117,9 +117,9 @@ sudo useradd -c &lt;span class=&quot;s2&quot;&gt;&amp;quot;ZNC bouncer user&amp;
 &lt;span class=&quot;c&quot;&gt;# We&amp;#39;ll do it via upstart in a second&lt;/span&gt;
 &lt;span class=&quot;nv&quot;&gt;HOME&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;/home/zncuser sudo -u zncuser /opt/znc/bin/znc --makeconf&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;h1 id=&quot;set-up-the-upstart-script&quot;&gt;Set up the upstart script&lt;/h1&gt;
+&lt;h2 id=&quot;set-up-the-upstart-script&quot;&gt;Set up the upstart script&lt;/h2&gt;
 
-&lt;h2 id=&quot;etcinitzncbncconf&quot;&gt;/etc/init/zncbnc.conf&lt;/h2&gt;
+&lt;h3 id=&quot;etcinitzncbncconf&quot;&gt;/etc/init/zncbnc.conf&lt;/h3&gt;
 
 &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;# znc
 
@@ -137,7 +137,7 @@ script
   exec /opt/znc/bin/znc -fn
 end script&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;h1 id=&quot;final-words&quot;&gt;Final words&lt;/h1&gt;
+&lt;h2 id=&quot;final-words&quot;&gt;Final words&lt;/h2&gt;
 
 &lt;p&gt;You can now start your bouncer via:&lt;/p&gt;
 
@@ -145,7 +145,7 @@ end script&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;It will also get started automatically with system reboot which you can test.&lt;/p&gt;
 
-&lt;p&gt;ZNC documentation is quite extensive, so I won’t dive deep into configuring it. Have fun!&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;http://wiki.znc.in/ZNC&quot;&gt;ZNC documentation&lt;/a&gt; is quite extensive, so I won’t dive deep into configuring it. Have fun!&lt;/p&gt;
 </description>
         <pubDate>Mon, 28 Dec 2015 16:00:00 +0000</pubDate>
         <link>https://kaurin.github.io/misc/2015/12/28/cross-compile-and-setup-znc-ubuntu.html</link>
