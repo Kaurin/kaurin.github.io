@@ -74,14 +74,54 @@
   </header>
 
   <article class="post-content">
-    <h1 id="why-are-you-writing-this-article">Why are you writing this article?</h1>
+    <div id="toc-container">
+   <table class="toc" id="toc">
+      <tbody>
+         <tr>
+            <td>
+               <div id="toctitle">
+                  <h2>Contents</h2>
+               </div>
+               <ul>
+                  <li class="toc_level-1 toc_section-1">
+                     <a href="#tocAnchor-1-1"><span class="tocnumber">1</span> <span class="toctext">Why are you writing this article?</span></a>
+                  </li>
+                  <li class="toc_level-1 toc_section-2">
+                     <a href="#tocAnchor-1-2"><span class="tocnumber">2</span> <span class="toctext">Overview</span></a>
+                  </li>
+                  <li class="toc_level-1 toc_section-3">
+                     <a href="#tocAnchor-1-3"><span class="tocnumber">3</span> <span class="toctext">Compile box</span></a>
+                  </li>
+                  <li class="toc_level-1 toc_section-4">
+                     <a href="#tocAnchor-1-4"><span class="tocnumber">4</span> <span class="toctext">Intermezzo</span></a>
+                  </li>
+                  <li class="toc_level-1 toc_section-5">
+                     <a href="#tocAnchor-1-5"><span class="tocnumber">5</span> <span class="toctext">Destination box</span></a>
+                  </li>
+                  <li class="toc_level-1 toc_section-6">
+                     <a href="#tocAnchor-1-6"><span class="tocnumber">6</span> <span class="toctext">Set up the upstart script</span></a>
+                     <ul>
+                        <li class="toc_level-2 toc_section-7">
+                           <a href="#tocAnchor-1-6-1"><span class="tocnumber">6.1</span> <span class="toctext">/etc/init/zncbnc.conf</span></a>
+                        </li>
+                     </ul>
+                  </li>
+                  <li class="toc_level-1 toc_section-8">
+                     <a href="#tocAnchor-1-8"><span class="tocnumber">7</span> <span class="toctext">Final words</span></a>
+                  </li>
+               </ul>
+            </td>
+         </tr>
+      </tbody>
+   </table>
+</div><h1 id="tocAnchor-1-1">Why are you writing this article?</h1>
 
 <ul>
   <li>I have a small VPS box that didn’t have the memory to compile znc with python/perl/tcp support even withouth the ‘-pipe’ CFLAG.</li>
   <li>As a reminder to myself on cross compiling</li>
 </ul>
 
-<h1 id="overview">Overview</h1>
+<h1 id="tocAnchor-1-2">Overview</h1>
 
 <ul>
   <li>We’ll have a “Compile” and “Destination” machines (or virts, depending on your capabilities)</li>
@@ -91,14 +131,16 @@
   <li>After compiling, we’ll create a separate user for ZNC and an upstart file to have znc run as a service via non-privileged user.</li>
 </ul>
 
-<h1 id="compile-box">Compile box</h1>
+<h1 id="tocAnchor-1-3">Compile box</h1>
 
 <p>Assuming that  this is a fresh install of Ubuntu 14.04 (server), run the following commands.</p>
 
 <p>I recommend you do them 1-by-1 for maximum control.</p>
 
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="c"># Note on &quot;build-dep znc&quot; - manually installing libraries might get us newer </span>
-<span class="c"># dep-library versions, but I&#39;m lazy.</span>
+<div class="highlight">
+   <pre>
+      <code class="language-bash" data-lang="bash"><span class="c"># Note on "build-dep znc" - manually installing libraries might get us newer </span>
+<span class="c"># dep-library versions, but I'm lazy.</span>
 sudo apt-get update
 sudo apt-get -y upgrade
 sudo apt-get -y install build-essential autoconf automake git swig3.0 libicu-dev
@@ -111,13 +153,13 @@ sudo reboot
 mkdir ~/git
 <span class="nb">cd</span> ~/git
 
-<span class="c"># Let&#39;s get the project and cd into it</span>
+<span class="c"># Let's get the project and cd into it</span>
 git clone https://github.com/znc/znc.git
 <span class="nb">cd </span>znc
 
 <span class="c"># Check out the 1.6.x brach. This branch was stable at the time of writing </span>
-<span class="c"># this article. Not sure if my guide will work with the &quot;master&quot; branch, </span>
-<span class="c"># but I don&#39;t see why not.</span>
+<span class="c"># this article. Not sure if my guide will work with the "master" branch, </span>
+<span class="c"># but I don't see why not.</span>
 git checkout 1.6.x
 
 <span class="c"># This is a project requirement</span>
@@ -139,11 +181,11 @@ git submodule update --init --recursive
 <span class="c"># Note that the 3 lines below are 1 command!</span>
 gcc -march<span class="o">=</span>native -E -v - &lt;/dev/null 2&gt;<span class="p">&amp;</span><span class="m">1</span> <span class="p">|</span>
     grep cc1 <span class="p">|</span>
-    perl -pe <span class="s1">&#39;s|.*-march=(.*?) .*|\1|g&#39;</span>
+    perl -pe <span class="s1">'s|.*-march=(.*?) .*|\1|g'</span>
 
-<span class="c"># Back to Compile box. Remember to replace &quot;REPLACEME&quot; with your arch!</span>
-<span class="nv">CFLAGS</span><span class="o">=</span><span class="s2">&quot;-march=REPLACEME -O2 -pipe&quot;</span>
-<span class="nv">CXXFLAGS</span><span class="o">=</span><span class="s2">&quot;$CFLAGS&quot;</span>
+<span class="c"># Back to Compile box. Remember to replace "REPLACEME" with your arch!</span>
+<span class="nv">CFLAGS</span><span class="o">=</span><span class="s2">"-march=REPLACEME -O2 -pipe"</span>
+<span class="nv">CXXFLAGS</span><span class="o">=</span><span class="s2">"$CFLAGS"</span>
 
 <span class="c"># -jx = number of cores +1. I had 8 cores = -j9</span>
 make -j9
@@ -151,16 +193,20 @@ make -j9
 <span class="c"># This will install to prefix /opt/znc/{bin,..}</span>
 sudo make install
 
-<span class="c"># Let&#39;s create the tarball!</span>
-tar -czf ~/znc.tar.gz /opt/znc</code></pre></div>
+<span class="c"># Let's create the tarball!</span>
+tar -czf ~/znc.tar.gz /opt/znc</code>
+   </pre>
+</div>
 
-<h1 id="intermezzo">Intermezzo</h1>
+<h1 id="tocAnchor-1-4">Intermezzo</h1>
 
 <p>Copy the tar “znc.tar.gz” from the Compile box to the Destination box</p>
 
-<h1 id="destination-box">Destination box</h1>
+<h1 id="tocAnchor-1-5">Destination box</h1>
 
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="c"># Prepare the box for installation of znc</span>
+<div class="highlight">
+   <pre>
+      <code class="language-bash" data-lang="bash"><span class="c"># Prepare the box for installation of znc</span>
 sudo apt-get update
 sudo apt-get -y upgrade
 sudo apt-get install -y libperl5.18 libpython3.4 libtcl8.5 tcl8.5 libicu52
@@ -168,24 +214,28 @@ sudo apt-get install -y libperl5.18 libpython3.4 libtcl8.5 tcl8.5 libicu52
 <span class="c"># Optional</span>
 sudo reboot
 
-<span class="c"># Let&#39;s extract to the same dir structure as on Compile</span>
+<span class="c"># Let's extract to the same dir structure as on Compile</span>
 sudo tar -xf znc.tar.gz  -C /
 
-<span class="c"># Create dedicated user &quot;zncuser&quot;</span>
-sudo useradd -c <span class="s2">&quot;ZNC bouncer user&quot;</span> -ms /bin/false zncuser
+<span class="c"># Create dedicated user "zncuser"</span>
+sudo useradd -c <span class="s2">"ZNC bouncer user"</span> -ms /bin/false zncuser
 
-<span class="c"># Initial znc configuration as &quot;zncuser&quot;</span>
-<span class="c"># At the last prompt, don&#39;t select to start now. </span>
-<span class="c"># We&#39;ll do it via upstart in a second</span>
-<span class="nv">HOME</span><span class="o">=</span>/home/zncuser sudo -u zncuser /opt/znc/bin/znc --makeconf</code></pre></div>
+<span class="c"># Initial znc configuration as "zncuser"</span>
+<span class="c"># At the last prompt, don't select to start now. </span>
+<span class="c"># We'll do it via upstart in a second</span>
+<span class="nv">HOME</span><span class="o">=</span>/home/zncuser sudo -u zncuser /opt/znc/bin/znc --makeconf</code>
+   </pre>
+</div>
 
-<h1 id="set-up-the-upstart-script">Set up the upstart script</h1>
+<h1 id="tocAnchor-1-6">Set up the upstart script</h1>
 
-<h2 id="etcinitzncbncconf">/etc/init/zncbnc.conf</h2>
+<h2 id="tocAnchor-1-6-1">/etc/init/zncbnc.conf</h2>
 
-<div class="highlight"><pre><code class="language-text" data-lang="text"># znc
+<div class="highlight">
+   <pre>
+      <code class="language-text" data-lang="text"># znc
 
-description &quot;IRC Bouncer&quot;
+description "IRC Bouncer"
 
 start on runlevel [2345]
 
@@ -197,13 +247,19 @@ setuid zncuser
 
 script
   exec /opt/znc/bin/znc -fn
-end script</code></pre></div>
+end script</code>
+   </pre>
+</div>
 
-<h1 id="final-words">Final words</h1>
+<h1 id="tocAnchor-1-8">Final words</h1>
 
 <p>You can now start your bouncer via:</p>
 
-<div class="highlight"><pre><code class="language-bash" data-lang="bash">sudo start zncbnc</code></pre></div>
+<div class="highlight">
+   <pre>
+      <code class="language-bash" data-lang="bash">sudo start zncbnc</code>
+   </pre>
+</div>
 
 <p>It will also get started automatically with system reboot which you can test.</p>
 
