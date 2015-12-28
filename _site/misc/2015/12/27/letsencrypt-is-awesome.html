@@ -14,12 +14,12 @@
     <meta name="viewport" content="width=device-width initial-scale=1" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-    <title>Kaurin's Paste Dump</title>
+    <title>Letsencrypt is awesome!</title>
     <meta name="description" content="Welcome to my paste dump!
 ">
 
     <link rel="stylesheet" href="/css/main.css">
-    <link rel="canonical" href="https://kaurin.github.io/">
+    <link rel="canonical" href="https://kaurin.github.io/misc/2015/12/27/letsencrypt-is-awesome.html">
 </head>
 
 
@@ -60,47 +60,31 @@
 
     <div class="page-content">
         <div class="wrapper">
-            <div class="home">
+            <div class="post">
 
-  <h1 class="page-heading">Posts</h1>
+  <header class="post-header">
+    <h1 class="post-title">Letsencrypt is awesome!</h1>
+    <p class="post-meta">Dec 27, 2015</p>
+  </header>
 
-  <ul class="post-list">
-    
-      <li>
-        <span class="post-meta">Dec 28, 2015</span>
+  <article class="post-content">
+    <p>I was about to shop for an SSL cert for a domain I own, and decided to do another “free SSL” google search.</p>
 
-        <h2>
-          <a class="post-link" href="/misc/2015/12/28/cross-compile-and-setup-znc-ubuntu.html">Cross-compile and setup ZNC for Ubuntu 14.04</a>
-        </h2>
-      </li>
-    
-      <li>
-        <span class="post-meta">Dec 27, 2015</span>
+<p>To my pleasant surprise, I stumbled upon this project “<a href="https://letsencrypt.org/">letsencrypt</a>” which is sponsored by quite a lot of enterprise companies (Mozilla, Facebook to name a few).</p>
 
-        <h2>
-          <a class="post-link" href="/misc/2015/12/27/letsencrypt-is-awesome.html">Letsencrypt is awesome!</a>
-        </h2>
-      </li>
-    
-      <li>
-        <span class="post-meta">Dec 27, 2015</span>
+<p>In a nutshell, this is an CLI tool which makes life easier when you wish to configure your webserver for SSL, and also provide you with a free CA SSL cert for a domain you own. Pretty neat!</p>
 
-        <h2>
-          <a class="post-link" href="/aws/2015/12/27/ansible-ec2.html">EC2 + Ansible Setup</a>
-        </h2>
-      </li>
-    
-      <li>
-        <span class="post-meta">Dec 27, 2015</span>
+<p>I didn’t test this “quick-and-easy” setup with webservers, though. From what I see, it works via a webserver plugin.</p>
 
-        <h2>
-          <a class="post-link" href="/aws/2015/12/27/cfn-asg-lifecyclehooks.html">CFN + ASG + LifeCycle Hooks</a>
-        </h2>
-      </li>
-    
-  </ul>
+<p>Instead, I opted for the <code>letsencrypt certonly --manual</code> command. This command will require you to spin up a temporary Python webserver on a host that is verifiable by resolving the domain name. I’d say this is a small price to pay for a free SSL cert! Once that is done, you end up with your certs (and some of them bundled seperately for convenience) in <code>/etc/letsencrypt/live/$domain/</code> .</p>
 
-  <p class="rss-subscribe">subscribe <a href="/feed.xml">via RSS</a></p>
+<p>This piece of software has my strong recommendation. You should check out their <a href="https://letsencrypt.readthedocs.org/en/latest/using.html">documentation</a> which is compact and comprehensive. Have fun securing your stuff!</p>
+
+<p>P.S.</p>
+
+<p>While you are at it, you might want to check out <a href="https://raymii.org/s/tutorials/Strong_SSL_Security_On_nginx.html">Raymii’s blog post</a> on tightening your SSL settings on nginx.</p>
+
+  </article>
 
 </div>
 

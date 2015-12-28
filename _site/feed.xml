@@ -6,8 +6,8 @@
 </description>
     <link>https://kaurin.github.io/</link>
     <atom:link href="https://kaurin.github.io/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Mon, 28 Dec 2015 15:32:09 +0000</pubDate>
-    <lastBuildDate>Mon, 28 Dec 2015 15:32:09 +0000</lastBuildDate>
+    <pubDate>Mon, 28 Dec 2015 15:42:43 +0000</pubDate>
+    <lastBuildDate>Mon, 28 Dec 2015 15:42:43 +0000</lastBuildDate>
     <generator>Jekyll v2.4.0</generator>
     
       <item>
@@ -152,6 +152,35 @@ end script&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
         <guid isPermaLink="true">https://kaurin.github.io/misc/2015/12/28/cross-compile-and-setup-znc-ubuntu.html</guid>
         
         <category>irc,znc,bouncer</category>
+        
+        
+        <category>misc</category>
+        
+      </item>
+    
+      <item>
+        <title>Letsencrypt is awesome!</title>
+        <description>&lt;p&gt;I was about to shop for an SSL cert for a domain I own, and decided to do another “free SSL” google search.&lt;/p&gt;
+
+&lt;p&gt;To my pleasant surprise, I stumbled upon this project “&lt;a href=&quot;https://letsencrypt.org/&quot;&gt;letsencrypt&lt;/a&gt;” which is sponsored by quite a lot of enterprise companies (Mozilla, Facebook to name a few).&lt;/p&gt;
+
+&lt;p&gt;In a nutshell, this is an CLI tool which makes life easier when you wish to configure your webserver for SSL, and also provide you with a free CA SSL cert for a domain you own. Pretty neat!&lt;/p&gt;
+
+&lt;p&gt;I didn’t test this “quick-and-easy” setup with webservers, though. From what I see, it works via a webserver plugin.&lt;/p&gt;
+
+&lt;p&gt;Instead, I opted for the &lt;code&gt;letsencrypt certonly --manual&lt;/code&gt; command. This command will require you to spin up a temporary Python webserver on a host that is verifiable by resolving the domain name. I’d say this is a small price to pay for a free SSL cert! Once that is done, you end up with your certs (and some of them bundled seperately for convenience) in &lt;code&gt;/etc/letsencrypt/live/$domain/&lt;/code&gt; .&lt;/p&gt;
+
+&lt;p&gt;This piece of software has my strong recommendation. You should check out their &lt;a href=&quot;https://letsencrypt.readthedocs.org/en/latest/using.html&quot;&gt;documentation&lt;/a&gt; which is compact and comprehensive. Have fun securing your stuff!&lt;/p&gt;
+
+&lt;p&gt;P.S.&lt;/p&gt;
+
+&lt;p&gt;While you are at it, you might want to check out &lt;a href=&quot;https://raymii.org/s/tutorials/Strong_SSL_Security_On_nginx.html&quot;&gt;Raymii’s blog post&lt;/a&gt; on tightening your SSL settings on nginx.&lt;/p&gt;
+</description>
+        <pubDate>Sun, 27 Dec 2015 16:00:00 +0000</pubDate>
+        <link>https://kaurin.github.io/misc/2015/12/27/letsencrypt-is-awesome.html</link>
+        <guid isPermaLink="true">https://kaurin.github.io/misc/2015/12/27/letsencrypt-is-awesome.html</guid>
+        
+        <category>ssl,openssl,certificates</category>
         
         
         <category>misc</category>
