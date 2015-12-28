@@ -71,7 +71,261 @@
   </header>
 
   <article class="post-content">
-    <h1 id="todo">TODO</h1>
+    <h2 id="test-ssl-cert-for-a-domain-before-flipping-dns">Test SSL cert for a domain before flipping DNS</h2>
+
+<div class="highlight"><pre><code class="language-bash" data-lang="bash">curl https://some.domain.net --resolve some.domain.net:443:1.1.1.1</code></pre></div>
+
+<p>Where 1.1.1.1 is the current IP address where the cert we are testing is located.</p>
+
+<h2 id="json--friends">JSON &amp; friends</h2>
+
+<h3 id="cfn-ebs-volume-tagging">CFN EBS volume tagging</h3>
+
+<p>If you want to tag EC2 instance root volume based on the EC2 instance tag, you can use something like this.</p>
+
+<p>Note:</p>
+
+<ul>
+  <li>This is script that runs post-stack creation.</li>
+  <li>Stack creates a single instance</li>
+  <li>We are using CFN Outputs to get the InstanceID</li>
+  <li>This is much better done with cloudformer</li>
+</ul>
+
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="c">##!/bin/bash</span>
+
+<span class="c">## Known variables</span>
+<span class="nv">STACKNAME</span><span class="o">=</span><span class="s2">&quot;dgdgssgdgsgsdgsd&quot;</span>
+<span class="nv">TAGKEY</span><span class="o">=</span><span class="s2">&quot;test&quot;</span>
+
+<span class="c">## Get Instsance ID from $STACKNAME</span>
+<span class="nv">INSTANCEID</span><span class="o">=</span><span class="k">$(</span>aws cloudformation describe-stacks --stack-name <span class="nv">$STACKNAME</span> <span class="p">|</span> jq -r <span class="s1">&#39;.Stacks[].Outputs[].OutputValue&#39;</span><span class="k">)</span>
+
+<span class="c">## Get Volume ID from $INSTANCEID</span>
+<span class="nv">VOLUMEID</span><span class="o">=</span><span class="k">$(</span>aws ec2 describe-instances --instance-ids <span class="nv">$INSTANCEID</span> <span class="p">|</span> jq -r <span class="s1">&#39;.Reservations[].Instances[].BlockDeviceMappings[].Ebs.VolumeId&#39;</span><span class="k">)</span>
+
+<span class="c">## Get the tag value based on the key we already know. </span>
+<span class="c">## Use of &quot;--arg&quot; is of interest here. Basically, we assign a JQ variable $TAGKEY with the bash variable $TAGKEY. </span>
+<span class="c">## This is because the JQ expression is in single quotes, and we wouldn&#39;t be able to bash-substitute within the brackets.</span>
+<span class="nv">TAGVALUE</span><span class="o">=</span><span class="k">$(</span>aws ec2 describe-instances --instance-ids <span class="nv">$INSTANCEID</span> <span class="p">|</span> jq -r --arg TAGKEY <span class="nv">$TAGKEY</span> <span class="s1">&#39;.Reservations[].Instances[].Tags[] | select(.Key == $TAGKEY) | .Value&#39;</span> <span class="k">)</span>
+
+<span class="c">## Create tag on the volume </span>
+aws ec2 create-tags --resources <span class="nv">$VOLUMEID</span> --tags <span class="s2">&quot;[ { \&quot;Key\&quot; : \&quot;$TAGKEY\&quot; , \&quot;Value\&quot; : \&quot;$TAGVALUE\&quot; } ]&quot;</span></code></pre></div>
+
+<h3 id="fine-grained-cloudtrail-parsing-with-custom-output">Fine grained CloudTrail parsing with custom output</h3>
+
+<p>Parse large amounts of CT logs:</p>
+
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nb">cd </span>month1
+find . -name <span class="s1">&#39;*.gz&#39;</span> <span class="p">|</span> <span class="k">while</span> <span class="nb">read </span>line
+<span class="k">do</span>
+    zcat <span class="s2">&quot;$line&quot;</span> <span class="p">|</span>
+        jq <span class="s1">&#39;.Records[] |</span>
+<span class="s1">            select(.requestParameters.roleName == &quot;NAME-OF-THE-ROLE-I-WAS-INTERESTED-IN&quot;)&#39;</span>
+<span class="k">done</span> &gt; out.txt</code></pre></div>
+
+<p>Note: I did the above for both months in parallel as CPU (core) was the bottleneck. Doing it for the larger month alone (984MB) took almost 12 minutes.</p>
+
+<p>After this, I parsed individual out.txt files in a few different ways until I was happy with outputting only PutRolePolicy or DeleteRolePolicy, and formatted the output a little bit, in a way it was presentable to the customer:</p>
+
+<div class="highlight"><pre><code class="language-bash" data-lang="bash">cat out.txt<span class="p">|</span> jq <span class="s1">&#39;</span>
+<span class="s1">    select(.eventName ## &quot;PutRolePolicy&quot; or .eventName &quot;DeleteRolePolicy&quot;) |</span>
+<span class="s1">        {</span>
+<span class="s1">            Policy: .requestParameters.policyName ,</span>
+<span class="s1">            Time: .eventTime ,</span>
+<span class="s1">            Action: .eventName,</span>
+<span class="s1">            ARN: .userIdentity.arn</span>
+<span class="s1">        } &#39;</span></code></pre></div>
+
+<p>’'’Similar to above’’’, but in one step and using a jq argument (import shell variable). Use case: “Who removed rules from “sg-xxxxxxxx”:</p>
+
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nb">cd </span>month1
+
+<span class="nv">SG</span><span class="o">=</span><span class="s2">&quot;sg-xxxxxxxx&quot;</span>
+
+find . -name <span class="s1">&#39;*.gz&#39;</span> <span class="p">|</span> <span class="k">while</span> <span class="nb">read </span>line
+<span class="k">do</span>
+    zcat <span class="s2">&quot;$line&quot;</span> <span class="p">|</span>
+        jq --arg SG <span class="nv">$SG</span> <span class="s1">&#39;.Records[] |</span>
+<span class="s1">            select(.requestParameters.groupId == $SG) |</span>
+<span class="s1">            select(.eventName ## &quot;RevokeSecurityGroupEgress&quot; or .eventName &quot;RevokeSecurityGroupIngress&quot;) |</span>
+<span class="s1">            {</span>
+<span class="s1">                GroupId: .requestParameters.groupId ,</span>
+<span class="s1">                Time: .eventTime ,</span>
+<span class="s1">                Action: .eventName,</span>
+<span class="s1">                ARN: .userIdentity.arn</span>
+<span class="s1">            } &#39;</span>
+<span class="k">done</span></code></pre></div>
+
+<h3 id="adding-values-via-jq">Adding values via JQ</h3>
+
+<p>Script that parses a json, structures it im key: value structure where value is integer.
+A friend needed to put a sum at the bottom. My last line in this JQ is what did what he wanted:</p>
+
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="c">##!/bin/bash</span>
+
+<span class="nv">URL</span><span class="o">=</span><span class="s2">&quot;https://example.com/input.json&quot;</span>
+
+<span class="nv">FILTER</span><span class="o">=</span><span class="s1">&#39;.data|</span>
+<span class="s1">        to_entries|</span>
+<span class="s1">        map(</span>
+<span class="s1">            select((.key|match(&quot;-(str1|str2|str3|(st3(4|5|6)))@literalsuffix&quot;)) and (.value[&quot;total&quot;] &gt; 0))</span>
+<span class="s1">        )|</span>
+<span class="s1">        [</span>
+<span class="s1">            .[]|</span>
+<span class="s1">            {&quot;key&quot; : .key,&quot;value&quot; : .value[&quot;total&quot;]}</span>
+<span class="s1">        ]|</span>
+<span class="s1">        sort|</span>
+<span class="s1">        from_entries | </span>
+<span class="s1">        . + {&quot;Total&quot; : (. |add) }</span>
+<span class="s1">&#39;</span>
+
+curl -s <span class="s2">&quot;$URL&quot;</span> <span class="p">|</span> jq <span class="s2">&quot;$FILTER&quot;</span></code></pre></div>
+
+<p>Example output:</p>
+
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="p">{</span>
+  <span class="s2">&quot;str1@literalsuffix&quot;</span><span class="o">:</span> <span class="mi">12</span><span class="p">,</span>
+  <span class="s2">&quot;str2@literalsuffix&quot;</span><span class="o">:</span> <span class="mi">12</span><span class="p">,</span>
+  <span class="s2">&quot;str3@literalsuffix&quot;</span><span class="o">:</span> <span class="mi">12</span><span class="p">,</span>
+  <span class="s2">&quot;str4@literalsuffix&quot;</span><span class="o">:</span> <span class="mi">12</span><span class="p">,</span>
+  <span class="s2">&quot;str5@literalsuffix&quot;</span><span class="o">:</span> <span class="mi">12</span><span class="p">,</span>
+  <span class="s2">&quot;str6@literalsuffix&quot;</span><span class="o">:</span> <span class="mi">12</span><span class="p">,</span>
+  <span class="s2">&quot;Total&quot;</span><span class="o">:</span> <span class="mi">72</span>
+<span class="p">}</span></code></pre></div>
+
+<h3 id="filter-aws-ip-ranges-by-service--regions">Filter AWS IP ranges by service &amp; region(s)</h3>
+
+<p>Requires JQ 1.5:
+https://github.com/stedolan/jq/releases</p>
+
+<div class="highlight"><pre><code class="language-bash" data-lang="bash">curl -s https://ip-ranges.amazonaws.com/ip-ranges.json <span class="p">|</span> jq -r <span class="s1">&#39;</span>
+<span class="s1">                .prefixes[] |</span>
+<span class="s1">                select ( </span>
+<span class="s1">                         (.service | match(&quot;EC2&quot;)) and </span>
+<span class="s1">                         (.region | match(&quot;us-east-1|us-west-2&quot;)) </span>
+<span class="s1">                       ) |</span>
+<span class="s1">                .ip_prefix&#39;</span></code></pre></div>
+
+<h3 id="filter-then-catenate-all-cloudtrail-gzip-logs-into-one-text-file-with-output-time-sorted">Filter then catenate all CloudTrail gzip logs into one text file with output time sorted</h3>
+
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="c">##!/bin/bash</span>
+ 
+find . -name <span class="s1">&#39;*.gz&#39;</span> <span class="p">|</span> <span class="k">while</span> <span class="nb">read </span>line
+<span class="k">do</span>
+    zcat <span class="s2">&quot;$line&quot;</span>  <span class="p">|</span> jq <span class="s1">&#39;.Records[]</span>
+<span class="s1">    |</span>
+<span class="s1">    select(.userIdentity.arn == &quot;arn:aws:sts::000000000000:assumed-role/Something/someguy@whatever.com&quot; )</span>
+<span class="s1">    &#39;</span>
+<span class="k">done</span> <span class="p">|</span> jq -s <span class="s1">&#39; sort_by(.eventTime) &#39;</span></code></pre></div>
+
+<h3 id="finding-highest-offenders">Finding highest offenders</h3>
+
+<p>Again, in this example, we try to do as much as possible on each iteration of .gz files to avoid crashing the desktop</p>
+
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="c">##!/bin/bash</span>
+
+<span class="nb">echo</span> <span class="s2">&quot;Processing highest API offenders&quot;</span>
+ 
+find . -name <span class="s1">&#39;*.gz&#39;</span> <span class="p">|</span> <span class="k">while</span> <span class="nb">read </span>line
+<span class="k">do</span>
+    zcat <span class="s2">&quot;$line&quot;</span>  <span class="p">|</span> jq <span class="s1">&#39;.Records[]</span>
+<span class="s1">    |</span>
+<span class="s1">    (.eventSource + &quot;-&quot; + .eventName)</span>
+<span class="s1">    &#39;</span>
+<span class="k">done</span> <span class="p">|</span> sort <span class="p">|</span> uniq -c <span class="p">|</span> sort -n</code></pre></div>
+
+<h2 id="database-stuff">Database stuff</h2>
+
+<h3 id="mysql-basics">MySQL Basics</h3>
+
+<h4 id="useful-mysql-commands">Useful MySQL commands</h4>
+
+<p>When creating MySQL users, make sure that your .mysql_history file does not log anything. There are two ways:</p>
+
+<ul>
+  <li>Permanently: <code>ln -s /dev/null $HOME/.mysql_history</code></li>
+  <li>Temporarily: <code>MYSQL_HISTFILE=/dev/null &amp;&amp; mysql &lt;your parameters here&gt;</code></li>
+</ul>
+
+<p>And now for some general tips:</p>
+
+<div class="highlight"><pre><code class="language-mysql" data-lang="mysql"><span class="c1">## List all users</span>
+<span class="k">SELECT</span> <span class="n">User</span><span class="p">,</span> <span class="n">Host</span> <span class="k">FROM</span> <span class="n">mysql</span><span class="p">.</span><span class="n">user</span><span class="p">;</span>
+
+<span class="c1">## Create user</span>
+<span class="k">CREATE</span> <span class="n">USER</span> <span class="s1">&#39;jeffrey&#39;</span><span class="o">@</span><span class="s1">&#39;localhost&#39;</span> <span class="n">IDENTIFIED</span> <span class="k">BY</span> <span class="s1">&#39;mypass&#39;</span><span class="p">;</span>
+
+<span class="c1">## Show Grants</span>
+<span class="k">SHOW</span> <span class="n">GRANTS</span> <span class="k">FOR</span> <span class="s1">&#39;jeffrey&#39;</span><span class="o">@</span><span class="s1">&#39;localhost&#39;</span><span class="p">;</span>
+
+<span class="c1">## Grant all perms to db1 DB and it&#39;s tables:</span>
+<span class="k">GRANT</span> <span class="k">ALL</span> <span class="k">ON</span> <span class="n">db1</span><span class="p">.</span><span class="o">*</span> <span class="k">TO</span> <span class="s1">&#39;jeffrey&#39;</span><span class="o">@</span><span class="s1">&#39;localhost&#39;</span><span class="p">;</span>
+
+<span class="c1">## Grant select on table invoice of db2:</span>
+<span class="k">GRANT</span> <span class="k">SELECT</span> <span class="k">ON</span> <span class="n">db2</span><span class="p">.</span><span class="n">invoice</span> <span class="k">TO</span> <span class="s1">&#39;jeffrey&#39;</span><span class="o">@</span><span class="s1">&#39;localhost&#39;</span><span class="p">;</span>
+
+<span class="c1">## No privileges for all databases/tables with rate limiting</span>
+<span class="k">GRANT</span> <span class="k">USAGE</span> <span class="k">ON</span> <span class="o">*</span><span class="p">.</span><span class="o">*</span> <span class="k">TO</span> <span class="s1">&#39;jeffrey&#39;</span><span class="o">@</span><span class="s1">&#39;localhost&#39;</span> <span class="k">WITH</span> <span class="n">MAX_QUERIES_PER_HOUR</span> <span class="mi">90</span><span class="p">;</span>
+
+<span class="c1">## Grant, require SSL</span>
+<span class="k">GRANT</span> <span class="k">USAGE</span> <span class="k">ON</span> <span class="o">*</span><span class="p">.</span><span class="o">*</span> <span class="k">TO</span> <span class="s1">&#39;jeffrey&#39;</span><span class="o">@</span><span class="s1">&#39;%&#39;</span> <span class="k">REQUIRE</span> <span class="k">SSL</span> <span class="p">;</span> 
+
+<span class="c1">## Common permissions</span>
+<span class="k">GRANT</span> <span class="k">SELECT</span><span class="p">,</span> <span class="k">INSERT</span><span class="p">,</span> <span class="k">UPDATE</span><span class="p">,</span> <span class="k">DELETE</span><span class="p">,</span> <span class="k">CREATE</span> <span class="k">ON</span> <span class="ss">`db_jeffrey`</span><span class="p">.</span><span class="o">*</span> <span class="k">TO</span> <span class="s1">&#39;jeffrey&#39;</span><span class="o">@</span><span class="s1">&#39;%&#39;</span> <span class="p">;</span>
+
+<span class="c1">## Change user password</span>
+<span class="kt">SET</span> <span class="n">PASSWORD</span> <span class="k">FOR</span> <span class="n">user</span><span class="o">@</span><span class="s1">&#39;host&#39;</span> <span class="o">=</span> <span class="nf">PASSWORD</span><span class="p">(</span><span class="s1">&#39;somepass&#39;</span><span class="p">);</span></code></pre></div>
+
+<h4 id="ssl-for-mysql-rds-example">SSL for MySQL (RDS example)</h4>
+
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nv">MyPath</span><span class="o">=</span><span class="s2">&quot;/home/myuser/Documents/rds&quot;</span>
+mkdir -p <span class="s2">&quot;$MyPath&quot;</span>
+wget http://s3.amazonaws.com/rds-downloads/rds-combined-ca-bundle.pem -O <span class="s2">&quot;$MyPath/rds-ssl-ca-cert.pem&quot;</span>
+mysql --ssl_ca<span class="o">=</span><span class="s2">&quot;$MyPath/rds-ssl-ca-cert.pem&quot;</span> --ssl-verify-server-cert -h &lt;hostname&gt; -P &lt;port&gt; -u &lt;username&gt; -p
+<span class="c">## You&#39;ll be prompted for the password</span></code></pre></div>
+
+<p>MySQL workbench also supports SSL. When creating a connection go to the Advanced tab and just fill in the CA field. <a href="http://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/CHAP_MySQL.html#MySQL.Concepts.SSLSupport">Relevant RDS doc</a></p>
+
+<h2 id="cloudformation">CloudFormation</h2>
+
+<h3 id="aws-cli-basics">AWS CLI basics</h3>
+
+<h4 id="command">Command</h4>
+
+<div class="highlight"><pre><code class="language-bash" data-lang="bash">aws cloudformation update-stack <span class="se">\</span>
+--template-body file://~/Desktop/cfn/ASG-LifeCycle-DelayFirstInstance.cform  <span class="se">\</span>
+--capabilities CAPABILITY_IAM <span class="se">\</span>
+--parameters file://~/Desktop/cfn/ASG-LifeCycle-DelayFirstInstance.params  <span class="se">\</span>
+--stack-name asjdaad4233</code></pre></div>
+
+<h4 id="example-parameters-file">Example Parameters file</h4>
+
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="p">[</span>
+    <span class="p">{</span>
+        <span class="s2">&quot;ParameterKey&quot;</span><span class="o">:</span> <span class="s2">&quot;InstanceAmi&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;ParameterValue&quot;</span><span class="o">:</span> <span class="s2">&quot;ami-xxxxxxx&quot;</span>
+    <span class="p">},</span>
+    <span class="p">{</span>
+        <span class="s2">&quot;ParameterKey&quot;</span><span class="o">:</span> <span class="s2">&quot;InstanceType&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;ParameterValue&quot;</span><span class="o">:</span> <span class="s2">&quot;t2.micro&quot;</span>
+    <span class="p">}</span>
+<span class="p">]</span></code></pre></div>
+
+<h2 id="codedeploy">CodeDeploy</h2>
+
+<h3 id="create-a-deployment-with-aws-cli">Create a deployment with AWS CLI</h3>
+
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nv">APP</span><span class="o">=</span><span class="s2">&quot;asdad&quot;</span>
+<span class="nv">DG</span><span class="o">=</span><span class="s2">&quot;dasasdads&quot;</span>
+<span class="nv">COMMIT</span><span class="o">=</span><span class="s2">&quot;xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx&quot;</span>
+<span class="nv">REPO</span><span class="o">=</span><span class="s2">&quot;myrepo/codedeploy-app&quot;</span>
+
+aws deploy create-deployment <span class="se">\</span>
+--application-name <span class="s2">&quot;$APP&quot;</span> <span class="se">\</span>
+--deployment-group-name <span class="s2">&quot;$DG&quot;</span> <span class="se">\</span>
+--github-location <span class="nv">commitId</span><span class="o">=</span><span class="s2">&quot;$COMMIT&quot;</span>,repository<span class="o">=</span><span class="s2">&quot;$REPO&quot;</span></code></pre></div>
+
 
   </article>
 
