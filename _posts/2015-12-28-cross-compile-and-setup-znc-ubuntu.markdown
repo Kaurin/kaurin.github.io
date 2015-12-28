@@ -14,9 +14,9 @@ tags: irc,znc,bouncer
 ## Overview
 
 * We'll have a "Compile" and "Destination" machines (or virts, depending on your capabilities)
-* Compile box best be discardable VM with a fresh install of Ubuntu 14.04, with more tha 512mb of ram. I'm not sure how much more ram, but 512mb won't cut it.
+* Compile box best be discardable VM with a fresh install of Ubuntu 14.04, with more than 1GB of ram. I'm not sure how much more ram, but 1GB won't cut it.
 * We won't be creating a package. This is an old school compile and .tar copy-install. Just a heads up if you don't like this sort of thing
-* Due to point above, compile prefix will be /opt/znc.  I like a higher-degree of separation in /opt instead of everything jumbled up.
+* Due to point above, compile prefix will be /opt/znc.  I like a higher-degree of separation, which is why I use "/opt/znc" instead of just "/opt".
 * After compiling, we'll create a separate user for ZNC and an upstart file to have znc run as a service via non-privileged user.
 
 ## Compile box
@@ -80,7 +80,7 @@ make -j9
 # This will install to prefix /opt/znc/{bin,..}
 sudo make install
 
-# Let's create a tarball!
+# Let's create the tarball!
 tar -czf ~/znc.tar.gz /opt/znc
 {% endhighlight %}
 
