@@ -3,8 +3,9 @@ layout: page
 title: Pastedump
 permalink: /pd/
 ---
+## Misc
 
-## Test SSL cert for a domain before flipping DNS
+### Test SSL cert for a domain before flipping DNS
 
 {% highlight bash %}
 curl https://some.domain.net --resolve some.domain.net:443:1.1.1.1
