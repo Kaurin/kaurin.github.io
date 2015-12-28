@@ -74,13 +74,13 @@
   </header>
 
   <article class="post-content">
-    <h2 id="problem">Problem</h2>
+    <h1 id="problem">Problem</h1>
 
 <p>When you use CFN to provision an ASG with LifeCycle events which trigger on instance launches, the issue is that CFN first creates an ASG. ASG immediately starts spinning up instances based on ASG settings. LifeCycle hooks get created usually with some delay.</p>
 
 <p>This causes some instances to get launched without being “monitored” by the “launch” lifecylce hooks.</p>
 
-<h2 id="solution">Solution</h2>
+<h1 id="solution">Solution</h1>
 
 <ul>
   <li>ASG set to 0/0/0 in CFN</li>
@@ -89,11 +89,11 @@
   <li>IAM execution role for lambda (as/updateAutoScalingGroup)</li>
 </ul>
 
-<h2 id="requirements">Requirements</h2>
+<h1 id="requirements">Requirements</h1>
 
 <p>Region which supports Lambda</p>
 
-<h2 id="cfn-command-to-create-stack">CFN command to create stack</h2>
+<h1 id="cfn-command-to-create-stack">CFN command to create stack</h1>
 
 <div class="highlight"><pre><code class="language-bash" data-lang="bash">aws cloudformation update-stack <span class="se">\</span>
     --template-body file://ASG-LifeCycle-DelayFirstInstance.cform  <span class="se">\</span>
@@ -103,11 +103,11 @@
 
 <p>You can just change “create-stack” -&gt; “update-stack” if you want to update the stack instead of create a new one.</p>
 
-<h2 id="files">Files</h2>
+<h1 id="files">Files</h1>
 
 <p><a href="https://kaurin.github.io/assets/2015-12-27-cfn-asg-post/ASG-LifeCycle-DelayFirstInstance.cform">Template</a> | <a href="https://kaurin.github.io/assets/2015-12-27-cfn-asg-post/ASG-LifeCycle-DelayFirstInstance.params">Parameters</a> | <a href="https://kaurin.github.io/assets/2015-12-27-cfn-asg-post/AsgIncrease.zip">Lambda function</a></p>
 
-<h2 id="note">Note</h2>
+<h1 id="note">Note</h1>
 
 <p>You need to upload the lambda function zip to an S3 bucket, and then provide bucket name / object name in parameters</p>
 

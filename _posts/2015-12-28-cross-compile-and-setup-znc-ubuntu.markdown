@@ -6,12 +6,12 @@ categories: misc
 tags: irc,znc,bouncer
 ---
 
-## Why are you writing this article?
+# Why are you writing this article?
 
 * I have a small VPS box that didn't have the memory to compile znc with python/perl/tcp support even withouth the '-pipe' CFLAG.
 * As a reminder to myself on cross compiling
 
-## Overview
+# Overview
 
 * We'll have a "Compile" and "Destination" machines (or virts, depending on your capabilities)
 * Compile box best be discardable VM with a fresh install of Ubuntu 14.04, with more than 1GB of ram. I'm not sure how much more ram, but 1GB won't cut it.
@@ -19,7 +19,7 @@ tags: irc,znc,bouncer
 * Due to point above, compile prefix will be /opt/znc.  I like a higher-degree of separation, which is why I use "/opt/znc" instead of just "/opt".
 * After compiling, we'll create a separate user for ZNC and an upstart file to have znc run as a service via non-privileged user.
 
-## Compile box
+# Compile box
 
 Assuming that  this is a fresh install of Ubuntu 14.04 (server), run the following commands. 
 
@@ -84,11 +84,11 @@ sudo make install
 tar -czf ~/znc.tar.gz /opt/znc
 {% endhighlight %}
 
-## Intermezzo
+# Intermezzo
 
 Copy the tar "znc.tar.gz" from the Compile box to the Destination box
 
-## Destination box
+# Destination box
 
 {% highlight bash %}
 # Prepare the box for installation of znc
@@ -111,9 +111,9 @@ sudo useradd -c "ZNC bouncer user" -ms /bin/false zncuser
 HOME=/home/zncuser sudo -u zncuser /opt/znc/bin/znc --makeconf
 {% endhighlight %}
 
-## Set up the upstart script
+# Set up the upstart script
 
-### /etc/init/zncbnc.conf
+## /etc/init/zncbnc.conf
 
 {% highlight text %}
 # znc
@@ -133,7 +133,7 @@ script
 end script
 {% endhighlight %}
 
-## Final words
+# Final words
 
 You can now start your bouncer via:
 {% highlight bash %}

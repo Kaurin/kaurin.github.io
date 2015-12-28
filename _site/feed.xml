@@ -6,20 +6,20 @@
 </description>
     <link>https://kaurin.github.io/</link>
     <atom:link href="https://kaurin.github.io/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Mon, 28 Dec 2015 23:34:28 +0000</pubDate>
-    <lastBuildDate>Mon, 28 Dec 2015 23:34:28 +0000</lastBuildDate>
+    <pubDate>Mon, 28 Dec 2015 23:36:08 +0000</pubDate>
+    <lastBuildDate>Mon, 28 Dec 2015 23:36:08 +0000</lastBuildDate>
     <generator>Jekyll v2.4.0</generator>
     
       <item>
         <title>Cross-compile and setup ZNC for Ubuntu 14.04</title>
-        <description>&lt;h2 id=&quot;why-are-you-writing-this-article&quot;&gt;Why are you writing this article?&lt;/h2&gt;
+        <description>&lt;h1 id=&quot;why-are-you-writing-this-article&quot;&gt;Why are you writing this article?&lt;/h1&gt;
 
 &lt;ul&gt;
   &lt;li&gt;I have a small VPS box that didn’t have the memory to compile znc with python/perl/tcp support even withouth the ‘-pipe’ CFLAG.&lt;/li&gt;
   &lt;li&gt;As a reminder to myself on cross compiling&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h2 id=&quot;overview&quot;&gt;Overview&lt;/h2&gt;
+&lt;h1 id=&quot;overview&quot;&gt;Overview&lt;/h1&gt;
 
 &lt;ul&gt;
   &lt;li&gt;We’ll have a “Compile” and “Destination” machines (or virts, depending on your capabilities)&lt;/li&gt;
@@ -29,7 +29,7 @@
   &lt;li&gt;After compiling, we’ll create a separate user for ZNC and an upstart file to have znc run as a service via non-privileged user.&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h2 id=&quot;compile-box&quot;&gt;Compile box&lt;/h2&gt;
+&lt;h1 id=&quot;compile-box&quot;&gt;Compile box&lt;/h1&gt;
 
 &lt;p&gt;Assuming that  this is a fresh install of Ubuntu 14.04 (server), run the following commands.&lt;/p&gt;
 
@@ -92,11 +92,11 @@ sudo make install
 &lt;span class=&quot;c&quot;&gt;# Let&amp;#39;s create the tarball!&lt;/span&gt;
 tar -czf ~/znc.tar.gz /opt/znc&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;h2 id=&quot;intermezzo&quot;&gt;Intermezzo&lt;/h2&gt;
+&lt;h1 id=&quot;intermezzo&quot;&gt;Intermezzo&lt;/h1&gt;
 
 &lt;p&gt;Copy the tar “znc.tar.gz” from the Compile box to the Destination box&lt;/p&gt;
 
-&lt;h2 id=&quot;destination-box&quot;&gt;Destination box&lt;/h2&gt;
+&lt;h1 id=&quot;destination-box&quot;&gt;Destination box&lt;/h1&gt;
 
 &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span class=&quot;c&quot;&gt;# Prepare the box for installation of znc&lt;/span&gt;
 sudo apt-get update
@@ -117,9 +117,9 @@ sudo useradd -c &lt;span class=&quot;s2&quot;&gt;&amp;quot;ZNC bouncer user&amp;
 &lt;span class=&quot;c&quot;&gt;# We&amp;#39;ll do it via upstart in a second&lt;/span&gt;
 &lt;span class=&quot;nv&quot;&gt;HOME&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;/home/zncuser sudo -u zncuser /opt/znc/bin/znc --makeconf&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;h2 id=&quot;set-up-the-upstart-script&quot;&gt;Set up the upstart script&lt;/h2&gt;
+&lt;h1 id=&quot;set-up-the-upstart-script&quot;&gt;Set up the upstart script&lt;/h1&gt;
 
-&lt;h3 id=&quot;etcinitzncbncconf&quot;&gt;/etc/init/zncbnc.conf&lt;/h3&gt;
+&lt;h2 id=&quot;etcinitzncbncconf&quot;&gt;/etc/init/zncbnc.conf&lt;/h2&gt;
 
 &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;# znc
 
@@ -137,7 +137,7 @@ script
   exec /opt/znc/bin/znc -fn
 end script&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;h2 id=&quot;final-words&quot;&gt;Final words&lt;/h2&gt;
+&lt;h1 id=&quot;final-words&quot;&gt;Final words&lt;/h1&gt;
 
 &lt;p&gt;You can now start your bouncer via:&lt;/p&gt;
 
@@ -189,7 +189,7 @@ end script&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
     
       <item>
         <title>EC2 + Ansible Setup</title>
-        <description>&lt;h2 id=&quot;overview&quot;&gt;Overview&lt;/h2&gt;
+        <description>&lt;h1 id=&quot;overview&quot;&gt;Overview&lt;/h1&gt;
 
 &lt;p&gt;As the name of this website states, this is just my pastedump. By no means is this an all-round best-practice guide. If your use case is to have a light touch on an ansible-master in EC2 wihtout the need to implement ‘ansible-pull’, then I’d consider this an OK guide.&lt;/p&gt;
 
@@ -202,9 +202,9 @@ end script&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
   &lt;li&gt;No credentials wil be stored on the master instance. We’ll use SSH SendEnv and AgentForward capabilities.&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h2 id=&quot;aws&quot;&gt;AWS&lt;/h2&gt;
+&lt;h1 id=&quot;aws&quot;&gt;AWS&lt;/h1&gt;
 
-&lt;h3 id=&quot;iam&quot;&gt;IAM&lt;/h3&gt;
+&lt;h2 id=&quot;iam&quot;&gt;IAM&lt;/h2&gt;
 
 &lt;p&gt;Create an “ansible-master” user which has permissions to Describe* on RDS, EC2 and ElastiCache. Download the credentials. You will use them later in &lt;strong&gt;~/.bashrc&lt;/strong&gt;&lt;/p&gt;
 
@@ -225,7 +225,7 @@ end script&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
     &lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
 &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;h3 id=&quot;ssh-keys&quot;&gt;SSH Keys&lt;/h3&gt;
+&lt;h2 id=&quot;ssh-keys&quot;&gt;SSH Keys&lt;/h2&gt;
 
 &lt;p&gt;Create or import “ansible-master” and “ansible-controller” SSH keys in the EC2 console.&lt;/p&gt;
 
@@ -236,7 +236,7 @@ end script&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;This setup allows us to keep all credentials (EC2/SSH) on our local workstation, and just forward those credentials to the “ansible-master” instance when we SSH into it. This suits only my specific use case where I have very little automation on the Ansible side.&lt;/p&gt;
 
-&lt;h3 id=&quot;launch-target-instances&quot;&gt;Launch target instances&lt;/h3&gt;
+&lt;h2 id=&quot;launch-target-instances&quot;&gt;Launch target instances&lt;/h2&gt;
 
 &lt;p&gt;We will test them later, for now, launch them:&lt;/p&gt;
 
@@ -252,9 +252,9 @@ end script&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;You never need to know any other EC2 instance details except for the tags. Ansible will figure out the private IPs and other info based on said tags.&lt;/p&gt;
 
-&lt;h2 id=&quot;workstation&quot;&gt;Workstation&lt;/h2&gt;
+&lt;h1 id=&quot;workstation&quot;&gt;Workstation&lt;/h1&gt;
 
-&lt;h3 id=&quot;sshconfig&quot;&gt;~/.ssh/config&lt;/h3&gt;
+&lt;h2 id=&quot;sshconfig&quot;&gt;~/.ssh/config&lt;/h2&gt;
 
 &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;Host ansible
     HostName xx.xx.xx.xx
@@ -264,24 +264,24 @@ end script&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
     IdentityFile ~/.ssh/ansible-controller
     ForwardAgent yes&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;h3 id=&quot;bashrc&quot;&gt;~/.bashrc&lt;/h3&gt;
+&lt;h2 id=&quot;bashrc&quot;&gt;~/.bashrc&lt;/h2&gt;
 
 &lt;p&gt;The idea here is to set the AWS env. variables specifically for our connection towards the ansible-master. Unfortunately, we can’t do this in one go in our ssh config.&lt;/p&gt;
 
 &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span class=&quot;nb&quot;&gt;alias &lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;ansconn&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&amp;#39;AWS_ACCESS_KEY_ID=&amp;quot;SECRET&amp;quot; AWS_SECRET_ACCESS_KEY=&amp;quot;ACCESS&amp;quot; ssh ansible&amp;#39;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;h2 id=&quot;ansible-master-instance&quot;&gt;Ansible master instance&lt;/h2&gt;
+&lt;h1 id=&quot;ansible-master-instance&quot;&gt;Ansible master instance&lt;/h1&gt;
 
-&lt;h3 id=&quot;ssh-daemon&quot;&gt;SSH Daemon&lt;/h3&gt;
+&lt;h2 id=&quot;ssh-daemon&quot;&gt;SSH Daemon&lt;/h2&gt;
 
 &lt;p&gt;We want to be able to accept the environment variables from the SSH client from our workstation. In order to make this happen, we need to change the sshd_config&lt;/p&gt;
 
-&lt;h4 id=&quot;etcsshsshdconfig&quot;&gt;/etc/ssh/sshd_config&lt;/h4&gt;
+&lt;h3 id=&quot;etcsshsshdconfig&quot;&gt;/etc/ssh/sshd_config&lt;/h3&gt;
 
 &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;AcceptEnv AWS_ACCESS_KEY_ID
 AcceptEnv AWS_SECRET_ACCESS_KEY&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;h3 id=&quot;ansible-installation&quot;&gt;Ansible installation&lt;/h3&gt;
+&lt;h2 id=&quot;ansible-installation&quot;&gt;Ansible installation&lt;/h2&gt;
 
 &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;sudo pip install ansible
 sudo pip install ansible --upgrade&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
@@ -292,7 +292,7 @@ sudo pip install ansible --upgrade&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 chmod +x /etc/ansible/hosts
 sudo wget &lt;span class=&quot;s1&quot;&gt;&amp;#39;https://raw.githubusercontent.com/ansible/ansible/devel/contrib/inventory/ec2.ini&amp;#39;&lt;/span&gt; -O /etc/ansible/ec2.ini&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;h3 id=&quot;ec2ini&quot;&gt;ec2.ini&lt;/h3&gt;
+&lt;h2 id=&quot;ec2ini&quot;&gt;ec2.ini&lt;/h2&gt;
 
 &lt;p&gt;It’s time to change ec2.ini settings.
 Note: Adjust this on your own accord. The file is nicely commented. I’ll note some of the settings I adjusted&lt;/p&gt;
@@ -309,7 +309,7 @@ Note: Adjust this on your own accord. The file is nicely commented. I’ll note 
 
 &lt;p&gt;The last option might be the most significant one. Only instances with this tag will be considered as Ansible-controllable&lt;/p&gt;
 
-&lt;h2 id=&quot;time-to-test&quot;&gt;Time to test&lt;/h2&gt;
+&lt;h1 id=&quot;time-to-test&quot;&gt;Time to test&lt;/h1&gt;
 
 &lt;ul&gt;
   &lt;li&gt;SSH into the instance by running &lt;strong&gt;ansconn&lt;/strong&gt;, which is based on the alias we created in &lt;strong&gt;~/.bashrc&lt;/strong&gt;&lt;/li&gt;
@@ -332,13 +332,13 @@ Note: Adjust this on your own accord. The file is nicely commented. I’ll note 
     
       <item>
         <title>CFN + ASG + LifeCycle Hooks</title>
-        <description>&lt;h2 id=&quot;problem&quot;&gt;Problem&lt;/h2&gt;
+        <description>&lt;h1 id=&quot;problem&quot;&gt;Problem&lt;/h1&gt;
 
 &lt;p&gt;When you use CFN to provision an ASG with LifeCycle events which trigger on instance launches, the issue is that CFN first creates an ASG. ASG immediately starts spinning up instances based on ASG settings. LifeCycle hooks get created usually with some delay.&lt;/p&gt;
 
 &lt;p&gt;This causes some instances to get launched without being “monitored” by the “launch” lifecylce hooks.&lt;/p&gt;
 
-&lt;h2 id=&quot;solution&quot;&gt;Solution&lt;/h2&gt;
+&lt;h1 id=&quot;solution&quot;&gt;Solution&lt;/h1&gt;
 
 &lt;ul&gt;
   &lt;li&gt;ASG set to 0/0/0 in CFN&lt;/li&gt;
@@ -347,11 +347,11 @@ Note: Adjust this on your own accord. The file is nicely commented. I’ll note 
   &lt;li&gt;IAM execution role for lambda (as/updateAutoScalingGroup)&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h2 id=&quot;requirements&quot;&gt;Requirements&lt;/h2&gt;
+&lt;h1 id=&quot;requirements&quot;&gt;Requirements&lt;/h1&gt;
 
 &lt;p&gt;Region which supports Lambda&lt;/p&gt;
 
-&lt;h2 id=&quot;cfn-command-to-create-stack&quot;&gt;CFN command to create stack&lt;/h2&gt;
+&lt;h1 id=&quot;cfn-command-to-create-stack&quot;&gt;CFN command to create stack&lt;/h1&gt;
 
 &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;aws cloudformation update-stack &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
     --template-body file://ASG-LifeCycle-DelayFirstInstance.cform  &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
@@ -361,11 +361,11 @@ Note: Adjust this on your own accord. The file is nicely commented. I’ll note 
 
 &lt;p&gt;You can just change “create-stack” -&amp;gt; “update-stack” if you want to update the stack instead of create a new one.&lt;/p&gt;
 
-&lt;h2 id=&quot;files&quot;&gt;Files&lt;/h2&gt;
+&lt;h1 id=&quot;files&quot;&gt;Files&lt;/h1&gt;
 
 &lt;p&gt;&lt;a href=&quot;https://kaurin.github.io/assets/2015-12-27-cfn-asg-post/ASG-LifeCycle-DelayFirstInstance.cform&quot;&gt;Template&lt;/a&gt; | &lt;a href=&quot;https://kaurin.github.io/assets/2015-12-27-cfn-asg-post/ASG-LifeCycle-DelayFirstInstance.params&quot;&gt;Parameters&lt;/a&gt; | &lt;a href=&quot;https://kaurin.github.io/assets/2015-12-27-cfn-asg-post/AsgIncrease.zip&quot;&gt;Lambda function&lt;/a&gt;&lt;/p&gt;
 
-&lt;h2 id=&quot;note&quot;&gt;Note&lt;/h2&gt;
+&lt;h1 id=&quot;note&quot;&gt;Note&lt;/h1&gt;
 
 &lt;p&gt;You need to upload the lambda function zip to an S3 bucket, and then provide bucket name / object name in parameters&lt;/p&gt;
 </description>

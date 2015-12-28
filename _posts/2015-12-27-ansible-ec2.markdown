@@ -5,7 +5,7 @@ date:   2015-12-27 02:23:00
 categories: aws
 tags: aws,ansible,ssh
 ---
-## Overview
+# Overview
 
 As the name of this website states, this is just my pastedump. By no means is this an all-round best-practice guide. If your use case is to have a light touch on an ansible-master in EC2 wihtout the need to implement 'ansible-pull', then I'd consider this an OK guide.
 
@@ -16,9 +16,9 @@ This is what the setup will look like:
 *   Target instances will belong to different stacks/roles. This will be controlled via EC2 tags
 *   No credentials wil be stored on the master instance. We'll use SSH SendEnv and AgentForward capabilities.
 
-## AWS
+# AWS
 
-### IAM
+## IAM
 
 Create an "ansible-master" user which has permissions to Describe* on RDS, EC2 and ElastiCache. Download the credentials. You will use them later in **~/.bashrc**
 
@@ -41,7 +41,7 @@ Create an "ansible-master" user which has permissions to Describe* on RDS, EC2 a
 }
 {% endhighlight %}
 
-### SSH Keys
+## SSH Keys
 
 Create or import "ansible-master" and "ansible-controller" SSH keys in the EC2 console.
 
@@ -50,7 +50,7 @@ Create or import "ansible-master" and "ansible-controller" SSH keys in the EC2 c
 
 This setup allows us to keep all credentials (EC2/SSH) on our local workstation, and just forward those credentials to the "ansible-master" instance when we SSH into it. This suits only my specific use case where I have very little automation on the Ansible side.
 
-### Launch target instances
+## Launch target instances
 
 We will test them later, for now, launch them:
 
@@ -64,9 +64,9 @@ The Role/Stack are optional, but useful if you want to play around with how you 
 
 You never need to know any other EC2 instance details except for the tags. Ansible will figure out the private IPs and other info based on said tags.
 
-## Workstation
+# Workstation
 
-### ~/.ssh/config
+## ~/.ssh/config
 
 {% highlight text %}
 Host ansible
@@ -78,7 +78,7 @@ Host ansible
     ForwardAgent yes 
 {% endhighlight %}
 
-### ~/.bashrc
+## ~/.bashrc
 
 The idea here is to set the AWS env. variables specifically for our connection towards the ansible-master. Unfortunately, we can't do this in one go in our ssh config. 
 
@@ -87,20 +87,20 @@ alias ansconn='AWS_ACCESS_KEY_ID="SECRET" AWS_SECRET_ACCESS_KEY="ACCESS" ssh ans
 {% endhighlight %}
 
 
-## Ansible master instance
+# Ansible master instance
 
-### SSH Daemon
+## SSH Daemon
 
 We want to be able to accept the environment variables from the SSH client from our workstation. In order to make this happen, we need to change the sshd_config
 
-#### /etc/ssh/sshd_config
+### /etc/ssh/sshd_config
 
 {% highlight text %}
 AcceptEnv AWS_ACCESS_KEY_ID
 AcceptEnv AWS_SECRET_ACCESS_KEY
 {% endhighlight %}
 
-### Ansible installation
+## Ansible installation
 
 {% highlight bash %}
 sudo pip install ansible
@@ -115,7 +115,7 @@ chmod +x /etc/ansible/hosts
 sudo wget 'https://raw.githubusercontent.com/ansible/ansible/devel/contrib/inventory/ec2.ini' -O /etc/ansible/ec2.ini
 {% endhighlight %}
 
-### ec2.ini
+## ec2.ini
 
 It's time to change ec2.ini settings.
 Note: Adjust this on your own accord. The file is nicely commented. I'll note some of the settings I adjusted
@@ -134,7 +134,7 @@ instance_filters = tag:AnsibleSlave=True
 
 The last option might be the most significant one. Only instances with this tag will be considered as Ansible-controllable
 
-## Time to test
+# Time to test
 
 *   SSH into the instance by running **ansconn**, which is based on the alias we created in **~/.bashrc**
 *   Run: `ansible all -m ping`
