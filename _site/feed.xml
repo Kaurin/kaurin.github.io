@@ -6,9 +6,157 @@
 </description>
     <link>https://kaurin.github.io/</link>
     <atom:link href="https://kaurin.github.io/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Sun, 27 Dec 2015 14:03:58 +0000</pubDate>
-    <lastBuildDate>Sun, 27 Dec 2015 14:03:58 +0000</lastBuildDate>
+    <pubDate>Mon, 28 Dec 2015 15:25:45 +0000</pubDate>
+    <lastBuildDate>Mon, 28 Dec 2015 15:25:45 +0000</lastBuildDate>
     <generator>Jekyll v2.4.0</generator>
+    
+      <item>
+        <title>Cross-compile and setup ZNC for Ubuntu 14.04</title>
+        <description>&lt;h1 id=&quot;why-are-you-writing-this-article&quot;&gt;Why are you writing this article?&lt;/h1&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;I have a small VPS box that didn’t have the memory to compile znc with python/perl/tcp support even withouth the ‘-pipe’ CFLAG.&lt;/li&gt;
+  &lt;li&gt;As a reminder to myself on cross compiling&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h1 id=&quot;overview&quot;&gt;Overview&lt;/h1&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;We’ll have a “Compile” and “Destination” machines (or virts, depending on your capabilities)&lt;/li&gt;
+  &lt;li&gt;Compile box best be discardable VM with a fresh install of Ubuntu 14.04, with more tha 512mb of ram. I’m not sure how much more ram, but 512mb won’t cut it.&lt;/li&gt;
+  &lt;li&gt;We won’t be creating a package. This is an old school compile and .tar copy-install. Just a heads up if you don’t like this sort of thing&lt;/li&gt;
+  &lt;li&gt;Due to point above, compile prefix will be /opt/znc.  I like a higher-degree of separation in /opt instead of everything jumbled up.&lt;/li&gt;
+  &lt;li&gt;After compiling, we’ll create a separate user for ZNC and an upstart file to have znc run as a service via non-privileged user.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h1 id=&quot;compile-box&quot;&gt;Compile box&lt;/h1&gt;
+
+&lt;p&gt;Assuming that  this is a fresh install of Ubuntu 14.04 (server), run the following commands.&lt;/p&gt;
+
+&lt;p&gt;I recommend you do them 1-by-1 for maximum control.&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span class=&quot;c&quot;&gt;# Note on &amp;quot;build-dep znc&amp;quot; - manually installing libraries might get us newer &lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# dep-library versions, but I&amp;#39;m lazy.&lt;/span&gt;
+sudo apt-get update
+sudo apt-get -y upgrade
+sudo apt-get -y install build-essential autoconf automake git swig3.0 libicu-dev
+sudo apt-get -y build-dep znc
+
+&lt;span class=&quot;c&quot;&gt;# Optional:&lt;/span&gt;
+sudo reboot
+
+&lt;span class=&quot;c&quot;&gt;# Workspace preparation:&lt;/span&gt;
+mkdir ~/git
+&lt;span class=&quot;nb&quot;&gt;cd&lt;/span&gt; ~/git
+
+&lt;span class=&quot;c&quot;&gt;# Let&amp;#39;s get the project and cd into it&lt;/span&gt;
+git clone https://github.com/znc/znc.git
+&lt;span class=&quot;nb&quot;&gt;cd &lt;/span&gt;znc
+
+&lt;span class=&quot;c&quot;&gt;# Check out the 1.6.x brach. This branch was stable at the time of writing &lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# this article. Not sure if my guide will work with the &amp;quot;master&amp;quot; branch, &lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# but I don&amp;#39;t see why not.&lt;/span&gt;
+git checkout 1.6.x
+
+&lt;span class=&quot;c&quot;&gt;# This is a project requirement&lt;/span&gt;
+./autogen.sh
+
+&lt;span class=&quot;c&quot;&gt;# Configure with tcl,perl,python&lt;/span&gt;
+./configure &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+    --enable-python&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;python3 &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+    --enable-tcl &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+    --enable-perl &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+    --prefix&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;/opt/znc 
+
+&lt;span class=&quot;c&quot;&gt;# Another project requirement&lt;/span&gt;
+git submodule update --init --recursive
+
+&lt;span class=&quot;c&quot;&gt;# DO THIS ON THE DESTINATION BOX TO GET THE ARCH!&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# If gcc is not on the destination box, install build-essential, &lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# and then remove it after running the command&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# Note that the 3 lines below are 1 command!&lt;/span&gt;
+gcc -march&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;native -E -v - &amp;lt;/dev/null 2&amp;gt;&lt;span class=&quot;p&quot;&gt;&amp;amp;&lt;/span&gt;&lt;span class=&quot;m&quot;&gt;1&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;|&lt;/span&gt;
+    grep cc1 &lt;span class=&quot;p&quot;&gt;|&lt;/span&gt;
+    perl -pe &lt;span class=&quot;s1&quot;&gt;&amp;#39;s|.*-march=(.*?) .*|\1|g&amp;#39;&lt;/span&gt;
+
+&lt;span class=&quot;c&quot;&gt;# Back to Compile box. Remember to replace &amp;quot;REPLACEME&amp;quot; with your arch!&lt;/span&gt;
+&lt;span class=&quot;nv&quot;&gt;CFLAGS&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&amp;quot;-march=REPLACEME -O2 -pipe&amp;quot;&lt;/span&gt;
+&lt;span class=&quot;nv&quot;&gt;CXXFLAGS&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&amp;quot;$CFLAGS&amp;quot;&lt;/span&gt;
+
+&lt;span class=&quot;c&quot;&gt;# -jx = number of cores +1. I had 8 cores = -j9&lt;/span&gt;
+make -j9
+
+&lt;span class=&quot;c&quot;&gt;# This will install to prefix /opt/znc/{bin,..}&lt;/span&gt;
+sudo make install
+
+&lt;span class=&quot;c&quot;&gt;# Let&amp;#39;s create a tarball!&lt;/span&gt;
+tar -czf ~/znc.tar.gz /opt/znc&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;h1 id=&quot;intermezzo&quot;&gt;Intermezzo&lt;/h1&gt;
+
+&lt;p&gt;Copy the tar “znc.tar.gz” from the Compile box to the Destination box&lt;/p&gt;
+
+&lt;h1 id=&quot;destination-box&quot;&gt;Destination box&lt;/h1&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span class=&quot;c&quot;&gt;# Prepare the box for installation of znc&lt;/span&gt;
+sudo apt-get update
+sudo apt-get -y upgrade
+sudo apt-get install -y libperl5.18 libpython3.4 libtcl8.5 tcl8.5 libicu52
+
+&lt;span class=&quot;c&quot;&gt;# Optional&lt;/span&gt;
+sudo reboot
+
+&lt;span class=&quot;c&quot;&gt;# Let&amp;#39;s extract to the same dir structure as on Compile&lt;/span&gt;
+sudo tar -xf znc.tar.gz  -C /
+
+&lt;span class=&quot;c&quot;&gt;# Create dedicated user &amp;quot;zncuser&amp;quot;&lt;/span&gt;
+sudo useradd -c &lt;span class=&quot;s2&quot;&gt;&amp;quot;ZNC bouncer user&amp;quot;&lt;/span&gt; -ms /bin/false zncuser
+
+&lt;span class=&quot;c&quot;&gt;# Initial znc configuration as &amp;quot;zncuser&amp;quot;&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# At the last prompt, don&amp;#39;t select to start now. &lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# We&amp;#39;ll do it via upstart in a second&lt;/span&gt;
+&lt;span class=&quot;nv&quot;&gt;HOME&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;/home/zncuser sudo -u zncuser /opt/znc/bin/znc --makeconf&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;h1 id=&quot;set-up-the-upstart-script&quot;&gt;Set up the upstart script&lt;/h1&gt;
+
+&lt;h2 id=&quot;etcinitzncbncconf&quot;&gt;/etc/init/zncbnc.conf&lt;/h2&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;# znc
+
+description &amp;quot;IRC Bouncer&amp;quot;
+
+start on runlevel [2345]
+
+stop on runlevel [016]
+
+respawn
+respawn limit 10 5
+setuid zncuser
+
+script
+  exec /opt/znc/bin/znc -fn
+end script&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;h1 id=&quot;final-words&quot;&gt;Final words&lt;/h1&gt;
+
+&lt;p&gt;You can now start your bouncer via:&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;sudo start zncbnc&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;It will also get started automatically with system reboot which you can test.&lt;/p&gt;
+
+&lt;p&gt;ZNC documentation is quite extensive, so I won’t dive deep into configuring it. Have fun!&lt;/p&gt;
+</description>
+        <pubDate>Mon, 28 Dec 2015 16:00:00 +0000</pubDate>
+        <link>https://kaurin.github.io/misc/2015/12/28/cross-compile-and-setup-znc-ubuntu.html</link>
+        <guid isPermaLink="true">https://kaurin.github.io/misc/2015/12/28/cross-compile-and-setup-znc-ubuntu.html</guid>
+        
+        <category>irc,znc,bouncer</category>
+        
+        
+        <category>misc</category>
+        
+      </item>
     
       <item>
         <title>EC2 + Ansible Setup</title>
