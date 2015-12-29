@@ -8,8 +8,6 @@
     if (!((window.location.host.startsWith("localhost")) || (window.location.host.startsWith("127.0"))) && (window.location.protocol != "https:"))
         window.location.protocol = "https";
     </script>
-    <!-- TOC CSS -->
-     <link rel="stylesheet" type="text/css" href="https://kaurin.github.io/css/toc.css">
 </head>
 <head>
     <meta charset="utf-8">
@@ -74,15 +72,13 @@
   </header>
 
   <article class="post-content">
-    <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" "http://www.w3.org/TR/REC-html40/loose.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
-  <body><div id="toc-container"><table class="toc" id="toc"><tbody><tr><td><div id="toctitle"><h2>Contents</h2></div><ul><li class="toc_level-1 toc_section-1"><a href="#tocAnchor-1-1"><span class="tocnumber">1</span> <span class="toctext">Problem</span></a></li><li class="toc_level-1 toc_section-2"><a href="#tocAnchor-1-2"><span class="tocnumber">2</span> <span class="toctext">Solution</span></a></li><li class="toc_level-1 toc_section-3"><a href="#tocAnchor-1-3"><span class="tocnumber">3</span> <span class="toctext">Requirements</span></a></li><li class="toc_level-1 toc_section-4"><a href="#tocAnchor-1-4"><span class="tocnumber">4</span> <span class="toctext">CFN command to create stack</span></a></li><li class="toc_level-1 toc_section-5"><a href="#tocAnchor-1-5"><span class="tocnumber">5</span> <span class="toctext">Files</span></a></li><li class="toc_level-1 toc_section-6"><a href="#tocAnchor-1-6"><span class="tocnumber">6</span> <span class="toctext">Note</span></a></li></ul></td></tr></tbody></table></div><h1 id="tocAnchor-1-1">Problem</h1>
+    <h1 id="problem">Problem</h1>
 
 <p>When you use CFN to provision an ASG with LifeCycle events which trigger on instance launches, the issue is that CFN first creates an ASG. ASG immediately starts spinning up instances based on ASG settings. LifeCycle hooks get created usually with some delay.</p>
 
 <p>This causes some instances to get launched without being “monitored” by the “launch” lifecylce hooks.</p>
 
-<h1 id="tocAnchor-1-2">Solution</h1>
+<h1 id="solution">Solution</h1>
 
 <ul>
   <li>ASG set to 0/0/0 in CFN</li>
@@ -91,11 +87,11 @@
   <li>IAM execution role for lambda (as/updateAutoScalingGroup)</li>
 </ul>
 
-<h1 id="tocAnchor-1-3">Requirements</h1>
+<h1 id="requirements">Requirements</h1>
 
 <p>Region which supports Lambda</p>
 
-<h1 id="tocAnchor-1-4">CFN command to create stack</h1>
+<h1 id="cfn-command-to-create-stack">CFN command to create stack</h1>
 
 <div class="highlight"><pre><code class="language-bash" data-lang="bash">aws cloudformation update-stack <span class="se">\</span>
     --template-body file://ASG-LifeCycle-DelayFirstInstance.cform  <span class="se">\</span>
@@ -105,15 +101,13 @@
 
 <p>You can just change “create-stack” -&gt; “update-stack” if you want to update the stack instead of create a new one.</p>
 
-<h1 id="tocAnchor-1-5">Files</h1>
+<h1 id="files">Files</h1>
 
 <p><a href="https://kaurin.github.io/assets/2015-12-27-cfn-asg-post/ASG-LifeCycle-DelayFirstInstance.cform">Template</a> | <a href="https://kaurin.github.io/assets/2015-12-27-cfn-asg-post/ASG-LifeCycle-DelayFirstInstance.params">Parameters</a> | <a href="https://kaurin.github.io/assets/2015-12-27-cfn-asg-post/AsgIncrease.zip">Lambda function</a></p>
 
-<h1 id="tocAnchor-1-6">Note</h1>
+<h1 id="note">Note</h1>
 
 <p>You need to upload the lambda function zip to an S3 bucket, and then provide bucket name / object name in parameters</p>
-</body>
-</html>
 
   </article>
 
