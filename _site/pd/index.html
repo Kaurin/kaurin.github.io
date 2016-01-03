@@ -236,6 +236,28 @@ find . -name <span class="s1">&#39;*.gz&#39;</span> <span class="p">|</span> <sp
 <span class="s1">    &#39;</span>
 <span class="k">done</span> <span class="p">|</span> sort <span class="p">|</span> uniq -c <span class="p">|</span> sort -n</code></pre></div>
 
+<h2 id="recursively-search-json-structure-for-a-value-of-desired-keyname">Recursively search json structure for a value of desired keyname</h2>
+
+<p>For example, we might have keys “volumeId” in different places throughout our input JSON. If we want to grab all such entries, we can do something like this (CloudTrail parse example):</p>
+
+<div class="highlight"><pre><code class="language-bash" data-lang="bash">find . -name <span class="s1">&#39;*.gz&#39;</span> <span class="p">|</span> <span class="k">while</span> <span class="nb">read </span>line
+
+<span class="k">do</span>
+
+    zcat <span class="s2">&quot;$line&quot;</span> <span class="p">|</span>
+
+        jq <span class="s1">&#39;</span>
+
+<span class="s1">            .Records[] |</span>
+
+<span class="s1">            select(..|.volumeId? )</span>
+
+<span class="s1">        &#39;</span>
+
+<span class="k">done</span>  <span class="p">|</span> jq -s <span class="s1">&#39; sort_by(.eventTime) &#39;</span> &gt; output.txt</code></pre></div>
+
+<p><strong>Note:</strong> This is an expensive operation (~4-5 x more time than when directly checking for a value on a specific key location)</p>
+
 <h1 id="database-stuff">Database stuff</h1>
 
 <h2 id="mysql-basics">MySQL Basics</h2>

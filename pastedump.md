@@ -187,6 +187,30 @@ do
 done | sort | uniq -c | sort -n
 {% endhighlight %}
 
+## Recursively search json structure for a value of desired keyname
+
+For example, we might have keys "volumeId" in different places throughout our input JSON. If we want to grab all such entries, we can do something like this (CloudTrail parse example):
+
+{% highlight bash %}
+find . -name '*.gz' | while read line
+
+do
+
+    zcat "$line" |
+
+        jq '
+
+            .Records[] |
+
+            select(..|.volumeId? )
+
+        '
+
+done  | jq -s ' sort_by(.eventTime) ' > output.txt
+{% endhighlight %}
+
+ **Note:** This is an expensive operation (~4-5 x more time than when directly checking for a value on a specific key location)
+
 # Database stuff
 
 ## MySQL Basics
