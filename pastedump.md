@@ -24,7 +24,6 @@ Note:
 * This is script that runs post-stack creation. 
 * Stack creates a single instance
 * We are using CFN Outputs to get the InstanceID
-* This is much better done with cloudformer
 
 {% highlight bash %}
 #!/bin/bash
@@ -33,7 +32,7 @@ Note:
 STACKNAME="dgdgssgdgsgsdgsd"
 TAGKEY="test"
 
-# Get Instsance ID from $STACKNAME
+# Get Instance ID from $STACKNAME
 INSTANCEID=$(aws cloudformation describe-stacks --stack-name $STACKNAME | jq -r '.Stacks[].Outputs[].OutputValue')
 
 # Get Volume ID from $INSTANCEID
@@ -102,7 +101,7 @@ done
 
 ## Adding values via JQ
 
-Script that parses a json, structures it im key: value structure where value is integer.
+Script that parses a JSON, structures it im key: value structure where value is integer.
 A friend needed to put a sum at the bottom. My last line in this JQ is what did what he wanted:
 
 {% highlight bash %}

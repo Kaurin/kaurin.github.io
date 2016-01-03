@@ -91,7 +91,6 @@
   <li>This is script that runs post-stack creation.</li>
   <li>Stack creates a single instance</li>
   <li>We are using CFN Outputs to get the InstanceID</li>
-  <li>This is much better done with cloudformer</li>
 </ul>
 
 <div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="c">#!/bin/bash</span>
@@ -100,7 +99,7 @@
 <span class="nv">STACKNAME</span><span class="o">=</span><span class="s2">&quot;dgdgssgdgsgsdgsd&quot;</span>
 <span class="nv">TAGKEY</span><span class="o">=</span><span class="s2">&quot;test&quot;</span>
 
-<span class="c"># Get Instsance ID from $STACKNAME</span>
+<span class="c"># Get Instance ID from $STACKNAME</span>
 <span class="nv">INSTANCEID</span><span class="o">=</span><span class="k">$(</span>aws cloudformation describe-stacks --stack-name <span class="nv">$STACKNAME</span> <span class="p">|</span> jq -r <span class="s1">&#39;.Stacks[].Outputs[].OutputValue&#39;</span><span class="k">)</span>
 
 <span class="c"># Get Volume ID from $INSTANCEID</span>
@@ -161,7 +160,7 @@ find . -name <span class="s1">&#39;*.gz&#39;</span> <span class="p">|</span> <sp
 
 <h2 id="adding-values-via-jq">Adding values via JQ</h2>
 
-<p>Script that parses a json, structures it im key: value structure where value is integer.
+<p>Script that parses a JSON, structures it im key: value structure where value is integer.
 A friend needed to put a sum at the bottom. My last line in this JQ is what did what he wanted:</p>
 
 <div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="c">#!/bin/bash</span>
