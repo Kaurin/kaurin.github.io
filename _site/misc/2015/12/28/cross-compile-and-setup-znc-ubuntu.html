@@ -75,7 +75,7 @@
     <h1 id="why-are-you-writing-this-article">Why are you writing this article?</h1>
 
 <ul>
-  <li>I have a small VPS box that didn’t have the memory to compile znc with python/perl/tcp support even withouth the ‘-pipe’ CFLAG.</li>
+  <li>I have a small VPS box that didn’t have the memory to compile ZNC with Python/Perl/TCL support even without the ‘-pipe’ CFLAG.</li>
   <li>As a reminder to myself on cross compiling</li>
 </ul>
 
@@ -86,7 +86,7 @@
   <li>Compile box best be discardable VM with a fresh install of Ubuntu 14.04, with more than 1GB of ram. I’m not sure how much more ram, but 1GB won’t cut it.</li>
   <li>We won’t be creating a package. This is an old school compile and .tar copy-install. Just a heads up if you don’t like this sort of thing</li>
   <li>Due to point above, compile prefix will be /opt/znc.  I like a higher-degree of separation, which is why I use “/opt/znc” instead of just “/opt”.</li>
-  <li>After compiling, we’ll create a separate user for ZNC and an upstart file to have znc run as a service via non-privileged user.</li>
+  <li>After compiling, we’ll create a separate user for ZNC and an upstart file to have ZNC run as a service via non-privileged user.</li>
 </ul>
 
 <h1 id="compile-box">Compile box</h1>
@@ -113,7 +113,7 @@ mkdir ~/git
 git clone https://github.com/znc/znc.git
 <span class="nb">cd </span>znc
 
-<span class="c"># Check out the 1.6.x brach. This branch was stable at the time of writing </span>
+<span class="c"># Check out the 1.6.x branch. This branch was stable at the time of writing </span>
 <span class="c"># this article. Not sure if my guide will work with the &quot;master&quot; branch, </span>
 <span class="c"># but I don&#39;t see why not.</span>
 git checkout 1.6.x

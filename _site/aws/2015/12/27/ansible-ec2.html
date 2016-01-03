@@ -74,7 +74,7 @@
   <article class="post-content">
     <h1 id="overview">Overview</h1>
 
-<p>As the name of this website states, this is just my pastedump. By no means is this an all-round best-practice guide. If your use case is to have a light touch on an ansible-master in EC2 wihtout the need to implement ‘ansible-pull’, then I’d consider this an OK guide.</p>
+<p>As the name of this website states, this is just my pastedump. By no means is this an all-round best-practice guide. If your use case is to have a light touch on an ansible-master in EC2 without the need to implement ‘ansible-pull’, then I’d consider this an OK guide.</p>
 
 <p>This is what the setup will look like:</p>
 
@@ -82,7 +82,7 @@
   <li>1 control instance in EC2 called ansible-master (public subnet)</li>
   <li>Multiple target instances in EC2 (private subnet/s)</li>
   <li>Target instances will belong to different stacks/roles. This will be controlled via EC2 tags</li>
-  <li>No credentials wil be stored on the master instance. We’ll use SSH SendEnv and AgentForward capabilities.</li>
+  <li>No credentials will be stored on the master instance. We’ll use SSH SendEnv and AgentForward capabilities.</li>
 </ul>
 
 <h1 id="aws">AWS</h1>
@@ -169,7 +169,7 @@ AcceptEnv AWS_SECRET_ACCESS_KEY</code></pre></div>
 <div class="highlight"><pre><code class="language-bash" data-lang="bash">sudo pip install ansible
 sudo pip install ansible --upgrade</code></pre></div>
 
-<p>The default ansible hosts file is plain-text and consists of your hosts and host groups. In EC2, it makes more sense to use the EC2 inventory hosts script which replaces the hosts file. This hosts file also requires the ec2.ini file on which we’ll touch on in a short bit.</p>
+<p>The default Ansible hosts file is plain-text and consists of your hosts and host groups. In EC2, it makes more sense to use the EC2 inventory hosts script which replaces the hosts file. This hosts file also requires the ec2.ini file on which we’ll touch on in a short bit.</p>
 
 <div class="highlight"><pre><code class="language-bash" data-lang="bash">sudo wget <span class="s1">&#39;https://raw.github.com/ansible/ansible/devel/contrib/inventory/ec2.py&#39;</span> -O /etc/ansible/hosts
 chmod +x /etc/ansible/hosts
@@ -200,7 +200,7 @@ Note: Adjust this on your own accord. The file is nicely commented. I’ll note 
   <li>Run: <code>ansible tag_Role_Web -m ping</code></li>
 </ul>
 
-<p>If you implement playbooks, you can fine-grain your prod/stage stacks with a layered approach, but this is exaplined in Ansible docs.</p>
+<p>If you implement playbooks, you can fine-grain your prod/stage stacks with a layered approach, but this is explained in Ansible docs.</p>
 
   </article>
 

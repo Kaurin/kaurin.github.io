@@ -7,14 +7,14 @@ tags: aws,ansible,ssh
 ---
 # Overview
 
-As the name of this website states, this is just my pastedump. By no means is this an all-round best-practice guide. If your use case is to have a light touch on an ansible-master in EC2 wihtout the need to implement 'ansible-pull', then I'd consider this an OK guide.
+As the name of this website states, this is just my pastedump. By no means is this an all-round best-practice guide. If your use case is to have a light touch on an ansible-master in EC2 without the need to implement 'ansible-pull', then I'd consider this an OK guide.
 
 This is what the setup will look like:
 
 *   1 control instance in EC2 called ansible-master (public subnet)
 *   Multiple target instances in EC2 (private subnet/s)
 *   Target instances will belong to different stacks/roles. This will be controlled via EC2 tags
-*   No credentials wil be stored on the master instance. We'll use SSH SendEnv and AgentForward capabilities.
+*   No credentials will be stored on the master instance. We'll use SSH SendEnv and AgentForward capabilities.
 
 # AWS
 
@@ -107,7 +107,7 @@ sudo pip install ansible
 sudo pip install ansible --upgrade
 {% endhighlight %}
 
-The default ansible hosts file is plain-text and consists of your hosts and host groups. In EC2, it makes more sense to use the EC2 inventory hosts script which replaces the hosts file. This hosts file also requires the ec2.ini file on which we'll touch on in a short bit.
+The default Ansible hosts file is plain-text and consists of your hosts and host groups. In EC2, it makes more sense to use the EC2 inventory hosts script which replaces the hosts file. This hosts file also requires the ec2.ini file on which we'll touch on in a short bit.
 
 {% highlight bash %}
 sudo wget 'https://raw.github.com/ansible/ansible/devel/contrib/inventory/ec2.py' -O /etc/ansible/hosts
@@ -140,4 +140,4 @@ The last option might be the most significant one. Only instances with this tag 
 *   Run: `ansible all -m ping`
 *   Run: `ansible tag_Role_Web -m ping`
 
-If you implement playbooks, you can fine-grain your prod/stage stacks with a layered approach, but this is exaplined in Ansible docs.
+If you implement playbooks, you can fine-grain your prod/stage stacks with a layered approach, but this is explained in Ansible docs.

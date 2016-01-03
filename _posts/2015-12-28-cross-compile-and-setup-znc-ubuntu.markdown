@@ -8,7 +8,7 @@ tags: irc,znc,bouncer
 
 # Why are you writing this article?
 
-* I have a small VPS box that didn't have the memory to compile znc with python/perl/tcp support even withouth the '-pipe' CFLAG.
+* I have a small VPS box that didn't have the memory to compile ZNC with Python/Perl/TCL support even without the '-pipe' CFLAG.
 * As a reminder to myself on cross compiling
 
 # Overview
@@ -17,7 +17,7 @@ tags: irc,znc,bouncer
 * Compile box best be discardable VM with a fresh install of Ubuntu 14.04, with more than 1GB of ram. I'm not sure how much more ram, but 1GB won't cut it.
 * We won't be creating a package. This is an old school compile and .tar copy-install. Just a heads up if you don't like this sort of thing
 * Due to point above, compile prefix will be /opt/znc.  I like a higher-degree of separation, which is why I use "/opt/znc" instead of just "/opt".
-* After compiling, we'll create a separate user for ZNC and an upstart file to have znc run as a service via non-privileged user.
+* After compiling, we'll create a separate user for ZNC and an upstart file to have ZNC run as a service via non-privileged user.
 
 # Compile box
 
@@ -44,7 +44,7 @@ cd ~/git
 git clone https://github.com/znc/znc.git
 cd znc
 
-# Check out the 1.6.x brach. This branch was stable at the time of writing 
+# Check out the 1.6.x branch. This branch was stable at the time of writing 
 # this article. Not sure if my guide will work with the "master" branch, 
 # but I don't see why not.
 git checkout 1.6.x

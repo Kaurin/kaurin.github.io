@@ -72,7 +72,7 @@
   </header>
 
   <article class="post-content">
-    <p>I was about to shop for an SSL cert for a domain I own, and decided to do another “free SSL” google search.</p>
+    <p>I was about to shop for an SSL cert for a domain I own, and decided to do another “free SSL” Google search.</p>
 
 <p>To my pleasant surprise, I stumbled upon this project “<a href="https://letsencrypt.org/">letsencrypt</a>” which is sponsored by quite a lot of enterprise companies (Mozilla, Facebook to name a few).</p>
 
@@ -80,13 +80,13 @@
 
 <p>I didn’t test this “quick-and-easy” setup with webservers, though. From what I see, it works via a webserver plugin.</p>
 
-<p>Instead, I opted for the <code>letsencrypt certonly --manual</code> command. This command will require you to spin up a temporary Python webserver on a host that is verifiable by resolving the domain name. I’d say this is a small price to pay for a free SSL cert! Once that is done, you end up with your certs (and some of them bundled seperately for convenience) in <code>/etc/letsencrypt/live/$domain/</code> .</p>
+<p>Instead, I opted for the <code>letsencrypt certonly --manual</code> command. This command will require you to spin up a temporary Python webserver on a host that is verifiable by resolving the domain name. I’d say this is a small price to pay for a free SSL cert! Once that is done, you end up with your certs (and some of them bundled separately for convenience) in <code>/etc/letsencrypt/live/$domain/</code> .</p>
 
 <p>This piece of software has my strong recommendation. You should check out their <a href="https://letsencrypt.readthedocs.org/en/latest/using.html">documentation</a> which is compact and comprehensive. Have fun securing your stuff!</p>
 
 <p>P.S.</p>
 
-<p>While you are at it, you might want to check out <a href="https://raymii.org/s/tutorials/Strong_SSL_Security_On_nginx.html">Raymii’s blog post</a> on tightening your SSL settings on nginx.</p>
+<p>While you are at it, you might want to check out <a href="https://raymii.org/s/tutorials/Strong_SSL_Security_On_nginx.html">Raymii’s blog post</a> on tightening your SSL settings on Nginx.</p>
 
   </article>
 

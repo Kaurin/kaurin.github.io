@@ -6,8 +6,8 @@
 </description>
     <link>https://kaurin.github.io/</link>
     <atom:link href="https://kaurin.github.io/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Tue, 29 Dec 2015 19:11:25 +0000</pubDate>
-    <lastBuildDate>Tue, 29 Dec 2015 19:11:25 +0000</lastBuildDate>
+    <pubDate>Sun, 03 Jan 2016 17:29:04 +0000</pubDate>
+    <lastBuildDate>Sun, 03 Jan 2016 17:29:04 +0000</lastBuildDate>
     <generator>Jekyll v2.4.0</generator>
     
       <item>
@@ -15,7 +15,7 @@
         <description>&lt;h1 id=&quot;why-are-you-writing-this-article&quot;&gt;Why are you writing this article?&lt;/h1&gt;
 
 &lt;ul&gt;
-  &lt;li&gt;I have a small VPS box that didn’t have the memory to compile znc with python/perl/tcp support even withouth the ‘-pipe’ CFLAG.&lt;/li&gt;
+  &lt;li&gt;I have a small VPS box that didn’t have the memory to compile ZNC with Python/Perl/TCL support even without the ‘-pipe’ CFLAG.&lt;/li&gt;
   &lt;li&gt;As a reminder to myself on cross compiling&lt;/li&gt;
 &lt;/ul&gt;
 
@@ -26,7 +26,7 @@
   &lt;li&gt;Compile box best be discardable VM with a fresh install of Ubuntu 14.04, with more than 1GB of ram. I’m not sure how much more ram, but 1GB won’t cut it.&lt;/li&gt;
   &lt;li&gt;We won’t be creating a package. This is an old school compile and .tar copy-install. Just a heads up if you don’t like this sort of thing&lt;/li&gt;
   &lt;li&gt;Due to point above, compile prefix will be /opt/znc.  I like a higher-degree of separation, which is why I use “/opt/znc” instead of just “/opt”.&lt;/li&gt;
-  &lt;li&gt;After compiling, we’ll create a separate user for ZNC and an upstart file to have znc run as a service via non-privileged user.&lt;/li&gt;
+  &lt;li&gt;After compiling, we’ll create a separate user for ZNC and an upstart file to have ZNC run as a service via non-privileged user.&lt;/li&gt;
 &lt;/ul&gt;
 
 &lt;h1 id=&quot;compile-box&quot;&gt;Compile box&lt;/h1&gt;
@@ -53,7 +53,7 @@ mkdir ~/git
 git clone https://github.com/znc/znc.git
 &lt;span class=&quot;nb&quot;&gt;cd &lt;/span&gt;znc
 
-&lt;span class=&quot;c&quot;&gt;# Check out the 1.6.x brach. This branch was stable at the time of writing &lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# Check out the 1.6.x branch. This branch was stable at the time of writing &lt;/span&gt;
 &lt;span class=&quot;c&quot;&gt;# this article. Not sure if my guide will work with the &amp;quot;master&amp;quot; branch, &lt;/span&gt;
 &lt;span class=&quot;c&quot;&gt;# but I don&amp;#39;t see why not.&lt;/span&gt;
 git checkout 1.6.x
@@ -160,7 +160,7 @@ end script&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
     
       <item>
         <title>Letsencrypt is awesome!</title>
-        <description>&lt;p&gt;I was about to shop for an SSL cert for a domain I own, and decided to do another “free SSL” google search.&lt;/p&gt;
+        <description>&lt;p&gt;I was about to shop for an SSL cert for a domain I own, and decided to do another “free SSL” Google search.&lt;/p&gt;
 
 &lt;p&gt;To my pleasant surprise, I stumbled upon this project “&lt;a href=&quot;https://letsencrypt.org/&quot;&gt;letsencrypt&lt;/a&gt;” which is sponsored by quite a lot of enterprise companies (Mozilla, Facebook to name a few).&lt;/p&gt;
 
@@ -168,13 +168,13 @@ end script&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;I didn’t test this “quick-and-easy” setup with webservers, though. From what I see, it works via a webserver plugin.&lt;/p&gt;
 
-&lt;p&gt;Instead, I opted for the &lt;code&gt;letsencrypt certonly --manual&lt;/code&gt; command. This command will require you to spin up a temporary Python webserver on a host that is verifiable by resolving the domain name. I’d say this is a small price to pay for a free SSL cert! Once that is done, you end up with your certs (and some of them bundled seperately for convenience) in &lt;code&gt;/etc/letsencrypt/live/$domain/&lt;/code&gt; .&lt;/p&gt;
+&lt;p&gt;Instead, I opted for the &lt;code&gt;letsencrypt certonly --manual&lt;/code&gt; command. This command will require you to spin up a temporary Python webserver on a host that is verifiable by resolving the domain name. I’d say this is a small price to pay for a free SSL cert! Once that is done, you end up with your certs (and some of them bundled separately for convenience) in &lt;code&gt;/etc/letsencrypt/live/$domain/&lt;/code&gt; .&lt;/p&gt;
 
 &lt;p&gt;This piece of software has my strong recommendation. You should check out their &lt;a href=&quot;https://letsencrypt.readthedocs.org/en/latest/using.html&quot;&gt;documentation&lt;/a&gt; which is compact and comprehensive. Have fun securing your stuff!&lt;/p&gt;
 
 &lt;p&gt;P.S.&lt;/p&gt;
 
-&lt;p&gt;While you are at it, you might want to check out &lt;a href=&quot;https://raymii.org/s/tutorials/Strong_SSL_Security_On_nginx.html&quot;&gt;Raymii’s blog post&lt;/a&gt; on tightening your SSL settings on nginx.&lt;/p&gt;
+&lt;p&gt;While you are at it, you might want to check out &lt;a href=&quot;https://raymii.org/s/tutorials/Strong_SSL_Security_On_nginx.html&quot;&gt;Raymii’s blog post&lt;/a&gt; on tightening your SSL settings on Nginx.&lt;/p&gt;
 </description>
         <pubDate>Sun, 27 Dec 2015 16:00:00 +0000</pubDate>
         <link>https://kaurin.github.io/misc/2015/12/27/letsencrypt-is-awesome.html</link>
@@ -191,7 +191,7 @@ end script&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
         <title>EC2 + Ansible Setup</title>
         <description>&lt;h1 id=&quot;overview&quot;&gt;Overview&lt;/h1&gt;
 
-&lt;p&gt;As the name of this website states, this is just my pastedump. By no means is this an all-round best-practice guide. If your use case is to have a light touch on an ansible-master in EC2 wihtout the need to implement ‘ansible-pull’, then I’d consider this an OK guide.&lt;/p&gt;
+&lt;p&gt;As the name of this website states, this is just my pastedump. By no means is this an all-round best-practice guide. If your use case is to have a light touch on an ansible-master in EC2 without the need to implement ‘ansible-pull’, then I’d consider this an OK guide.&lt;/p&gt;
 
 &lt;p&gt;This is what the setup will look like:&lt;/p&gt;
 
@@ -199,7 +199,7 @@ end script&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
   &lt;li&gt;1 control instance in EC2 called ansible-master (public subnet)&lt;/li&gt;
   &lt;li&gt;Multiple target instances in EC2 (private subnet/s)&lt;/li&gt;
   &lt;li&gt;Target instances will belong to different stacks/roles. This will be controlled via EC2 tags&lt;/li&gt;
-  &lt;li&gt;No credentials wil be stored on the master instance. We’ll use SSH SendEnv and AgentForward capabilities.&lt;/li&gt;
+  &lt;li&gt;No credentials will be stored on the master instance. We’ll use SSH SendEnv and AgentForward capabilities.&lt;/li&gt;
 &lt;/ul&gt;
 
 &lt;h1 id=&quot;aws&quot;&gt;AWS&lt;/h1&gt;
@@ -286,7 +286,7 @@ AcceptEnv AWS_SECRET_ACCESS_KEY&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;sudo pip install ansible
 sudo pip install ansible --upgrade&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;p&gt;The default ansible hosts file is plain-text and consists of your hosts and host groups. In EC2, it makes more sense to use the EC2 inventory hosts script which replaces the hosts file. This hosts file also requires the ec2.ini file on which we’ll touch on in a short bit.&lt;/p&gt;
+&lt;p&gt;The default Ansible hosts file is plain-text and consists of your hosts and host groups. In EC2, it makes more sense to use the EC2 inventory hosts script which replaces the hosts file. This hosts file also requires the ec2.ini file on which we’ll touch on in a short bit.&lt;/p&gt;
 
 &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;sudo wget &lt;span class=&quot;s1&quot;&gt;&amp;#39;https://raw.github.com/ansible/ansible/devel/contrib/inventory/ec2.py&amp;#39;&lt;/span&gt; -O /etc/ansible/hosts
 chmod +x /etc/ansible/hosts
@@ -317,7 +317,7 @@ Note: Adjust this on your own accord. The file is nicely commented. I’ll note 
   &lt;li&gt;Run: &lt;code&gt;ansible tag_Role_Web -m ping&lt;/code&gt;&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;p&gt;If you implement playbooks, you can fine-grain your prod/stage stacks with a layered approach, but this is exaplined in Ansible docs.&lt;/p&gt;
+&lt;p&gt;If you implement playbooks, you can fine-grain your prod/stage stacks with a layered approach, but this is explained in Ansible docs.&lt;/p&gt;
 </description>
         <pubDate>Sun, 27 Dec 2015 02:23:00 +0000</pubDate>
         <link>https://kaurin.github.io/aws/2015/12/27/ansible-ec2.html</link>
