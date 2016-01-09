@@ -6,8 +6,8 @@
 </description>
     <link>https://kaurin.github.io/</link>
     <atom:link href="https://kaurin.github.io/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Sun, 03 Jan 2016 17:49:09 +0000</pubDate>
-    <lastBuildDate>Sun, 03 Jan 2016 17:49:09 +0000</lastBuildDate>
+    <pubDate>Sat, 09 Jan 2016 19:40:38 +0000</pubDate>
+    <lastBuildDate>Sat, 09 Jan 2016 19:40:38 +0000</lastBuildDate>
     <generator>Jekyll v2.4.0</generator>
     
       <item>
@@ -53,10 +53,11 @@ mkdir ~/git
 git clone https://github.com/znc/znc.git
 &lt;span class=&quot;nb&quot;&gt;cd &lt;/span&gt;znc
 
-&lt;span class=&quot;c&quot;&gt;# Check out the 1.6.x branch. This branch was stable at the time of writing &lt;/span&gt;
-&lt;span class=&quot;c&quot;&gt;# this article. Not sure if my guide will work with the &amp;quot;master&amp;quot; branch, &lt;/span&gt;
-&lt;span class=&quot;c&quot;&gt;# but I don&amp;#39;t see why not.&lt;/span&gt;
-git checkout 1.6.x
+&lt;span class=&quot;c&quot;&gt;# Check out the 1.6.2 tag or whichever you like. To list:&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# git tag -l &lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# Note: this guide was written for 1.6.2 tag (version)&lt;/span&gt;
+
+git checkout tags/znc-1.6.2
 
 &lt;span class=&quot;c&quot;&gt;# This is a project requirement&lt;/span&gt;
 ./autogen.sh

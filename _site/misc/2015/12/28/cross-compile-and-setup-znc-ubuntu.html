@@ -113,10 +113,11 @@ mkdir ~/git
 git clone https://github.com/znc/znc.git
 <span class="nb">cd </span>znc
 
-<span class="c"># Check out the 1.6.x branch. This branch was stable at the time of writing </span>
-<span class="c"># this article. Not sure if my guide will work with the &quot;master&quot; branch, </span>
-<span class="c"># but I don&#39;t see why not.</span>
-git checkout 1.6.x
+<span class="c"># Check out the 1.6.2 tag or whichever you like. To list:</span>
+<span class="c"># git tag -l </span>
+<span class="c"># Note: this guide was written for 1.6.2 tag (version)</span>
+
+git checkout tags/znc-1.6.2
 
 <span class="c"># This is a project requirement</span>
 ./autogen.sh
