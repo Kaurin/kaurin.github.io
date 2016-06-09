@@ -6,8 +6,8 @@
 </description>
     <link>https://kaurin.github.io/</link>
     <atom:link href="https://kaurin.github.io/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Sat, 09 Jan 2016 19:40:38 +0000</pubDate>
-    <lastBuildDate>Sat, 09 Jan 2016 19:40:38 +0000</lastBuildDate>
+    <pubDate>Thu, 09 Jun 2016 19:03:11 +0100</pubDate>
+    <lastBuildDate>Thu, 09 Jun 2016 19:03:11 +0100</lastBuildDate>
     <generator>Jekyll v2.4.0</generator>
     
       <item>
@@ -37,10 +37,15 @@
 
 &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span class=&quot;c&quot;&gt;# Note on &amp;quot;build-dep znc&amp;quot; - manually installing libraries might get us newer &lt;/span&gt;
 &lt;span class=&quot;c&quot;&gt;# dep-library versions, but I&amp;#39;m lazy.&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# swig3.0 is a buld requirement, not needed on the destination box.&lt;/span&gt;
+sudo add-apt-repository -y ppa:teward/swig3.0
 sudo apt-get update
 sudo apt-get -y upgrade
 sudo apt-get -y install build-essential autoconf automake git swig3.0 libicu-dev
 sudo apt-get -y build-dep znc
+
+&lt;span class=&quot;c&quot;&gt;# Also check: http://wiki.znc.in/Installation#Other_Build_Dependencies&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# ^ just in case.&lt;/span&gt;
 
 &lt;span class=&quot;c&quot;&gt;# Optional:&lt;/span&gt;
 sudo reboot
@@ -53,11 +58,11 @@ mkdir ~/git
 git clone https://github.com/znc/znc.git
 &lt;span class=&quot;nb&quot;&gt;cd &lt;/span&gt;znc
 
-&lt;span class=&quot;c&quot;&gt;# Check out the 1.6.2 tag or whichever you like. To list:&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# Check out the 1.6.3 tag or whichever you like. To list:&lt;/span&gt;
 &lt;span class=&quot;c&quot;&gt;# git tag -l &lt;/span&gt;
-&lt;span class=&quot;c&quot;&gt;# Note: this guide was written for 1.6.2 tag (version)&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# Note: this guide was written for 1.6.3 tag (version)&lt;/span&gt;
 
-git checkout tags/znc-1.6.2
+git checkout tags/znc-1.6.3
 
 &lt;span class=&quot;c&quot;&gt;# This is a project requirement&lt;/span&gt;
 ./autogen.sh
@@ -126,7 +131,7 @@ sudo useradd -c &lt;span class=&quot;s2&quot;&gt;&amp;quot;ZNC bouncer user&amp;
 
 description &amp;quot;IRC Bouncer&amp;quot;
 
-start on runlevel [2345]
+start on (runlevel [2345] and net-device-up)
 
 stop on runlevel [016]
 

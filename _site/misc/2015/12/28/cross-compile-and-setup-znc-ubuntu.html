@@ -97,10 +97,15 @@
 
 <div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="c"># Note on &quot;build-dep znc&quot; - manually installing libraries might get us newer </span>
 <span class="c"># dep-library versions, but I&#39;m lazy.</span>
+<span class="c"># swig3.0 is a buld requirement, not needed on the destination box.</span>
+sudo add-apt-repository -y ppa:teward/swig3.0
 sudo apt-get update
 sudo apt-get -y upgrade
 sudo apt-get -y install build-essential autoconf automake git swig3.0 libicu-dev
 sudo apt-get -y build-dep znc
+
+<span class="c"># Also check: http://wiki.znc.in/Installation#Other_Build_Dependencies</span>
+<span class="c"># ^ just in case.</span>
 
 <span class="c"># Optional:</span>
 sudo reboot
@@ -113,11 +118,11 @@ mkdir ~/git
 git clone https://github.com/znc/znc.git
 <span class="nb">cd </span>znc
 
-<span class="c"># Check out the 1.6.2 tag or whichever you like. To list:</span>
+<span class="c"># Check out the 1.6.3 tag or whichever you like. To list:</span>
 <span class="c"># git tag -l </span>
-<span class="c"># Note: this guide was written for 1.6.2 tag (version)</span>
+<span class="c"># Note: this guide was written for 1.6.3 tag (version)</span>
 
-git checkout tags/znc-1.6.2
+git checkout tags/znc-1.6.3
 
 <span class="c"># This is a project requirement</span>
 ./autogen.sh
@@ -186,7 +191,7 @@ sudo useradd -c <span class="s2">&quot;ZNC bouncer user&quot;</span> -ms /bin/fa
 
 description &quot;IRC Bouncer&quot;
 
-start on runlevel [2345]
+start on (runlevel [2345] and net-device-up)
 
 stop on runlevel [016]
 

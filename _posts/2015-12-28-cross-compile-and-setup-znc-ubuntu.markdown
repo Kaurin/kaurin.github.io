@@ -28,10 +28,15 @@ I recommend you do them 1-by-1 for maximum control.
 {% highlight bash %}
 # Note on "build-dep znc" - manually installing libraries might get us newer 
 # dep-library versions, but I'm lazy.
+# swig3.0 is a buld requirement, not needed on the destination box.
+sudo add-apt-repository -y ppa:teward/swig3.0
 sudo apt-get update
 sudo apt-get -y upgrade
 sudo apt-get -y install build-essential autoconf automake git swig3.0 libicu-dev
 sudo apt-get -y build-dep znc
+
+# Also check: http://wiki.znc.in/Installation#Other_Build_Dependencies
+# ^ just in case.
 
 # Optional:
 sudo reboot
@@ -44,11 +49,11 @@ cd ~/git
 git clone https://github.com/znc/znc.git
 cd znc
 
-# Check out the 1.6.2 tag or whichever you like. To list:
+# Check out the 1.6.3 tag or whichever you like. To list:
 # git tag -l 
-# Note: this guide was written for 1.6.2 tag (version)
+# Note: this guide was written for 1.6.3 tag (version)
 
-git checkout tags/znc-1.6.2
+git checkout tags/znc-1.6.3
 
 # This is a project requirement
 ./autogen.sh
@@ -121,7 +126,7 @@ HOME=/home/zncuser sudo -u zncuser /opt/znc/bin/znc --makeconf
 
 description "IRC Bouncer"
 
-start on runlevel [2345]
+start on (runlevel [2345] and net-device-up)
 
 stop on runlevel [016]
 
