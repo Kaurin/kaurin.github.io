@@ -16,4 +16,4 @@ timezone: Europe/Dublin
 encoding: utf-8
 
 # Github override
-highlighter: pygments
+highlighter: rouge
