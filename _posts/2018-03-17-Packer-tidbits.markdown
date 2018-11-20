@@ -2,7 +2,7 @@
 layout: post
 title:  "Packer tidbits"
 date:   2018-03-17 16:00:00
-categories: misc
+categories: virtualization
 tags: packer,hashicorp
 ---
 
