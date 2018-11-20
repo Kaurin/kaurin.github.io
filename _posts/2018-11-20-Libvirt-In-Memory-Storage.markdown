@@ -173,15 +173,19 @@ I have performed three tests:
 
 ## Results
 
-|                   | brd-nocache | brd  | tmpfs |
-| ----------------- |------------:| ----:| -----:|
-| Latency (msec)    | 0.05        | 0.04 | 0.06  |
-| Throughput (MB/s) | 2.9         | 3.1  | 3.5   |
+|                   | brd-nocache | brd  | tmpfs | my SSD |
+| ----------------- |------------:| ----:| -----:| ------:|
+| Latency (msec)    | 0.05        | 0.04 | 0.06  | 0.23   |
+| Throughput (GB/s) | 2.9         | 3.1  | 3.5   | 0.416  |
 
+
+# Unscientific Conclusion
 
 To my surprise, tmpfs perfomed best in terms of throughput, while brd with "hypervisor default" for cache had best latency results.
 
-# Unscientific Conclusion
+All in-memory based tests had more consistent read speeds compared to my SSD that would have a much higher variation.
+
+The latency benefit is obvious compared to the SSD.
 
 Cached brd might be the best solution latency-wise for this particular use-case, but I consider tmpfs to be easier to set up.
 
