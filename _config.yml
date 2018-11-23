@@ -46,3 +46,17 @@ navbar:
     title: Pastedump
 
 exclude: ["gulp", "node_modules", "bower", "bower_components", "config.rb", "src", "Gemfile", "Gemfile.lock", ".rvmrc", ".rbenv-version", "package.json", "gulpfile.js", "README.md", "Rakefile", "changelog.md", "script"]
+
+# Seo plugin
+twitter:
+  username: benbalter
+  card: summary
+
+social:
+  name: Milos Kaurin
+  links:
+    - https://twitter.com/Kaurin011
+    - https://www.linkedin.com/in/kaurin/
+
+google_site_verification: "bcmszNYF1nyp0I-h0_ZJrEX88ET2SjcjMK5sVV-gzzU"
+
