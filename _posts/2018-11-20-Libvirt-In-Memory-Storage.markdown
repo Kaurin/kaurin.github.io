@@ -29,21 +29,21 @@ Because my linux workstation has 32GB of ram, I wanted to see what my options ar
 
 * Set up about ~17.5GB ramdisk to `/dev/ram0`:
 
-    ```
-    sudo modprobe brd rd_size=18432000 max_part=1 rd_nr=1
-    ```
+  ```
+  sudo modprobe brd rd_size=18432000 max_part=1 rd_nr=1
+  ```
 
 * Define a "ramblock" storage pool for libvirt:
 
-    ```
-    sudo virsh pool-define-as --name ramblock --type disk --source-dev /dev/ram0 --target /dev
-    ```
+  ```
+  sudo virsh pool-define-as --name ramblock --type disk --source-dev /dev/ram0 --target /dev
+  ```
 
 * Build the ramblock storage pool:
 
-    ```
-    sudo virsh pool-build ramblock
-    ```
+  ```
+  sudo virsh pool-build ramblock
+  ```
 
 * Start the storage pool:
 
@@ -53,9 +53,9 @@ Because my linux workstation has 32GB of ram, I wanted to see what my options ar
 
 * Create the volume. The volume name must be `ram0p1`:
 
-    ```
-    sudo virsh vol-create-as ramblock ram0p1 18350316k
-    ```
+  ```
+  sudo virsh vol-create-as ramblock ram0p1 18350316k
+  ```
 
 * Create your VM and specify that you wish to use `ram0p1` for your storage device (under `ramblock` pool). I used the virt-manager GUI for this.
 
