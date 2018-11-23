@@ -187,9 +187,9 @@ However, and this is the second thing I was not aware of, the blog post shows th
 So, the command I ended up going with is this:
 
 ```bash
-aws ssm get-parameters \
-  --names /aws/service/ami-amazon-linux-latest/amzn-ami-minimal-hvm-x86_64-ebs \
-  --query 'Parameters[0].[Value]' \
+aws ssm get-parameter \
+  --name /aws/service/ami-amazon-linux-latest/amzn-ami-minimal-hvm-x86_64-ebs \
+  --query 'Parameter.Value' \
   --output text
 ```
 
