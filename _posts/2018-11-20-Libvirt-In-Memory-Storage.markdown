@@ -138,7 +138,7 @@ Because my linux workstation has 32GB of ram, I wanted to see what my options ar
 * Destroy (stop) the volume-pool:
 
   ```
-  sudo virsh pool-destroy ramblock
+  sudo virsh pool-destroy ramdisk
   ```
 
 * Unmount tmpfs  (or suffer memory exhaustion!):
