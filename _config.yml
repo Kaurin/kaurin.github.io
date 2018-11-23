@@ -11,7 +11,7 @@ google_analytics  : "UA-71762050-2"
 twitter_username  : "kaurin011"
 comments_enabled  : true # if enabled (set to true), please provide your disqus_username
 disqus_shortname  : "kaurin-github-io"
-postshare_enabled : true
+postshare_enabled : false
 
 # Build settings
 permalink   : /:year/:title/
