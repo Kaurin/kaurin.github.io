@@ -9,19 +9,17 @@ tags: jq,jmespath,json,awscli,aws
 I was revisiting some of my old scripts, and found this messy piece of code that attempts to grab the latest "minimal" AWS AMI - HVM that's EBS backed:
 
 ```
-AWS_MINIMAL_AMI=$(
-  aws --query 'Images[*].[Name,ImageId]' \
-    --output text \
-    ec2 describe-images \
-      --owners amazon \
-      --filters \
-        "Name=root-device-type,Values=ebs" \
-        "Name=architecture,Values=x86_64" \
-        "Name=virtualization-type,Values=hvm" \
-        "Name=image-type,Values=machine" \
-        "Name=is-public,Values=true" | grep minimal
-          | sort | tail -n1 | awk '{print $2}'
-)
+aws --query 'Images[*].[Name,ImageId]' \
+  --output text \
+  ec2 describe-images \
+    --owners amazon \
+    --filters \
+      "Name=root-device-type,Values=ebs" \
+      "Name=architecture,Values=x86_64" \
+      "Name=virtualization-type,Values=hvm" \
+      "Name=image-type,Values=machine" \
+      "Name=is-public,Values=true" | grep minimal
+        | sort | tail -n1 | awk '{print $2}'
 ```
 
 I knew that there is a better way of doing this, but first I wanted to flex my JQ muscles before googling.
