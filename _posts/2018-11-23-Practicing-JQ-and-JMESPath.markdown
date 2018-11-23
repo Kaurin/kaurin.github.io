@@ -6,7 +6,7 @@ categories: learning
 tags: jq,jmespath,json,awscli,aws
 ---
 
-I was revisiting some of my old scripts, and found this messy piece of code that attempts to grab the latest "minimal" AWS AMI - HVM and EBS backed:
+I was revisiting some of my old scripts, and found this messy piece of code that attempts to grab the latest "minimal" AWS AMI - HVM that's EBS backed:
 
 ```
 AWS_MINIMAL_AMI=$(
