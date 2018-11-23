@@ -49,7 +49,7 @@ exclude: ["gulp", "node_modules", "bower", "bower_components", "config.rb", "src
 
 # Seo plugin
 twitter:
-  username: benbalter
+  username: Kaurin011
   card: summary
 
 social:
