@@ -3,7 +3,7 @@ layout: post
 title:  "Practicing JQ and JMESPath"
 date:   2018-11-23 05:00:00
 categories: learning
-tags: jq,jmespath,json,awscli,aws
+tags: jq,jmespath,json,awscli,aws,ssm
 ---
 
 I was revisiting some of my old scripts, and found this messy piece of code that attempts to grab the latest "minimal" AWS AMI - HVM that's EBS backed:
