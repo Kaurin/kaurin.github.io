@@ -1,19 +1,47 @@
 # Site settings
-title: Kaurin's Paste Dump
-email: kaurin@users.noreply.github.com
-description: > # this means to ignore newlines until "baseurl:"
-       Welcome to my paste dump!
-baseurl: "" # the subpath of your site, e.g. /blog/
-url: "https://kaurin.github.io" # the base hostname & protocol for your site
-twitter_username: kaurin011
-github_username:  kaurin
+title_left    : "Kaurin's "
+title_right   : "Paste Dump" # default: ""
+description   : "Welcome to Kaurin's Paste Dump!"
+keywords      : "Jekyll, theme, free, download, SEO, blog, web, minimalist, thinkspace"
+url           : https://kaurin.github.io # site url
+baseurl       : "" # apply repo name like "/myproject" if used under gh-pages branch, else (under master branch) just leave empty/blank
+cover         : "" # image uri like logo/cover image for site seo
+
+google_analytics  : "UA-71762050-2"
+twitter_username  : "kaurin011"
+comments_enabled  : true # if enabled (set to true), please provide your disqus_username
+disqus_shortname  : "kaurin-github-io"
+postshare_enabled : true
 
 # Build settings
-markdown: kramdown
+permalink   : /:year/:title/
+markdown    : kramdown
+highlighter : rouge
 
-# Milos
-timezone: Europe/Dublin
-encoding: utf-8
+source      : ./
+destination : ./_site
 
-# Github override
-highlighter: rouge
+# Sass configuration
+sass:
+  sass_dir  : assets/scss
+  style     : compressed # expanded
+
+# Author settings
+author:
+  name     : "Milos Kaurin"
+
+plugins:
+  - jekyll-sitemap
+  - bourbon
+  - jekyll-paginate
+
+# navbar pages
+navbar:
+  - slug : about
+    title: About
+  - slug : blog
+    title: Blog
+  - slug : pd
+    title: Pastedump
+
+exclude: ["gulp", "node_modules", "bower", "bower_components", "config.rb", "src", "Gemfile", "Gemfile.lock", ".rvmrc", ".rbenv-version", "package.json", "gulpfile.js", "README.md", "Rakefile", "changelog.md", "script"]

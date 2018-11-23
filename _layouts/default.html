@@ -1,24 +1,16 @@
+---
+layout: compress
+published: true
+---
 <!DOCTYPE html>
 <html>
-
-<head>
-    <!-- HTTPS redirect-->
-    <script>
-    // Don't force https when serving the website locally
-    if (!((window.location.host.startsWith("localhost")) || (window.location.host.startsWith("127.0"))) && (window.location.protocol != "https:"))
-        window.location.protocol = "https";
-    </script>
-</head>
-{% include head.html %}
-
-<body>
-    {% include header.html %}
-    <div class="page-content">
-        <div class="wrapper">
-            {{ content }}
-        </div>
-    </div>
-    {% include footer.html %}
-</body>
-
+  {% include head.html %}
+  <body>
+    <main class="wrapper">
+      {% include header.html %}
+      {{ content }}
+      {% include footer.html %}
+    </main>
+    {% include foot.html %}
+  </body>
 </html>
