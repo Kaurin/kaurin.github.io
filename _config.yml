@@ -7,7 +7,6 @@ url           : https://kaurin.github.io # site url
 baseurl       : "" # apply repo name like "/myproject" if used under gh-pages branch, else (under master branch) just leave empty/blank
 cover         : "" # image uri like logo/cover image for site seo
 
-google_analytics  : "UA-71762050-2"
 twitter_username  : "kaurin011"
 comments_enabled  : true # if enabled (set to true), please provide your disqus_username
 disqus_shortname  : "kaurin-github-io"
@@ -57,6 +56,3 @@ social:
   links:
     - https://twitter.com/Kaurin011
     - https://www.linkedin.com/in/kaurin/
-
-google_site_verification: "bcmszNYF1nyp0I-h0_ZJrEX88ET2SjcjMK5sVV-gzzU"
-
