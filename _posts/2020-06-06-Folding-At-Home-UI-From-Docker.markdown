@@ -9,6 +9,7 @@ tags: docker,folding
 
 Run:
 ```shell
+xhost +local:root
 sudo docker run --rm -ti --net=host --env="DISPLAY=$DISPLAY" ubuntu:16.04
 ```
 
