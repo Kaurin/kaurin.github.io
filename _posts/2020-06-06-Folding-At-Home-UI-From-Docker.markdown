@@ -15,7 +15,7 @@ sudo docker run --rm -ti --net=host --env="DISPLAY=$DISPLAY" ubuntu:16.04
 
 Then, in the container:
 
-```
+```bash
 export DEBIAN_FRONTEND=noninteractive
 apt-get update
 apt-get install net-tools wget python python-gtk2 python-gnome2 -y
