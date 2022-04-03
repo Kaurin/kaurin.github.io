@@ -166,7 +166,7 @@ This concludes USB detective work. Next up we'll be isolating the IOMMU group 4 
 ## Initramfs
 
 Ensure VFIO kernel drivers are loaded into the initramfs:
-```bash
+```
 cat <<EOT > /etc/mkinitfs/features.d/vfio.modules
 kernel/drivers/vfio/vfio.ko.*
 kernel/drivers/vfio/vfio_virqfd.ko.*
@@ -184,7 +184,7 @@ mkinitfs -l | grep vfio
 
 And add all devices from your IOMMU group to the `ids=` parameters of `vfio-pci`:
 
-```bash
+```
 cat <<EOT > /etc/modprobe.d/vfio.conf 
 options vfio-pci ids=8086:3a67,8086:3a68,8086:3a69,8086:3a6c
 options vfio_iommu_type1 allow_unsafe_interrupts=1
