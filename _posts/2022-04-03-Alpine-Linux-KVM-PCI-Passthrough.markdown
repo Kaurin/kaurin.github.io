@@ -27,7 +27,7 @@ Have Alpine Linux be the libvirt host on a bare metal x86_64. Have some PCI (USB
 
 # Assumptions
 
-Guide assumes that your (my) target system has vt-d or AMD's equivalent supported and enabled in BIOS. Intel-based system is used here, so your kernel parameters and module options might differ for AMD.
+Guide assumes that your (my) target system has vt-d or AMD's equivalent supported and enabled in BIOS. Intel-based system is used here, so your kernel parameters and module options will differ for AMD.
 
 # Alpine Linux installation
 
@@ -173,13 +173,6 @@ kernel/drivers/vfio/vfio_virqfd.ko.*
 kernel/drivers/vfio/vfio_iommu_type1.ko.*
 kernel/drivers/vfio/pci/vfio-pci.ko.*
 EOT
-```
-
-Make sure to run:
-
-```bash
-mkinitfs
-mkinitfs -l | grep vfio
 ```
 
 And add all devices from your IOMMU group to the `ids=` parameters of `vfio-pci`:
