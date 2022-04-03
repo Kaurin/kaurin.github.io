@@ -22,7 +22,7 @@ Me, really. Writing this mostly as a document on what I did to get where I am. H
 
 # Goal
 
-Have Alpine Linux be the libvirt host on a bare metal x86_64 . Have some PCI (USB) devices availble to be passed through to guests by using early VFIO binding.
+Have Alpine Linux be the libvirt host on a bare metal x86_64. Have some PCI (USB) devices available to be passed through to guests by using early VFIO binding.
 
 
 # Assumptions
@@ -52,7 +52,7 @@ rc-update add libvirt-guests
 
 # KVM
 
-Comfort of running the `virt-manager` remotely costs us having to install `dbus`, `polkit` and some other dependancies, so I opted to have a leaner system that I'll manage with `virsh` when I SSH in.
+Comfort of running the `virt-manager` remotely costs us having to install `dbus`, `polkit` and some other dependencies, so I opted to have a leaner system that I'll manage with `virsh` when I SSH in.
 
 So. Ensure the tun driver loads on boot:
 
@@ -112,7 +112,7 @@ Now use fenguoerbian's fantastic script:
  for usb_ctrl in $(find /sys/bus/usb/devices/usb* -maxdepth 0 -type l); do pci_path="$(dirname "$(realpath "${usb_ctrl}")")"; echo "Bus $(cat "${usb_ctrl}/busnum") --> $(basename $pci_path) (IOMMU group $(basename $(realpath $pci_path/iommu_group)))"; lsusb -s "$(cat "${usb_ctrl}/busnum"):"; echo; done
  ```
 
-...Which will print out this convenient list of IOMMU groups in relation to USB devices. Conveniently, all three of my USB devices are in the same IOMMU group. To be more precise, USB bus 3 and USB bus 4 are in the same IOMMU group:
+...which will print out this convenient list of IOMMU groups in relation to USB devices. Conveniently, all three of my USB devices are in the same IOMMU group. To be more precise, USB bus 3 and USB bus 4 are in the same IOMMU group:
 
 ```
 Bus 3 --> 0000:00:1a.0 (IOMMU group 4)
@@ -182,7 +182,7 @@ mkinitfs
 mkinitfs -l | grep vfio
 ```
 
-And add all devices from your IOMMU group to the `ids=` param of `vfio-pci`:
+And add all devices from your IOMMU group to the `ids=` parameters of `vfio-pci`:
 
 ```bash
 cat <<EOT > /etc/modprobe.d/vfio.conf 
