@@ -40,7 +40,15 @@ Options during setup:
 
 I run a DHCP server where I manage any static entries, so aside from choosing `br0` at install time, only router config needs to be modified.
 
+As for libvirt requirements, ensure the tun driver loads on boot:
+
+```bash
+cat /etc/modules | grep tun || echo tun >> /etc/modules
+```
+
 # Packages 
+
+Comfort of running the `virt-manager` remotely costs us having to install `dbus`, `polkit` and some other dependencies, so I opted to have a leaner system that I'll manage with `virsh` when I SSH in.
 
 The only thing that needs explanation is the `libvirt-guests` package which makes the host gracefully shut down guests before shutting itself off.
 
@@ -49,19 +57,6 @@ apk add libvirt-daemon qemu-img qemu-system-x86_64 qemu-modules openrc vim pciut
 rc-update add libvirtd
 rc-update add libvirt-guests
 ```
-
-# KVM
-
-Comfort of running the `virt-manager` remotely costs us having to install `dbus`, `polkit` and some other dependencies, so I opted to have a leaner system that I'll manage with `virsh` when I SSH in.
-
-So. Ensure the tun driver loads on boot:
-
-```bash
-cat /etc/modules | grep tun || echo tun >> /etc/modules
-```
-
-
-
 # VFIO / PCI Passthrough
 
 ## Initial steps
@@ -262,6 +257,14 @@ mv home-assistant.qcow2 /var/lib/libvirt/images/
 ```
 
 ## Start the virt
+
+Earlier, when we discovered the whole IOMMU group, the lines began with:
+```
+00:1a.0 USB controller [0c03]:.....
+```
+
+Translate the PCI IDs you need into the format listed under `--hostdev`
+
 
 ```bash
 virt-install \
