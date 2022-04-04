@@ -256,6 +256,12 @@ virsh pool-define-as default dir - - - - "/var/lib/libvirt/images"
 mv home-assistant.qcow2 /var/lib/libvirt/images/
 ```
 
+..and refresh the storage pool:
+
+```bash
+virsh pool-refresh default
+```
+
 ## Start the virt
 
 Earlier, when we discovered the whole IOMMU group, the lines began with:
