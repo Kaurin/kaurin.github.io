@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "Hairpin NAT"
-date:   2022-04-15 01:45:00
+date:   2022-04-15 00:45:00
 categories: networking
 tags: mikrotik,networking,nat
 ---
