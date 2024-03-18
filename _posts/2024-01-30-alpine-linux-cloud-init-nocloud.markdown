@@ -1,10 +1,12 @@
 ---
-layout: post
+layout: single
 title:  "Alpine Linux cloud-init (nocloud)"
 date:   2024-01-30 17:45:00
 categories: virtualization
-tags: linux,alpine-linux,cloud-init
+tags: ["linux","alpine-linux","cloud-init", "virtualization"]
 ---
+
+Alpine-Linux and cloud-init difficulties
 
 I was playing around with [Alpine Linux cloud images][Alpine Linux cloud images]. Apparently, cloud-init in alpine-linux creates locked user accounts by default.
 

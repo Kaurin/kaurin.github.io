@@ -1,10 +1,12 @@
 ---
-layout: post
+layout: single
 title:  "Packer tidbits"
 date:   2018-03-17 16:00:00
 categories: virtualization
-tags: packer,hashicorp
+tags: ["packer","hashicorp", "virtualization"]
 ---
+
+Packer: Keystroke intervale and vagrant+libvirt
 
 # Controlling the keystroke delay during packer's VNC execution
 

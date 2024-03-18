@@ -1,0 +1,53 @@
+# main links
+# If used, these are on the top-right of the webpage in the header
+
+main:
+  - title: "About"
+    url: /about
+  - title: "Pastedump"
+    url: /pd
+
+
+
+sidebar_nav:
+  - title: Navigation
+    children:
+      - title: "Recent Posts"
+        url: /
+      - title: "Categories"
+        url: /categories
+      - title: "Tags"
+        url: /tags
+
+  # - title: Customization
+  #   children:
+  #     - title: "Configuration"
+  #       url: /docs/configuration/
+  #     - title: "Navigation"
+  #       url: /docs/navigation/
+  #     - title: "UI Text"
+  #       url: /docs/ui-text/
+  #     - title: "Authors"
+  #       url: /docs/authors/
+  #     - title: "Layouts"
+  #       url: /docs/layouts/
+
+  # - title: Content
+  #   children:
+  #     - title: "Working with Posts"
+  #       url: /docs/posts/
+  #     - title: "Working with Pages"
+  #       url: /docs/pages/
+  #     - title: "Working with Collections"
+  #       url: /docs/collections/
+  #     - title: "Helpers"
+  #       url: /docs/helpers/
+  #     - title: "Utility Classes"
+  #       url: /docs/utility-classes/
+
+  # - title: Extras
+  #   children:
+  #     - title: "Stylesheets"
+  #       url: /docs/stylesheets/
+  #     - title: "JavaScript"
+  #       url: /docs/javascript/

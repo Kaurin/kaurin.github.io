@@ -1,10 +1,12 @@
 ---
-layout: post
+layout: single
 title:  "Cross-compile and setup ZNC for Ubuntu 14.04"
 date:   2015-12-28 16:00:00
-categories: misc
-tags: irc,znc,bouncer
+categories: linux
+tags: ["irc", "znc", "bouncer", "linux"]
 ---
+
+Cross compile across incompatible architectures
 
 # Why are you writing this article?
 

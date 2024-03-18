@@ -1,10 +1,13 @@
 ---
-layout: post
+layout: single
 title:  "EC2 + Ansible Setup"
 date:   2015-12-27 02:23:00
 categories: aws
-tags: aws,ansible,ssh
+tags: ["aws","ansible","ssh"]
 ---
+
+Ansible "Controller" in the cloud to which we forward AWS secrets environment variables from the user, avoiding EC2 roles and storing credentials
+
 # Overview
 
 As the name of this website states, this is just my pastedump. By no means is this an all-round best-practice guide. If your use case is to have a light touch on an ansible-master in EC2 without the need to implement 'ansible-pull', then I'd consider this an OK guide.
