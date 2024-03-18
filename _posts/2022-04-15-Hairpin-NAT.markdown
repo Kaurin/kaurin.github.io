@@ -1,10 +1,12 @@
 ---
-layout: post
+layout: single
 title:  "Hairpin NAT"
 date:   2022-04-15 00:45:00
 categories: networking
-tags: mikrotik,networking,nat
+tags: ["mikrotik","networking","nat"]
 ---
+
+My attempt at explaining the Hairpin NAT concept
 
 # Disclaimer
 

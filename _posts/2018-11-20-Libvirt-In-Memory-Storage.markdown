@@ -1,10 +1,12 @@
 ---
-layout: post
+layout: single
 title:  "Libvirt In-Memory Storage"
 date:   2018-11-20 05:00:00
 categories: virtualization
-tags: kvm,libvirt,in-memory,brd,tmpfs,ramdisk
+tags: ["kvm","libvirt","in-memory","brd","tmpfs","ramdisk", "virtualization"]
 ---
+
+Unscientific benchmarking of memory-backed storage for KVM based virtual machines using Libvirt
 
 # Use case
 

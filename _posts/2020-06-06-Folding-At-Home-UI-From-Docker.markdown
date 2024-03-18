@@ -1,11 +1,12 @@
 ---
-layout: post
+layout: single
 title:  "Folding At Home UI From Docker"
 date:   2020-06-06 22:00:00
-categories: learning
-tags: docker,folding
+categories: linux
+tags: ["docker","folding", "linux"]
 ---
 
+How to set up a docker container for Folding-At-Home
 
 Run:
 ```shell

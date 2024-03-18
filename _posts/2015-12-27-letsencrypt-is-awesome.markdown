@@ -1,10 +1,12 @@
 ---
-layout: post
+layout: single
 title:  "Letsencrypt is awesome!"
 date:   2015-12-27 16:00:00
-categories: misc
-tags: ssl,openssl,certificates
+categories: security
+tags: ["ssl","openssl","certificates", "security"]
 ---
+
+I just found out about letsencrypt
 
 I was about to shop for an SSL cert for a domain I own, and decided to do another "free SSL" Google search.
 

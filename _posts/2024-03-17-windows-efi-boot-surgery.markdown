@@ -1,10 +1,12 @@
 ---
-layout: post
+layout: single
 title:  "Windows EFI Boot Surgery"
 date:   2024-03-17 17:00:00
 categories: windows
-tags: windows,uefi,boot,efi,multiboot
+tags: ["windows","uefi","boot","efi","multiboot"]
 ---
+
+How to create an EFI partition on a fully utilized Windows Drive
 
 # Disclaimer
 
@@ -28,7 +30,7 @@ My system looked like this (lsblk output with comments).
 
 Notice the lack of EFI partition anywhere else except for the Linux storage device.
 
-```plain
+```
                 NAME                                          MAJ:MIN RM   SIZE RO TYPE  MOUNTPOINTS
 
                 sda                                           8:0      1 447.1G  0 disk  

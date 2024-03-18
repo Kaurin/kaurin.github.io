@@ -1,10 +1,12 @@
 ---
-layout: post
+layout: single
 title:  "Fedora Cloud DHCP Client hostname on-boot"
-date:   2024-01-31 21:09:00
+# date:   2024-01-31 21:09:00
 categories: virtualization
-tags: linux,fedora-cloud,cloud-init
+tags: ["linux","fedora","cloud","cloud-init", "virtualization"]
 ---
+
+How to have Fedora-cloud use the DHCP-provided hostname
 
 # Use-case
 

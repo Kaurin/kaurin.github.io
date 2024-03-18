@@ -1,10 +1,13 @@
 ---
-layout: post
+layout: single
 title:  "CFN + ASG + LifeCycle Hooks"
 date:   2015-12-27 00:44:34
 categories: aws
-tags: aws,cfn,autoscaling,asg
+tags: ["aws","cfn","autoscaling","asg"]
 ---
+
+Delay CloudFormation's creation of instances in an AutoScalingGroup by leveraging a custom resource
+
 # Problem
 
 When you use CFN to provision an ASG with LifeCycle events which trigger on instance launches, the issue is that CFN first creates an ASG. ASG immediately starts spinning up instances based on ASG settings. LifeCycle hooks get created usually with some delay.  

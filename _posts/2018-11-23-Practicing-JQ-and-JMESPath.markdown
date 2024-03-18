@@ -1,10 +1,14 @@
 ---
-layout: post
+layout: single
 title:  "Practicing JQ and JMESPath"
 date:   2018-11-23 05:00:00
-categories: learning
-tags: jq,jmespath,json,awscli,aws,ssm
+categories: linux
+tags: ["jq","jmespath","json","awscli","aws","aws ssm", "linux"]
 ---
+
+Practicing JQ, JMESPath and then discovering I didn't need them
+
+## Intro
 
 I was revisiting some of my old scripts, and found this messy piece of code that attempts to grab the latest "minimal" AWS AMI - HVM that's EBS backed:
 
@@ -24,7 +28,7 @@ aws --query 'Images[*].[Name,ImageId]' \
 
 I knew that there is a better way of doing this, but first I wanted to flex my JQ muscles before googling.
 
-### First attempt
+## First attempt
 
 One thing I forgot is to sanitize the "query" portion of the previously used command.
 
@@ -95,7 +99,7 @@ Translation:
 This solves my task, but before I got to optimizing JQ, I noticed the malicious `--query`. I was wondering why the pre-JQ AWS CLI output was so sparse!
 
 
-### Second attempt
+## Second attempt
 
 Removing the "malicious" `--query` option shows us that the output we have to deal with is substantial:
 
@@ -158,7 +162,7 @@ aws --output text \
 
 Much better, but the execution time is still 5-ish seconds long. I do most of the processing *after* AWS returns a lot of results.
 
-### Google is your friend
+## Google is your friend
 
 The last thing to do was to check whether someone has done it better. [The first result that came up][Amazon blog post on selecting the latest image] was from an AWS blog post on how to do exactly what I was trying to do.
 

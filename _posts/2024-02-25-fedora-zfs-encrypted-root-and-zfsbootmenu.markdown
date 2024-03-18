@@ -1,10 +1,12 @@
 ---
-layout: post
+layout: single
 title:  "Fedora ZFS raidz1 Encrypted Root and ZFSBootMenu"
 date:   2024-02-25 17:42:00
 categories: linux
-tags: linux,fedora,zfs,zfsbootmenu
+tags: ["linux","fedora","zfs","zfsbootmenu"]
 ---
+
+ZFS raidz across multiple storage devices which are also the boot device in Fedora using ZFSBootMenu
 
 # Use-case
 
