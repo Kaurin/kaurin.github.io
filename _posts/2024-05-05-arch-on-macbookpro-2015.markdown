@@ -257,43 +257,31 @@ reboot
 
 ## General Arch installation references
 
-https://wiki.archlinux.org/title/Installation_guide
-
-https://wiki.archlinux.org/title/Arch_boot_process#Boot_loader
-
-https://wiki.archlinux.org/title/REFInd
-
-https://www.rodsbooks.com/refind/linux.html#easiest
-
-https://wiki.archlinux.org/title/Dm-crypt/Encrypting_an_entire_system#LUKS_on_a_partition
-
-https://wiki.archlinux.org/title/MacBookPro11,x
+* https://wiki.archlinux.org/title/Installation_guide
+* https://wiki.archlinux.org/title/Arch_boot_process#Boot_loader
+* https://wiki.archlinux.org/title/REFInd
+* https://www.rodsbooks.com/refind/linux.html#easiest
+* https://wiki.archlinux.org/title/Dm-crypt/Encrypting_an_entire_system#LUKS_on_a_partition
+* https://wiki.archlinux.org/title/MacBookPro11,x
 
 
 ## Arch sound references
 
-https://wiki.archlinux.org/title/Advanced_Linux_Sound_Architecture
-
-https://wiki.archlinux.org/title/PipeWire
-
-https://wiki.archlinux.org/title/WirePlumber
+* https://wiki.archlinux.org/title/Advanced_Linux_Sound_Architecture
+* https://wiki.archlinux.org/title/PipeWire
+* https://wiki.archlinux.org/title/WirePlumber
 
 
 ## Power management references
 
-https://wiki.archlinux.org/title/Power_management/Suspend_and_hibernate
+* https://wiki.archlinux.org/title/Power_management/Suspend_and_hibernate
 
 
 ## Graphics references
 
-https://wiki.archlinux.org/title/AMDGPU
-
-https://wiki.archlinux.org/title/Intel_graphics
-
-[Radeon M370X quirk](https://bbs.archlinux.org/viewtopic.php?id=288355)
-
-[MBP 11,5 suspend hang on arch forums](https://bbs.archlinux.org/viewtopic.php?id=199388)
-
-[MBP 11,5 suspend hang on gentoo forums](https://forums.gentoo.org/viewtopic-p-7772846.html?sid=7ab6dd35c3dfc7a38a2c1b02edb15044)
-
-[Possible related MBP suspend hang bug on freedesktop gitlab](https://gitlab.freedesktop.org/drm/amd/-/issues/2711)
+* https://wiki.archlinux.org/title/AMDGPU
+* https://wiki.archlinux.org/title/Intel_graphics
+* [Radeon M370X quirk](https://bbs.archlinux.org/viewtopic.php?id=288355)
+* [MBP 11,5 suspend hang on arch forums](https://bbs.archlinux.org/viewtopic.php?id=199388)
+* [MBP 11,5 suspend hang on gentoo forums](https://forums.gentoo.org/viewtopic-p-7772846.html?sid=7ab6dd35c3dfc7a38a2c1b02edb15044)
+* [Possible related MBP suspend hang bug on freedesktop gitlab](https://gitlab.freedesktop.org/drm/amd/-/issues/2711)
