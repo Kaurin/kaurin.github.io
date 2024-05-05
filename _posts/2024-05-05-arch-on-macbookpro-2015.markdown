@@ -297,4 +297,3 @@ https://wiki.archlinux.org/title/Intel_graphics
 [MBP 11,5 suspend hang on gentoo forums](https://forums.gentoo.org/viewtopic-p-7772846.html?sid=7ab6dd35c3dfc7a38a2c1b02edb15044)
 
 [Possible related MBP suspend hang bug on freedesktop gitlab](https://gitlab.freedesktop.org/drm/amd/-/issues/2711)
-
