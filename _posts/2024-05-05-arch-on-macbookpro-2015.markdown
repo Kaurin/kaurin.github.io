@@ -1,7 +1,7 @@
 ---
 layout: single
 title:  "Installing Arch on a 2015 MacBookPro"
-date:   2024-05-05 16:00:00
+date:   2024-05-05 15:00:00
 categories: linux
 tags: ["linux", "arch-linux", "apple", "macbook", "macbookpro"]
 ---
