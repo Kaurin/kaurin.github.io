@@ -11,7 +11,7 @@ My personal MSFS ecosystem has grown so large that I require checklists.
 # Update checklist
 
 - [ ] [FSUIPC](http://www.fsuipc.com/)
-- [ ] [GSX](FSDT Live Updater)
+- [ ] GSX via FSDT Live Updater
 - [ ] REX Accuseason Updater
 - [ ] REX Accuweather (in-app, click the automation thing)
 - [ ] [flightsim.to](https://flightsim.to) (Includes ModManFX, SkyDolly etc)
