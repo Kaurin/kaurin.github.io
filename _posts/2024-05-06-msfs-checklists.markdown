@@ -42,5 +42,4 @@ My personal MSFS ecosystem has grown so large that I require checklists.
 - [ ] SkyDolly
 - [ ] TrackIR
 - [ ] Spad.Next
-- [ ] Tacview Bridge
 - [ ] Navigraph Charts
