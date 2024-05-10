@@ -146,8 +146,8 @@ Huge help as the UI is trying to show yaml in UI form, and it can be a bit hard 
 
 Now that we've primed traefik, we can go ahead and edit it, and have it integrate with itself.
 
-* Apps -> Discover Apps ->
-  * Traefik (yep, again. Edit this time)
+* Apps -> 
+  * Traefik (edit this time)
     * Services
       * Main Service / Service Type: ClusterIP (No need for a dedicated exposed port!)
       * Don't touch those services with port 443 and 80. Those are very much needed as LoadBalancer.
