@@ -6,7 +6,7 @@ categories: virtualization
 tags: ["truenas scale", "truenas", "zfs", "zvol", "nas", "kvm", "libvirt", "letsencrypt", "virtualization", "traefik"]
 ---
 
-Notes on what i've done to provision TruNAS Scale on KVM for testing purposes. My host OS has root ZFS. 
+Notes on what i've done to provision a virtualized TrueNAS setup with Truechart and Letsencrypt for testing purposes.
 
 
 # Disclaimer
@@ -82,7 +82,7 @@ This will mostly be my retelling of the [TrueCharts][TrueCharts on TrueNAS] guid
 * System Settings -> General ->
   * GUI
     * Ports `81` and `444` respectively
-    * Turn off USage collection
+    * Turn off Usage collection
     * HTTPS TLSv1.3 only
     * Once confirmed, make sure to reconnect via https://192.168.0.60:444
   * Localization
@@ -106,6 +106,8 @@ This will mostly be my retelling of the [TrueCharts][TrueCharts on TrueNAS] guid
 Adding the catalog can take several minutes++
 
 # Bootstrap Truechart with proper HTTPS
+
+We will be using the "cluster wide certificates" as documented [here][Cluster-Wide Certificates].
 
 Big tip when adding apps is that the navigation menu is on the right-hand side.
 Huge help as the UI is trying to show yaml in UI form, and it can be a bit hard to read.
@@ -142,7 +144,7 @@ Huge help as the UI is trying to show yaml in UI form, and it can be a bit hard 
   
 # Eat our own dogfood
 
-Now that we've primed traefik, we can go ahead and edit it, and have it integrate with itself
+Now that we've primed traefik, we can go ahead and edit it, and have it integrate with itself.
 
 * Apps -> Discover Apps ->
   * Traefik (yep, again. Edit this time)
@@ -151,7 +153,7 @@ Now that we've primed traefik, we can go ahead and edit it, and have it integrat
       * Don't touch those services with port 443 and 80. Those are very much needed as LoadBalancer.
     * Ingress
       * Main - Enable
-      * Hosts / Add / `cyberchef.tn.dood.ie`
+      * Hosts / Add / `traefik.tn.dood.ie`
         * Path: `/`
         * Path Type: `Prefix`
     * Integrations / Traefik
@@ -174,7 +176,7 @@ Cyberchef is a cool web-based utility that's completely standalone, does not req
 Let's see how it looks like when we can deploy an app with proper HTTPS in one go.
 
 * Apps -> Discover Apps ->
-  * Cyberchef (as an HTTPS example) - [source doc][Cluster-Wide Certificates]
+  * Cyberchef
     * Services
       * Service Type: ClusterIP (No need for a dedicated exposed port!)
     * Ingress
@@ -229,7 +231,7 @@ Unfortunately, the workaround for me required a reboot:
 
 # Complete derail while trying to clean up
 
-On my third run of this very guide, the `dataset is busy`  error happened again. This time the reboot trick didn't work. Probably because I had to mask `libvirtd.socket`, `libvirt-ro.socket` and `libvirt-admin.socket` as they will start libvirtd even when it is disabled. This is pure speculation, though, because I have no idea what else aside from libvirt could be using this zvol.
+On my third run of this very guide, the `dataset is busy`  error happened again. This time the reboot trick didn't work. Probably because I had to mask `libvirtd.socket`, `libvirt-ro.socket` and `libvirt-admin.socket` as they will start libvirtd even when it is disabled. This is pure speculation, though, because I didn't investigate what else aside from libvirt could be using this zvol.
 
 I opted for booting into the Fedora live USB so I can have a clean slate while trying to fix the issue.
 
@@ -254,9 +256,11 @@ I was able to get rid of the last remaining zvol with `zfs destroy zroot/truenas
 
 After typing in my disk encryption password, I was greeted by a, now familiar, error during systemd startup: `pool may be in use from other system` with an option to drop to the emergency shell.
 
+This system has this very guide as well as days of other work that has not been backed up...
+
 Luckily, still having access to zpool import in the emergency shell I could see that the host ID is that of the live system, so I figured that another forced import would fix the issue.
 
-Luckily I was right: `zfs import -f zroot`. Reboot
+It would appear that I was right: `zfs import -f zroot`. Reboot
 
 The issue went away after that forced import back on the normal system.
 
