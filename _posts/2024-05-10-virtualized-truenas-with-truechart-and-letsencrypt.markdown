@@ -258,7 +258,7 @@ After typing in my disk encryption password, I was greeted by a, now familiar, e
 
 This system has this very guide as well as days of other work that has not been backed up...
 
-Luckily, still having access to zpool import in the emergency shell I could see that the host ID is that of the live system, so I figured that another forced import would fix the issue.
+Luckily, still having access to the `zfs` utility in the emergency shell I could see that the host ID is that of the live system, so I figured that another forced import would fix the issue.
 
 It would appear that I was right: `zfs import -f zroot`. Reboot
 
