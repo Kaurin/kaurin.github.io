@@ -107,7 +107,6 @@ CF_Account_ID=YOUR_ACC_ID
 CF_Token=YOUR_TOKEN
 EOF
 
-
 pvenode acme account register account-name youremail@something.invalid
 ```
 
