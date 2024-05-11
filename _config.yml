@@ -104,7 +104,7 @@ defaults:
       comments: true
       share: true
       related: true
-      classes: wide
+      # classes: wide
       show_date: true
       sidebar:
         nav: sidebar_nav
@@ -116,7 +116,7 @@ defaults:
     values:
       layout: single
       author_profile: true
-      classes: wide
+      # classes: wide
       sidebar:
         nav: sidebar_nav
 
