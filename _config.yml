@@ -83,11 +83,14 @@ footer:
   #     url: "https://github.com/Kaurin"
 
 comments:
-  provider: "disqus"
-  disqus:
-    shortname: "kaurin-github-io"
-
-
+  provider: "giscus"
+  giscus:
+    repo_id              : "MDEwOlJlcG9zaXRvcnk0ODYyNzUwNw=="
+    category_name        : Announcements
+    category_id          : "DIC_kwDOAuX_M84CfSFB"
+    discussion_term      : pathname
+    reactions_enabled    : 1
+    theme                : dark
 
 defaults:
   # _posts
