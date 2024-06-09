@@ -238,7 +238,7 @@ I opted for booting into the Fedora live USB so I can have a clean slate while t
 Context: Some months ago I followed this ZFSBootMenu [guide][ZFSBoootMenu Fedora] guide so I can get the live system prepared for [installing Fedora with root ZFS][Fedora ZFS root with encryption].
 
 
-# Fedora Live USB
+## Fedora Live USB
 
 Unfortunately, I recently updated my system to Fedora 40. Website referenced in the guide, zfsonlinux.org, did not have the Fedora 40 RPMs yet.
 
@@ -246,9 +246,9 @@ So... naturally I had to build the packages myself in the live Fedora system. I 
 
 Now, because I'm fairly fresh to the ZFS game, I had no idea that ZFS is aware of the [host it is being mounted on][ZFS on Arch Wiki - Exporting a storage pool].
 
-What this meant was that when I was trying to do `zfs import`, I was getting [`pool may be in use from other system`][ZFS pool may be in use from another system].
+What this meant was that when I was trying to do `zpool import`, I was getting [`pool may be in use from other system`][ZFS pool may be in use from another system].
 
-Being careless I just read the error message and forced the import with `zfs import -f zroot`.
+Being careless I just read the error message and forced the import with `zpool import -f zroot`.
 
 I was able to get rid of the last remaining zvol with `zfs destroy zroot/truenas-data-3` and rebooted.
 
@@ -258,9 +258,9 @@ After typing in my disk encryption password, I was greeted by a, now familiar, e
 
 This system has this very guide as well as days of other work that has not been backed up...
 
-Luckily, still having access to the `zfs` utility in the emergency shell I could see that the host ID is that of the live system, so I figured that another forced import would fix the issue.
+Luckily, still having access to the zfs utilities in the emergency shell I could see that the host ID is that of the live system, so I figured that another forced import would fix the issue.
 
-It would appear that I was right: `zfs import -f zroot`. Reboot
+It would appear that I was right: `zpool import -f zroot`. Reboot
 
 The issue went away after that forced import back on the normal system.
 
