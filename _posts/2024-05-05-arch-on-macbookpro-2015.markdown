@@ -222,10 +222,10 @@ ls -l /dev/disk/by-uuid/ | grep sda2
 
 Edit `/boot/refind_linux.conf`. Find "Boot with Standard options" (first entry). Add the following kernel options
 
-Make sure to use the correct UUID as per what we got above
+Make sure to use the correct UUID as per what we got above. The `brcmfmac.feature_disable=0x82000` stanza hais from [this solution](https://bbs.archlinux.org/viewtopic.php?pid=2195130#p2195130). WiFi is currently broken without this stanza.
 
 ```
-acpi_osi=Darwin acpi_backlight=native radeon.si_support=0 amdgpu.si_support=1 cryptdevice=UUID=EXAMPLE_UUID:root root=/dev/mapper/root rw add_efi_memmap
+"Boot with standard options"  "amdgpu.aspm=0 acpi_osi=Darwin acpi_backlight=native radeon.si_support=0 amdgpu.si_support=1 cryptdevice=UUID=EXAMPLE_UUID:root root=/dev/mapper/root rw add_efi_memmap intel_iommu=on iommu=pt brcmfmac.feature_disable=0x82000"
 ```
 
 Disable suspend. We do this because currently there is a, what looks like, a kernel bug that crashes amdgpu on S3 suspend.
