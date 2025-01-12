@@ -33,7 +33,7 @@ permalink: /:categories/:title/
 # paginate_path: /page:num/
 timezone: Europe/Dublin # https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
 locale: en-US
-url: https://blog.dood.ie
+url: https://blog.kaurin.cc
 repository: Kaurin/kaurin.github.io
 
 analytics:
