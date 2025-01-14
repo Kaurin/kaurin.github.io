@@ -20,7 +20,7 @@ Yubikey lists the fido2 credentials in the following format:
 ykman fido credentials list --csv
 ```
 
-```plain
+```
 <long-uuid-1>,<domain>,<username>,,<long-number-1>
 <long-uuid-2>,<domain>.<username>,,<long-number-2>
 ```
@@ -33,7 +33,7 @@ ykman fido credentials list --csv | \
   awk -F ',' '{print $1}'
 ```
 
-```plain
+```
 <long-uuid-1>
 <long-uuid-2>
 ```
