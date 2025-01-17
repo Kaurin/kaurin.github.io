@@ -95,7 +95,7 @@ Router.conf
 
 The configs that get "spat out" are for a mesh configuration, however the unnecessary blocks can be easily trimmed from each of the clients.
 
-For example let's trim out Client1 from this:
+For example let's trim out `Client1` from this:
 
 ```ini
 ## Generated: 2025-01-17 01:51:06.266187+00:00
@@ -162,7 +162,11 @@ Whatever Mikrotik/Wireguard setup you have, use the values from the `Router.yaml
 
 Install `wireguard` and `wireguard-tools` packages which should be available on most, if not all, distributions.
 
-Copy the shortened `Client1.yaml` file to our client machine to `/etc/wireguard/wg0.conf`
+Copy the shortened `Client1.yaml` file to our client machine to `/etc/wireguard/wg0.conf`. Remember to set the permissions:
+
+```bash
+sudo chmod 600 /etc/wireguard/wg0.conf
+```
 
 # Using Wireguard on linux
 
