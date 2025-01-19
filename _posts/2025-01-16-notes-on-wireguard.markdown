@@ -1,12 +1,12 @@
 ---
 layout: single
-title:  "Notes on Wireguard"
+title:  "Notes on Wireguard (with Mikrotik)"
 date:   2025-01-16 22:00:00
 categories: security
 tags: ["wireguard", "mikrotik", "networking", "security"]
 ---
 
-Some very poorly researched notes on Wireguard
+Some poorly researched notes on Wireguard
 
 
 # Background
@@ -16,32 +16,35 @@ I was resetting my Wireguard setup and I set out to do so with these goals in mi
 1. Star topology. My clients would connect to the router. The clients would not be able to talk to each other directly.
 2. Find a decent config generator
 3. Apply what the config generator spits out on my Mikrotik router and client devices
+4. The clients should route all traffic through the wireguard connection, not just specific subnets
 
 
-```                                  
-             ┌─────────┐                
-      ┌──────┤ Router  ├──────┐         
-      │      └────┬────┘      │         
-      │           │           │ lan     
- ─────┼───────────┼───────────┼─────    
+```
+             ┌─────────┐
+      ┌──────┤ Router  ├──────┐
+      │      └────┬────┘      │
+      │           │           │ lan
+ ─────┼───────────┼───────────┼─────
       │           │           │ internet
-      │           │           │         
- ┌────┴────┐ ┌────┴────┐ ┌────┴────┐    
- │ Client1 │ │ Client2 │ │ Client3 │    
- └─────────┘ └─────────┘ └─────────┘    
-```                                     
-                                    
+      │           │           │
+ ┌────┴────┐ ┌────┴────┐ ┌────┴────┐
+ │ Client1 │ │ Client2 │ │ Client3 │
+ └─────────┘ └─────────┘ └─────────┘
+```
+
 
 # Config generator
 
 I landed on this fairly obscure Python-based config generator called [wireguard-config-gen]. There are many of them out there, especially web based. I just wanted a nice CLI one.
+
+This config generator will create configs for a mesh configuration. This is not what I want, but the configs are easily modified to fit my need.
 
 I started off by defining the `interface.yaml`. It looked something like this:
 
 ```yaml
 Dynamic:
   StartIP: 192.168.50.2 # Start IP for the clients
-  PrefixLen: 24
+  PrefixLen: 32
   DNS:
     - 192.168.0.1
     - 192.168.0.2
@@ -55,7 +58,7 @@ Machines:
     Peer:
       Endpoint: my.dynamic.ip.example.com:51820
       PersistentKeepalive: 25
-      AllowedIPs: 
+      AllowedIPs:
         - 192.168.0.0/24
         - 192.168.50.0/24
   # Client peers will get a Dynamic address beginning with StartIP
@@ -65,7 +68,7 @@ Machines:
 ```
 Note: Names `Router`, `Client1`, `Client2` and `Client3` can be replaced by any string.
 
-## Project dependencies
+## wireguard-config-gen dependencies
 
 The project ships with `pyproject.toml`, however poetry no longer installs the deps into a venv because it wants some poetry fields in the `pyproject.toml` file.
 So, I just cat the `pyproject.toml` file and install deps with pipenv.
@@ -141,22 +144,34 @@ DNS = 192.168.0.1,192.168.0.2
 
 [Peer]
 ## Router
-AllowedIPs = 192.168.0.0/24, 192.168.50.0/24
+AllowedIPs = 0.0.0.0 # NOTE - CHANGED FROM GENERATED
 PublicKey = PDDg4bdpQnYzi8ArXyPdoQZPY+mnObT1aBMKn7BY0lQ=
 Endpoint = my.dynamic.ip.example.com:51820
 PersistentKeepalive = 25
 PresharedKey = c1lFItz4oDuFEoUrTwXRhFBmTnE/J1BpzuON1SlxMjo=
 ```
 
-Repeat for clients 2 and 3
+Repeat for clients 2 and 3, making sure to set AllowedIPs to `0.0.0.0/0` because of the goal where clients will route all traffic through the tunnel.
+
+This can also be edited later at any time on the clients.
+
+Reference: [What does WireGuard AllowedIPs actually do?]
 
 # Setting up the Mikrotik router
-
-From the generated config, we can set up the Mikrotik config with the following.
 
 This is a decent example guide on [how to set up Mikrotik for Wireguard][Mikrotik Wireguard example configuration].
 
 Whatever Mikrotik/Wireguard setup you have, use the values from the `Router.yaml` config.
+
+If Mikrotik currently does not have a Wireguard configuration, you can import the `Router.yaml`:
+1. Upload `Router.yaml` to your Mikrotik router
+2. Run `/interface/wireguard/wg-import <filename>`
+
+It would be a good idea to check/add/modify:
+1. `/ip/address/print`
+2. `/ip/firewall/address-list/print` if used for rules
+3. `/interface/list/print` if used for rules
+4. `/ip/firewall/filter/print`
 
 # Linux client configuration
 
@@ -188,15 +203,15 @@ sudo wg-quick down wg0
 Mikrotik has a way to generate a QR code which can be scanned on the phones with middling results, but I prefer to transfer the `Client2.yaml` file to my phone and import it using the official Wireguard app.
 
 
-# Caveats
+# Troubleshooting on the Mikrotik device
 
-Ensure that the `AllowedIps` are set to something reasonable
-For example, given the star configuration above, if your router private IP is not accessible, you might not be able to get routed to the internet (depending on the client's routing configuration).
+Packet sniffer (tool category) is your friend. I used it thorough the UI to monitor all traffic on the wg interface. Select just the interface and headers only to save on CPU time.
 
-If your Wireguard interfaces are on a separate subnet from, for example, your Router LAN(s) you wish to communicate to, those LAN(s) also need to be incorporated into `AllowedIPs`
+Initially, I had `AllowedIPs` on my clients config set to the subnet of the LAN and Wireguard's network. Only DNS traffic would go through through the tunnel.
 
-This is a bit from fuzzy memory, but if I remember correctly Mikrotik would sometimes show a "session started" metric and timer even though the credentials are wrong. That can make troubleshooting a bit difficult.
+When I changed `AllowedIPs` to `0.0.0.0/0` that's when I saw all the client traffic flow through the router.
 
 [wireguard-config-gen]: https://github.com/radupotop/wireguard-config-gen
 [Mikrotik Wireguard example configuration]: https://help.mikrotik.com/docs/spaces/ROS/pages/69664792/WireGuard#WireGuard-WireGuardinterfaceconfiguration
 [Arch Linux page on WireGuard]: https://wiki.archlinux.org/title/WireGuard
+[What does WireGuard AllowedIPs actually do?]: https://techoverflow.net/2021/07/09/what-does-wireguard-allowedips-actually-do/
