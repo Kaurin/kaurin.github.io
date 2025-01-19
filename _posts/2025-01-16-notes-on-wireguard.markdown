@@ -144,7 +144,7 @@ DNS = 192.168.0.1,192.168.0.2
 
 [Peer]
 ## Router
-AllowedIPs = 0.0.0.0 # NOTE - CHANGED FROM GENERATED
+AllowedIPs = 0.0.0.0/0 # NOTE - CHANGED FROM GENERATED
 PublicKey = PDDg4bdpQnYzi8ArXyPdoQZPY+mnObT1aBMKn7BY0lQ=
 Endpoint = my.dynamic.ip.example.com:51820
 PersistentKeepalive = 25
