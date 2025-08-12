@@ -6,7 +6,7 @@ categories: security
 tags: ["wireguard", "mikrotik", "networking", "security"]
 ---
 
-Some poorly researched notes on Wireguard
+Some poorly researched notes on Wireguard. Updated on August 12th, 2025.
 
 
 # Background
@@ -37,8 +37,6 @@ I was resetting my Wireguard setup and I set out to do so with these goals in mi
 
 I landed on this fairly obscure Python-based config generator called [wireguard-config-gen]. There are many of them out there, especially web based. I just wanted a nice CLI one.
 
-This config generator will create configs for a mesh configuration. This is not what I want, but the configs are easily modified to fit my need.
-
 I started off by defining the `interface.yaml`. It looked something like this:
 
 ```yaml
@@ -61,6 +59,7 @@ Machines:
       AllowedIPs:
         - 192.168.0.0/24
         - 192.168.50.0/24
+      Topolgy: star
   # Client peers will get a Dynamic address beginning with StartIP
   Client1: {}
   Client2: {}
@@ -70,17 +69,16 @@ Note: Names `Router`, `Client1`, `Client2` and `Client3` can be replaced by any 
 
 ## wireguard-config-gen dependencies
 
-The project ships with `pyproject.toml`, however poetry no longer installs the deps into a venv because it wants some poetry fields in the `pyproject.toml` file.
-So, I just cat the `pyproject.toml` file and install deps with pipenv.
-
 ```bash
-pipenv install cryptography pydantic pyyaml
+uv venv --seed
+uv sync
+uv run python run.py ...
 ```
 
 ## Run the generator
 
 ```bash
-pipenv run python run.py interfaces.yaml
+uv run python run.py interfaces.yaml
 ```
 
 ## Check out our generated configs
@@ -96,62 +94,48 @@ result.yaml
 Router.conf
 ```
 
-The configs that get "spat out" are for a mesh configuration, however the unnecessary blocks can be easily trimmed from each of the clients.
+Taking a peek at Client1.conf:
 
-For example let's trim out `Client1` from this:
-
-```ini
-## Generated: 2025-01-17 01:51:06.266187+00:00
-## From Version: 0.6.1
+```yaml
+## Generated: 2025-08-12 20:12:54.907587+00:00
+## From Version: 0.6.6
 
 [Interface]
 ## Client1
-Address = 192.168.50.2/24
-PrivateKey = EN2pv/CIMcogr7kN1Z5skJpulOoRNcGu09noQMVqM0U=
+Address = 192.168.50.2/32
+PrivateKey = cBqgY/Bu6D9/mRHCaSZ7w5O6wYKjZhJ9t+HUhZ0gE08=
 DNS = 192.168.0.1,192.168.0.2
 
 [Peer]
 ## Router
 AllowedIPs = 192.168.0.0/24, 192.168.50.0/24
-PublicKey = PDDg4bdpQnYzi8ArXyPdoQZPY+mnObT1aBMKn7BY0lQ=
+PublicKey = /8QlHt5+nwo1ElCxxParSqNW8ISOn6hJYQVsLNX3lDQ=
 Endpoint = my.dynamic.ip.example.com:51820
 PersistentKeepalive = 25
-PresharedKey = c1lFItz4oDuFEoUrTwXRhFBmTnE/J1BpzuON1SlxMjo=
-
-[Peer]
-## Client2
-AllowedIPs = 192.168.50.3/32
-PublicKey = 9nqwhl9EiSYMlhIDrj1OAS2WjzXrFtdcxsPxRdOZdU0=
-PresharedKey = aHOB57odhRx9Eo5MEHvmdmhY34TlJqI6dP5PAdDBNmc=
-
-[Peer]
-## Client3
-AllowedIPs = 192.168.50.4/32
-PublicKey = eHbIszr7cwDByVqKx9ajR4IYRzTBzfI/0u47jrMuewc=
-PresharedKey = XJoRwv2/fgcRdO/B044TRGAP57LP2GnuutF0CdKKAe0=
+PresharedKey = keKlv8WcEwi0h7ddCW0zv1MIPVsAOVkQS+Hca1R/KVE=
 ```
 
-To this:
-```ini
-## Generated: 2025-01-17 01:51:06.266187+00:00
-## From Version: 0.6.1
+Make sure to manually edit AllowedIPs to `0.0.0.0/0` because of the goal where clients will route all traffic through the tunnel.
+
+
+```yaml
+## Generated: 2025-08-12 20:12:54.907587+00:00
+## From Version: 0.6.6
 
 [Interface]
 ## Client1
-Address = 192.168.50.2/24
-PrivateKey = EN2pv/CIMcogr7kN1Z5skJpulOoRNcGu09noQMVqM0U=
+Address = 192.168.50.2/32
+PrivateKey = cBqgY/Bu6D9/mRHCaSZ7w5O6wYKjZhJ9t+HUhZ0gE08=
 DNS = 192.168.0.1,192.168.0.2
 
 [Peer]
 ## Router
-AllowedIPs = 0.0.0.0/0 # NOTE - CHANGED FROM GENERATED
-PublicKey = PDDg4bdpQnYzi8ArXyPdoQZPY+mnObT1aBMKn7BY0lQ=
+AllowedIPs = 0.0.0.0/0
+PublicKey = /8QlHt5+nwo1ElCxxParSqNW8ISOn6hJYQVsLNX3lDQ=
 Endpoint = my.dynamic.ip.example.com:51820
 PersistentKeepalive = 25
-PresharedKey = c1lFItz4oDuFEoUrTwXRhFBmTnE/J1BpzuON1SlxMjo=
+PresharedKey = keKlv8WcEwi0h7ddCW0zv1MIPVsAOVkQS+Hca1R/KVE=
 ```
-
-Repeat for clients 2 and 3, making sure to set AllowedIPs to `0.0.0.0/0` because of the goal where clients will route all traffic through the tunnel.
 
 This can also be edited later at any time on the clients.
 
@@ -185,6 +169,8 @@ sudo chmod 600 /etc/wireguard/wg0.conf
 
 # Using Wireguard on linux
 
+## CLI only
+
 There are [many ways][Arch Linux page on WireGuard] to use Wireguard on Linux, but I find using the simple `wg-quick` utility the easiest.
 
 Note: The script's output will hint if you are missing utilities needed to operate it, such as iptables.
@@ -197,6 +183,10 @@ You can stop the wireguard interface like so
 ```bash
 sudo wg-quick down wg0
 ```
+
+## Gnome Desktop Environment
+
+Gnome can import Wireguard configs through the built-in Network Manager integration in the UI.
 
 # Using Wireguard on Mobile
 
