@@ -3,7 +3,7 @@ layout: single
 title:  "Batch Deletion of YubiKey Credentials"
 date:   2025-01-14 22:00:00
 categories: security
-tags: ["yubikey", "yubico", "fido2", "security"]
+tags: ["yubikey", "yubico", "fido2", "security", "bash"]
 ---
 
 My lab Yubikey was slowing down due to the amount of credentials for a single domain
