@@ -1,7 +1,7 @@
 ---
 layout: single
 title:  "Batch delete CloudNativePG backups"
-date:   2025-08-31 01:50:00
+date:   2025-08-31 00:50:00
 categories: kubernetes
 tags: ["bash", "cloudnative-pg"]
 ---
