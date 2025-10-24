@@ -3,7 +3,7 @@ layout: single
 title:  "Mounting libvirt block devices with losetup"
 date:   2024-05-02 17:00:00
 categories: virtualization
-tags: ["kvm", "libvirt", "lvm", "losetup"]
+tags: ["kvm", "libvirt", "lvm", "losetup", "virtualization"]
 ---
 
 How to perform disk surgery on a "cold" libvirt volume.
