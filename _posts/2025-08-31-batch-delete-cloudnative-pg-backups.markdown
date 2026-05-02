@@ -13,18 +13,13 @@ This script is very destructive. Do not run unless you fully accept the risk.
 
 I completely forgot that my snapshot-based CloudNativePG backups were piling up. To get rid of them I needed a script which I can run periodically to clean things up.
 
-# The script
+Public apology: The initially published script was copy/pasta from the initial AI output instead of the manually completed script. Apologies to those who wasted their time using a defunct piece of code.
 
-```bash
-#!/usr/bin/env bash
-for namespace in $(kubectl get namespaces); do
-  timespec="$(date -d '60 days ago' -Ins --utc | sed 's/+0000/Z/')"
-  kubectl  get backup -n "$namespace" -o go-template \
-    --template '{{range .items}}{{.metadata.name}} {{.metadata.creationTimestamp}}{{"\n"}}{{end}}' \
-    | awk '$2 <= "'$timespec'" { print $1 }' \
-    | xargs -I{} kubectl delete -n "$namespace" backup/{}
-done
-```
+# The (new) script
+
+Generated with AI but tested and hosted here:
+
+<https://github.com/Kaurin/cnpg-backups-cleanup>
 
 # Notes: 
 
