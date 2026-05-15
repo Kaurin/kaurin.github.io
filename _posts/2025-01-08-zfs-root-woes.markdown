@@ -2,6 +2,7 @@
 layout: single
 title:  "ZFS Root woes"
 date:   2025-01-08 18:00:00
+last_modified_at: 2026-05-15T23:16:00+01:00
 categories: zfs
 tags: ["zfs", "troubleshooting", "grub", "zfsbootmenu"]
 ---
@@ -50,7 +51,10 @@ efibootmgr -c -d "$BOOT_DISK" -p "$BOOT_PART" \
 
 # Root cause
 
-Not yet sure. I need to set up centralized logging in the hopes of catching whatever might be the issue, but right now it looks like a hardware (motherboard? PSU?) issue.
+Update 2026/05: PCIE power saving would hang the system. Fixed by adding the following to the kernel cmdline:
+```
+zfs set org.zfsbootmenu:commandline="nvme_core.default_ps_max_latency_us=0 pcie_aspm=off pcie_port_pm=off rhgb amdgpu.cik_support=1 radeon.cik_support=0" zroot/ROOT/fedora
+```
 
 [ZBM Fedora Install section]: https://zfsbootmenu.org/en/latest/guides/fedora/uefi.html#install-zfsbootmenu
 

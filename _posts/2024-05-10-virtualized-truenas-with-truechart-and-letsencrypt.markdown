@@ -2,6 +2,7 @@
 layout: single
 title:  "Virtualized TrueNAS with Truechart and Letsencrypt"
 date:   2024-05-10 03:00:00
+last_modified_at: 2026-05-15T23:16:00+01:00
 categories: virtualization
 tags: ["truenas scale", "truenas", "zfs", "zvol", "nas", "kvm", "libvirt", "letsencrypt", "virtualization", "traefik"]
 ---
@@ -231,6 +232,10 @@ Unfortunately, the workaround for me required a reboot:
 
 # Complete derail while trying to clean up
 
+NOTE 2026/05: This derail happened because of PCIE power savings which would hang my ZFS pool.
+
+More about this in [ZFS Root woes]
+
 On my third run of this very guide, the `dataset is busy`  error happened again. This time the reboot trick didn't work. Probably because I had to mask `libvirtd.socket`, `libvirt-ro.socket` and `libvirt-admin.socket` as they will start libvirtd even when it is disabled. This is pure speculation, though, because I didn't investigate what else aside from libvirt could be using this zvol.
 
 I opted for booting into the Fedora live USB so I can have a clean slate while trying to fix the issue.
@@ -283,3 +288,4 @@ This endeavor has taught me a few things:
 [Build Custom ZFS Packages]: https://openzfs.github.io/openzfs-docs/Developer%20Resources/Custom%20Packages.html
 [ZFS on Arch Wiki - Exporting a storage pool]: https://wiki.archlinux.org/title/ZFS#Exporting_a_storage_pool
 [ZFS pool may be in use from another system]: https://wiki.archlinux.org/title/ZFS#On_boot_the_zfs_pool_does_not_mount_stating:_%22pool_may_be_in_use_from_other_system%22
+[ZFS Root woes]: ../../zfs/zfs-root-woes/
