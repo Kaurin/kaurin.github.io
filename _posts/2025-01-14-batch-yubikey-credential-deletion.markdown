@@ -2,6 +2,7 @@
 layout: single
 title:  "Batch Deletion of YubiKey Credentials"
 date:   2025-01-14 22:00:00
+last_modified_at: 2026-05-15T22:20:00+01:00
 categories: security
 tags: ["yubikey", "yubico", "fido2", "security", "bash"]
 ---
