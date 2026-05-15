@@ -12,6 +12,16 @@ My lab Yubikey was slowing down due to the amount of credentials for a single do
 
 **These are very destructive procedures. I bare no responsibility for any loss of data or damage to your Yuibkey**
 
+# On RP_ID
+Note: RP_ID is usually the domain of the service you are using. It can also be a superdomain.
+
+For example, you are logging in with your browser to `https://www.example.com`, so the RP_ID can be:
+* `www.example.com`
+* `example.com`
+* `com`  (unlikely)
+
+More on this topic at [RP ID deep dive]
+
 # Procedure
 
 Yubikey lists the fido2 credentials in the following format:
@@ -21,11 +31,11 @@ ykman fido credentials list --csv
 ```
 
 ```
-<long-uuid-1>,<domain>,<username>,,<long-number-1>
-<long-uuid-2>,<domain>.<username>,,<long-number-2>
+<long-uuid-1>,<RP_ID>,<username>,,<long-number-1>
+<long-uuid-2>,<RP_ID>.<username>,,<long-number-2>
 ```
 
-We can grep for the domain and username and get a CSV output (no Json or Yaml, sadly):
+We can grep for the RP_ID and username and get a CSV output (no Json or Yaml, sadly):
 
 ```bash
 ykman fido credentials list --csv | \
@@ -48,3 +58,8 @@ ykman fido credentials list --csv --pin 1234 | \
   awk -F ',' '{print $1}' | \
   xargs -n1 ykman fido credentials delete --force --pin 1234
 ```
+
+
+[RP ID deep dive]: https://web.dev/articles/webauthn-rp-id
+
+
